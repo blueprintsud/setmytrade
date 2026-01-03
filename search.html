@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>Sök Aktier - SetMyTrade | Hämta Aktuellt Pris & Historik</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Sök efter USA-aktier och få aktuellt pris plus interaktiv graf automatiskt. Alpha Vantage API integration." name="description">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00D084;
+            --dark: #0D2735;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #00B871;
+            border-color: #00B871;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+            margin-bottom: 0;
+        }
+
+        /* Card */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Stock Search */
+        .stock-search-card {
+            background: rgba(0, 208, 132, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .search-input {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(13, 31, 45, 0.5);
+            color: #FFFFFF;
+        }
+
+        .search-input::placeholder {
+            color: #B0B0B0;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(0, 208, 132, 0.25);
+            background: rgba(13, 31, 45, 0.7);
+            color: #FFFFFF;
+            outline: none;
+        }
+
+        /* Stock Result */
+        .stock-result {
+            display: none;
+            background: rgba(0, 208, 132, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .stock-result.show {
+            display: block;
+        }
+
+        .stock-ticker {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            font-family: 'Roboto', monospace;
+        }
+
+        .stock-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stock-change {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .stock-change.positive {
+            background: rgba(0, 208, 132, 0.2);
+            color: var(--primary);
+        }
+
+        .stock-change.negative {
+            background: rgba(255, 107, 107, 0.2);
+            color: #FF6B6B;
+        }
+
+        /* Chart */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            background: rgba(13, 31, 45, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .period-btn {
+            padding: 8px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(13, 31, 45, 0.5);
+            color: #E0E0E0;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .period-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .period-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 208, 132, 0.1);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner-border-custom {
+            width: 3rem;
+            height: 3rem;
+            border: 0.3rem solid rgba(0, 208, 132, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+        }
+
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer .btn-link:hover {
+            color: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    <span data-lang="professionalTool">Professionell Trading Kalkylator</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                    <span data-lang="freeTool">100% Gratis Verktyg</span>
+                </span>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link active" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="searchTitle">Hämta Aktuellt Pris & Historik</h1>
+            <p class="text-white-50" data-lang="searchDesc">Sök efter USA-aktier och få aktuellt pris plus interaktiv graf automatiskt</p>
+        </div>
+    </div>
+
+    <!-- Stock Search Section -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stock-search-card p-4">
+                        <div class="text-center mb-4">
+                            <h5 class="text-primary text-uppercase" data-lang="searchStocks">Sök Aktier</h5>
+                            <h3 class="mb-3" data-lang="searchHeading">Ange Ticker Symbol</h3>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-lg-8 col-md-7">
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="form-control search-input" 
+                                    placeholder="Ange ticker (t.ex. AAPL, TSLA, MSFT, GOOGL...)"
+                                    data-lang-placeholder="searchPlaceholder"
+                                    style="text-transform: uppercase;"
+                                    onkeypress="if(event.key === 'Enter') searchStock()"
+                                >
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <button class="btn btn-primary w-100 py-3" onclick="searchStock()">
+                                    <i class="fas fa-search me-2"></i><span data-lang="btnSearch">Sök Aktie</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3 mb-0" style="background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.3); color: #E0E0E0;">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Tips:</strong> <span data-lang="apiTips">Använder Alpha Vantage API för realtidsdata. Max 25 sökningar/dag med gratis API.</span>
+                        </div>
+
+                        <!-- Stock Result -->
+                        <div id="stockResult" class="stock-result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50">Professional Stop Loss & Take Profit calculator for serious traders. 100% free tool.</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
+                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
+                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool2">100% Gratis</span></p>
+                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i><span data-lang="exactCalc">Exakta Beräkningar</span></p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="provenStrategies">Proven Strategier</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body">Built for traders worldwide</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+    <script>
+        let currentLanguage = 'sv';
+        let currentStock = null;
+        let currentChart = null;
+        let chartPeriod = '30';
+
+        const translations = {
+            sv: {
+                professionalTool: "Professionell Trading Kalkylator",
+                freeTool: "100% Gratis Verktyg",
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                searchTitle: "Hämta Aktuellt Pris & Historik",
+                searchDesc: "Sök efter USA-aktier och få aktuellt pris plus interaktiv graf automatiskt",
+                searchStocks: "Sök Aktier",
+                searchHeading: "Ange Ticker Symbol",
+                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT, GOOGL...)",
+                btnSearch: "Sök Aktie",
+                apiTips: "Använder Alpha Vantage API för realtidsdata. Max 25 sökningar/dag med gratis API.",
+                enterTicker: "Skriv in en ticker-symbol",
+                loading: "Hämtar aktuellt pris och historik...",
+                tickerNotFound: "Ticker hittades inte. Kontrollera stavningen.",
+                apiLimit: "API-gräns nådd (25 requests/dag). Vänta och försök igen.",
+                noData: "Ingen data hittades för",
+                errorTips: "Kontrollera att ticker-symbolen är korrekt",
+                tryUsaStocks: "Prova med USA-aktier: AAPL, TSLA, MSFT, GOOGL",
+                apiLimitInfo: "Gratis API: max 25 sökningar/dag",
+                quickLinks: "Snabblänkar",
+                information: "Information",
+                freeTool2: "100% Gratis",
+                exactCalc: "Exakta Beräkningar",
+                provenStrategies: "Proven Strategier"
+            },
+            en: {
+                professionalTool: "Professional Trading Calculator",
+                freeTool: "100% Free Tool",
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navFinviz: "Finviz Filters",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                searchTitle: "Get Current Price & History",
+                searchDesc: "Search for US stocks and get current price plus interactive chart automatically",
+                searchStocks: "Search Stocks",
+                searchHeading: "Enter Ticker Symbol",
+                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT, GOOGL...)",
+                btnSearch: "Search Stock",
+                apiTips: "Uses Alpha Vantage API for real-time data. Max 25 searches/day with free API.",
+                enterTicker: "Enter a ticker symbol",
+                loading: "Fetching current price and history...",
+                tickerNotFound: "Ticker not found. Check spelling.",
+                apiLimit: "API limit reached (25 requests/day). Wait and try again.",
+                noData: "No data found for",
+                errorTips: "Check that the ticker symbol is correct",
+                tryUsaStocks: "Try US stocks: AAPL, TSLA, MSFT, GOOGL",
+                apiLimitInfo: "Free API: max 25 searches/day",
+                quickLinks: "Quick Links",
+                information: "Information",
+                freeTool2: "100% Free",
+                exactCalc: "Exact Calculations",
+                provenStrategies: "Proven Strategies"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            const placeholder = document.querySelector('[data-lang-placeholder]');
+            if (placeholder) {
+                placeholder.placeholder = translations[lang][placeholder.getAttribute('data-lang-placeholder')];
+            }
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        async function searchStock() {
+            const query = document.getElementById('searchInput').value.trim().toUpperCase();
+            
+            if (!query) {
+                alert(translations[currentLanguage].enterTicker);
+                return;
+            }
+            
+            const apiKey = 'LHBGOUL4ZLHCV9PW';
+            const loadingDiv = document.getElementById('stockResult');
+            
+            loadingDiv.innerHTML = `<div class="loading-spinner"><div class="spinner-border-custom"></div><p class="mt-3">${translations[currentLanguage].loading}</p></div>`;
+            loadingDiv.classList.add('show');
+            
+            try {
+                const quoteUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${encodeURIComponent(query)}&apikey=${apiKey}`;
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                
+                const quoteResponse = await fetch(proxyUrl + encodeURIComponent(quoteUrl));
+                const quoteData = await quoteResponse.json();
+                
+                if (quoteData['Error Message']) {
+                    throw new Error(translations[currentLanguage].tickerNotFound);
+                }
+                
+                if (quoteData['Note'] || quoteData['Information']) {
+                    throw new Error(translations[currentLanguage].apiLimit);
+                }
+                
+                const quote = quoteData['Global Quote'];
+                
+                if (!quote || !quote['05. price']) {
+                    throw new Error(translations[currentLanguage].noData + ' ' + query);
+                }
+                
+                currentStock = {
+                    ticker: quote['01. symbol'] || query,
+                    price: parseFloat(quote['05. price']),
+                    change: parseFloat(quote['09. change']),
+                    changePercent: parseFloat(quote['10. change percent'].replace('%', ''))
+                };
+                
+                await fetchStockChart(query, apiKey);
+                displayStockResult();
+                
+            } catch (error) {
+                console.error('API error:', error);
+                loadingDiv.innerHTML = `
+                    <div class="loading-spinner">
+                        <p class="text-danger fw-bold">${error.message}</p>
+                        <div class="alert alert-warning mt-3 text-start">
+                            <strong>Tips:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>${translations[currentLanguage].errorTips}</li>
+                                <li>${translations[currentLanguage].tryUsaStocks}</li>
+                                <li>${translations[currentLanguage].apiLimitInfo}</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function fetchStockChart(symbol, apiKey) {
+            try {
+                const chartUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${encodeURIComponent(symbol)}&apikey=${apiKey}&outputsize=compact`;
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(chartUrl));
+                const data = await response.json();
+                
+                if (data['Time Series (Daily)']) {
+                    const timeSeries = data['Time Series (Daily)'];
+                    const dates = Object.keys(timeSeries).reverse().slice(-parseInt(chartPeriod));
+                    const prices = dates.map(date => parseFloat(timeSeries[date]['4. close']));
+                    
+                    currentStock.chartData = {
+                        dates: dates,
+                        prices: prices
+                    };
+                }
+            } catch (error) {
+                console.error('Chart fetch error:', error);
+            }
+        }
+
+        function displayStockResult() {
+            const s = currentStock;
+            const changeColor = s.change >= 0 ? 'positive' : 'negative';
+            const changeSign = s.change >= 0 ? '+' : '';
+            
+            let chartHTML = '';
+            if (s.chartData) {
+                chartHTML = `
+                    <div class="text-center mb-3">
+                        <button class="period-btn ${chartPeriod === '7' ? 'active' : ''} me-2" onclick="changeChartPeriod('7')">7D</button>
+                        <button class="period-btn ${chartPeriod === '30' ? 'active' : ''} me-2" onclick="changeChartPeriod('30')">30D</button>
+                        <button class="period-btn ${chartPeriod === '90' ? 'active' : ''}" onclick="changeChartPeriod('90')">90D</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                `;
+            }
+            
+            const html = `
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-4 text-center text-md-start">
+                        <div class="stock-ticker">${s.ticker}</div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="stock-price">$${s.price.toFixed(2)}</div>
+                    </div>
+                    <div class="col-md-4 text-center text-md-end">
+                        <div class="stock-change ${changeColor}">
+                            ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
+                        </div>
+                    </div>
+                </div>
+                ${chartHTML}
+                <a href="calculator.html" class="btn btn-primary w-100 mt-3">
+                    <i class="fas fa-calculator me-2"></i>Använd i Kalkylator
+                </a>
+            `;
+            
+            document.getElementById('stockResult').innerHTML = html;
+            document.getElementById('stockResult').classList.add('show');
+            
+            if (s.chartData) {
+                setTimeout(() => renderChart(), 100);
+            }
+        }
+
+        function renderChart() {
+            const canvas = document.getElementById('stockChart');
+            if (!canvas || !currentStock.chartData) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: currentStock.chartData.dates,
+                    datasets: [{
+                        label: currentStock.ticker + ' Pris',
+                        data: currentStock.chartData.prices,
+                        borderColor: '#00D084',
+                        backgroundColor: 'rgba(0, 208, 132, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#00D084',
+                        pointHoverBorderColor: '#FFFFFF',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(13, 31, 45, 0.95)',
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#00D084',
+                            borderColor: '#00D084',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y.toFixed(2);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#B0B0B0',
+                                maxTicksLimit: 8
+                            }
+                        },
+                        y: {
+                            display: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#B0B0B0',
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function changeChartPeriod(period) {
+            chartPeriod = period;
+            
+            if (currentStock && currentStock.ticker) {
+                const apiKey = 'LHBGOUL4ZLHCV9PW';
+                await fetchStockChart(currentStock.ticker, apiKey);
+                displayStockResult();
+            }
+        }
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+    </script>
+</body>
+</html>
