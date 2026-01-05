@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>Finviz Filter - SetMyTrade | Hitta Vinnande Aktier med 200 EMA & RSI</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Pre-konfigurerade Finviz filter baserade på proven trading strategier. Hitta aktier över 200 EMA och RSI signaler." name="description">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- TradingView Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+    <style>
+        :root {
+            --primary: #00D084;
+            --dark: #0D2735;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #00B871;
+            border-color: #00B871;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+            margin-bottom: 0;
+        }
+
+        /* Card */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Finviz Filter Cards */
+        .finviz-card {
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1) 0%, rgba(26, 47, 61, 0.8) 100%);
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .finviz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 208, 132, 0.4);
+            border-color: var(--primary);
+        }
+
+        .filter-badge {
+            background: rgba(0, 208, 132, 0.2);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .signal-badge {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .signal-badge.buy {
+            background: rgba(0, 208, 132, 0.2);
+            color: var(--primary);
+        }
+
+        .signal-badge.sell {
+            background: rgba(255, 107, 107, 0.2);
+            color: #FF6B6B;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(0, 208, 132, 0.15);
+            border: 1px solid rgba(0, 208, 132, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .info-box ol {
+            color: #E0E0E0;
+            padding-left: 20px;
+        }
+
+        .info-box ol li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+        }
+
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer .btn-link:hover {
+            color: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    <span data-lang="professionalTool">Professionell Trading Kalkylator</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                    <span data-lang="freeTool">100% Gratis Verktyg</span>
+                </span>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="finviz.html" class="nav-item nav-link active" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="finvizTitle">Hitta Vinnande Aktier med Finviz Filter</h1>
+            <p class="text-white-50" data-lang="finvizDescription">Pre-konfigurerade filter baserade på proven trading strategier. Klicka och hitta köpvärda aktier nu.</p>
+        </div>
+    </div>
+
+    <!-- Finviz Screener Section -->
+    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.3);">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase" data-lang="finvizScreener">Aktie Screener</h5>
+                <h2 class="mb-3" data-lang="readyFilters">Färdiga Filter - 200 EMA + RSI</h2>
+                <p class="text-muted" data-lang="filterInfo">Alla filter använder 200-day EMA och RSI för optimala ingångspunkter</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Filter 1: Tech Buy Signal -->
+                <div class="col-lg-6">
+                    <div class="finviz-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4 class="text-white" data-lang="filter1Title">Köp Signal: Tech Aktier</h4>
+                            <span class="signal-badge buy">BUY</span>
+                        </div>
+                        <p class="text-muted mb-3" data-lang="filter1Desc">Teknologiaktier över 200-day EMA med RSI översåld. Perfekt för köp.</p>
+                        
+                        <div class="mb-3">
+                            <div class="filter-badge">Sektor: Technology</div>
+                            <div class="filter-badge">Över 200-day EMA</div>
+                            <div class="filter-badge">RSI &lt; 30 (Översåld)</div>
+                            <div class="filter-badge">Volym &gt; 500K</div>
+                        </div>
+
+                        <a href="https://finviz.com/screener.ashx?v=111&f=fa_epsqoq_o15,ind_technology,sh_avgvol_o500,ta_rsi_os30,ta_sma200_pa&ft=4" target="_blank" class="btn btn-primary w-100">
+                            <i class="fas fa-external-link-alt me-2"></i><span data-lang="openFinviz">Öppna i Finviz</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filter 2: Energy Buy Signal -->
+                <div class="col-lg-6">
+                    <div class="finviz-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4 class="text-white" data-lang="filter2Title">Köp Signal: Energi Aktier</h4>
+                            <span class="signal-badge buy">BUY</span>
+                        </div>
+                        <p class="text-muted mb-3" data-lang="filter2Desc">Energiaktier över 200-day EMA med RSI översåld. Stark sektor med momentum.</p>
+                        
+                        <div class="mb-3">
+                            <div class="filter-badge">Sektor: Energy</div>
+                            <div class="filter-badge">Över 200-day EMA</div>
+                            <div class="filter-badge">RSI &lt; 30 (Översåld)</div>
+                            <div class="filter-badge">Volym &gt; 500K</div>
+                        </div>
+
+                        <a href="https://finviz.com/screener.ashx?v=111&f=ind_energy,sh_avgvol_o500,ta_rsi_os30,ta_sma200_pa&ft=4" target="_blank" class="btn btn-primary w-100">
+                            <i class="fas fa-external-link-alt me-2"></i><span data-lang="openFinviz">Öppna i Finviz</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filter 3: Finance Sell Signal -->
+                <div class="col-lg-6">
+                    <div class="finviz-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4 class="text-white" data-lang="filter3Title">Sälj Signal: Finans Aktier</h4>
+                            <span class="signal-badge sell">SELL</span>
+                        </div>
+                        <p class="text-muted mb-3" data-lang="filter3Desc">Finansaktier under 200-day EMA med RSI överköpt. Perfekt för short eller säljsignal.</p>
+                        
+                        <div class="mb-3">
+                            <div class="filter-badge">Sektor: Financial</div>
+                            <div class="filter-badge">Under 200-day EMA</div>
+                            <div class="filter-badge">RSI &gt; 70 (Överköpt)</div>
+                            <div class="filter-badge">Volym &gt; 500K</div>
+                        </div>
+
+                        <a href="https://finviz.com/screener.ashx?v=111&f=ind_financial,sh_avgvol_o500,ta_rsi_ob70,ta_sma200_pb&ft=4" target="_blank" class="btn btn-danger w-100">
+                            <i class="fas fa-external-link-alt me-2"></i><span data-lang="openFinviz">Öppna i Finviz</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filter 4: Healthcare Buy Signal -->
+                <div class="col-lg-6">
+                    <div class="finviz-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4 class="text-white" data-lang="filter4Title">Köp Signal: Hälsovård Aktier</h4>
+                            <span class="signal-badge buy">BUY</span>
+                        </div>
+                        <p class="text-muted mb-3" data-lang="filter4Desc">Hälsovårdsaktier över 200-day EMA med RSI översåld. Defensiv sektor med tillväxt.</p>
+                        
+                        <div class="mb-3">
+                            <div class="filter-badge">Sektor: Healthcare</div>
+                            <div class="filter-badge">Över 200-day EMA</div>
+                            <div class="filter-badge">RSI &lt; 30 (Översåld)</div>
+                            <div class="filter-badge">Volym &gt; 500K</div>
+                        </div>
+
+                        <a href="https://finviz.com/screener.ashx?v=111&f=ind_healthcare,sh_avgvol_o500,ta_rsi_os30,ta_sma200_pa&ft=4" target="_blank" class="btn btn-primary w-100">
+                            <i class="fas fa-external-link-alt me-2"></i><span data-lang="openFinviz">Öppna i Finviz</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example Charts Section -->
+            <div class="row g-4 mt-3 mb-5">
+                <div class="col-12">
+                    <div class="text-center mb-4">
+                        <h5 class="text-primary text-uppercase" data-lang="exampleCharts">Exempel-Grafer</h5>
+                        <h3 class="mb-3" data-lang="exampleChartsTitle">Så Ser Signalerna Ut</h3>
+                        <p class="text-muted" data-lang="exampleChartsDesc">Se hur 200 EMA, 50 EMA och RSI samverkar för perfekta köp- och säljsignaler</p>
+                    </div>
+                </div>
+
+                <!-- Bullish Example -->
+                <div class="col-lg-6">
+                    <div style="background: rgba(0, 208, 132, 0.1); border: 2px solid var(--primary); border-radius: 10px; padding: 20px;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-white mb-0">
+                                <i class="fas fa-arrow-up text-primary me-2"></i>
+                                <span data-lang="bullishExample">Bullish Setup - Exempel</span>
+                            </h5>
+                            <span class="badge" style="background: var(--primary); color: #0D1F2D; padding: 8px 16px; font-size: 14px;">BUY SIGNAL</span>
+                        </div>
+                        <div id="bullish_chart" style="height: 400px; border-radius: 8px; overflow: hidden;"></div>
+                        <div class="mt-3 p-3" style="background: rgba(13, 31, 45, 0.5); border-radius: 6px;">
+                            <p class="text-muted small mb-2" data-lang="bullishDesc">
+                                <strong class="text-primary">Perfekt köpsignal när:</strong>
+                            </p>
+                            <ul class="text-muted small mb-0">
+                                <li data-lang="bullishPoint1">Pris ÖVER 200-day EMA (röd linje) = Upptrend</li>
+                                <li data-lang="bullishPoint2">50-day EMA (blå linje) korsar ÖVER 200-day EMA = Momentum</li>
+                                <li data-lang="bullishPoint3">RSI &lt; 30 = Översåld (bra ingångspunkt)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bearish Example -->
+                <div class="col-lg-6">
+                    <div style="background: rgba(255, 107, 107, 0.1); border: 2px solid #FF6B6B; border-radius: 10px; padding: 20px;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-white mb-0">
+                                <i class="fas fa-arrow-down me-2" style="color: #FF6B6B;"></i>
+                                <span data-lang="bearishExample">Bearish Setup - Exempel</span>
+                            </h5>
+                            <span class="badge" style="background: #FF6B6B; color: #FFFFFF; padding: 8px 16px; font-size: 14px;">SELL SIGNAL</span>
+                        </div>
+                        <div id="bearish_chart" style="height: 400px; border-radius: 8px; overflow: hidden;"></div>
+                        <div class="mt-3 p-3" style="background: rgba(13, 31, 45, 0.5); border-radius: 6px;">
+                            <p class="text-muted small mb-2" data-lang="bearishDesc">
+                                <strong style="color: #FF6B6B;">Sälj/undvik när:</strong>
+                            </p>
+                            <ul class="text-muted small mb-0">
+                                <li data-lang="bearishPoint1">Pris UNDER 200-day EMA (röd linje) = Nedtrend</li>
+                                <li data-lang="bearishPoint2">50-day EMA (blå linje) korsar UNDER 200-day EMA = Svaghet</li>
+                                <li data-lang="bearishPoint3">RSI &gt; 70 = Överköpt (topp nära)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Alert -->
+            <div class="info-box mt-5">
+                <h5 class="text-primary mb-3">
+                    <i class="fas fa-lightbulb me-2"></i><span data-lang="howToUse">Hur Använder Du Filtren?</span>
+                </h5>
+                <ol class="mb-0">
+                    <li data-lang="step1">Klicka på "Öppna i Finviz" för det filter du vill använda</li>
+                    <li data-lang="step2">Granska listan med aktier som matchar kriterierna</li>
+                    <li data-lang="step3">Välj en aktie och använd SetMyTrade kalkylatorn för att beräkna ditt stop loss och take profit</li>
+                    <li data-lang="step4">Placera din trade med rätt risk management</li>
+                </ol>
+            </div>
+
+            <!-- Strategy Link -->
+            <div class="text-center mt-5">
+                <p class="text-white mb-3" data-lang="learnMore">Vill du lära dig mer om dessa strategier?</p>
+                <a href="strategies.html" class="btn btn-outline-light rounded-pill py-3 px-5">
+                    <i class="fas fa-book me-2"></i><span data-lang="viewStrategies">Se Trading Strategier</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50">Professional Stop Loss & Take Profit calculator for serious traders. 100% free tool.</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
+                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
+                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool2">100% Gratis</span></p>
+                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i><span data-lang="exactCalc">Exakta Beräkningar</span></p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="provenStrategies">Proven Strategier</span></p>
+                    <h5 class="text-white mb-3 mt-4"><i class="fas fa-exclamation-triangle text-warning me-2"></i><span data-lang="important">Viktigt</span></h5>
+                    <a href="disclaimer.html" class="btn btn-link text-warning ps-0"><i class="fas fa-file-contract me-2"></i><span data-lang="readDisclaimer">Läs Ansvarsbegränsning</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body">Built for traders worldwide</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentLanguage = 'sv';
+
+        const translations = {
+            sv: {
+                professionalTool: "Professionell Trading Kalkylator",
+                freeTool: "100% Gratis Verktyg",
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navFinviz: "Finviz Filter",
+                navCalendar: "Sektor Kalender",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                finvizTitle: "Hitta Vinnande Aktier med Finviz Filter",
+                finvizDescription: "Pre-konfigurerade filter baserade på proven trading strategier. Klicka och hitta köpvärda aktier nu.",
+                finvizScreener: "Aktie Screener",
+                readyFilters: "Färdiga Filter - 200 EMA + RSI",
+                filterInfo: "Alla filter använder 200-day EMA och RSI för optimala ingångspunkter",
+                filter1Title: "Köp Signal: Tech Aktier",
+                filter1Desc: "Teknologiaktier över 200-day EMA med RSI översåld. Perfekt för köp.",
+                filter2Title: "Köp Signal: Energi Aktier",
+                filter2Desc: "Energiaktier över 200-day EMA med RSI översåld. Stark sektor med momentum.",
+                filter3Title: "Sälj Signal: Finans Aktier",
+                filter3Desc: "Finansaktier under 200-day EMA med RSI överköpt. Perfekt för short eller säljsignal.",
+                filter4Title: "Köp Signal: Hälsovård Aktier",
+                filter4Desc: "Hälsovårdsaktier över 200-day EMA med RSI översåld. Defensiv sektor med tillväxt.",
+                openFinviz: "Öppna i Finviz",
+                howToUse: "Hur Använder Du Filtren?",
+                step1: "Klicka på \"Öppna i Finviz\" för det filter du vill använda",
+                step2: "Granska listan med aktier som matchar kriterierna",
+                step3: "Välj en aktie och använd SetMyTrade kalkylatorn för att beräkna ditt stop loss och take profit",
+                step4: "Placera din trade med rätt risk management",
+                learnMore: "Vill du lära dig mer om dessa strategier?",
+                viewStrategies: "Se Trading Strategier",
+                exampleCharts: "Exempel-Grafer",
+                exampleChartsTitle: "Så Ser Signalerna Ut",
+                exampleChartsDesc: "Se hur 200 EMA, 50 EMA och RSI samverkar för perfekta köp- och säljsignaler",
+                bullishExample: "Bullish Setup - Exempel",
+                bullishDesc: "Perfekt köpsignal när:",
+                bullishPoint1: "Pris ÖVER 200-day EMA (röd linje) = Upptrend",
+                bullishPoint2: "50-day EMA (blå linje) korsar ÖVER 200-day EMA = Momentum",
+                bullishPoint3: "RSI < 30 = Översåld (bra ingångspunkt)",
+                bearishExample: "Bearish Setup - Exempel",
+                bearishDesc: "Sälj/undvik när:",
+                bearishPoint1: "Pris UNDER 200-day EMA (röd linje) = Nedtrend",
+                bearishPoint2: "50-day EMA (blå linje) korsar UNDER 200-day EMA = Svaghet",
+                bearishPoint3: "RSI > 70 = Överköpt (topp nära)",
+                quickLinks: "Snabblänkar",
+                information: "Information",
+                freeTool2: "100% Gratis",
+                exactCalc: "Exakta Beräkningar",
+                important: "Viktigt",
+                readDisclaimer: "Läs Ansvarsbegränsning",
+                provenStrategies: "Proven Strategier"
+            },
+            en: {
+                professionalTool: "Professional Trading Calculator",
+                freeTool: "100% Free Tool",
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navFinviz: "Finviz Filters",
+                navCalendar: "Sector Calendar",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                finvizTitle: "Find Winning Stocks with Finviz Filters",
+                finvizDescription: "Pre-configured filters based on proven trading strategies. Click and find buyable stocks now.",
+                finvizScreener: "Stock Screener",
+                readyFilters: "Ready Filters - 200 EMA + RSI",
+                filterInfo: "All filters use 200-day EMA and RSI for optimal entry points",
+                filter1Title: "Buy Signal: Tech Stocks",
+                filter1Desc: "Technology stocks above 200-day EMA with RSI oversold. Perfect for buying.",
+                filter2Title: "Buy Signal: Energy Stocks",
+                filter2Desc: "Energy stocks above 200-day EMA with RSI oversold. Strong sector with momentum.",
+                filter3Title: "Sell Signal: Financial Stocks",
+                filter3Desc: "Financial stocks below 200-day EMA with RSI overbought. Perfect for short or sell signal.",
+                filter4Title: "Buy Signal: Healthcare Stocks",
+                filter4Desc: "Healthcare stocks above 200-day EMA with RSI oversold. Defensive sector with growth.",
+                openFinviz: "Open in Finviz",
+                howToUse: "How To Use The Filters?",
+                step1: "Click \"Open in Finviz\" for the filter you want to use",
+                step2: "Review the list of stocks matching the criteria",
+                step3: "Select a stock and use SetMyTrade calculator to calculate your stop loss and take profit",
+                step4: "Place your trade with proper risk management",
+                learnMore: "Want to learn more about these strategies?",
+                viewStrategies: "View Trading Strategies",
+                exampleCharts: "Example Charts",
+                exampleChartsTitle: "How The Signals Look",
+                exampleChartsDesc: "See how 200 EMA, 50 EMA and RSI work together for perfect buy and sell signals",
+                bullishExample: "Bullish Setup - Example",
+                bullishDesc: "Perfect buy signal when:",
+                bullishPoint1: "Price ABOVE 200-day EMA (red line) = Uptrend",
+                bullishPoint2: "50-day EMA (blue line) crosses ABOVE 200-day EMA = Momentum",
+                bullishPoint3: "RSI < 30 = Oversold (good entry point)",
+                bearishExample: "Bearish Setup - Example",
+                bearishDesc: "Sell/avoid when:",
+                bearishPoint1: "Price BELOW 200-day EMA (red line) = Downtrend",
+                bearishPoint2: "50-day EMA (blue line) crosses BELOW 200-day EMA = Weakness",
+                bearishPoint3: "RSI > 70 = Overbought (top near)",
+                quickLinks: "Quick Links",
+                information: "Information",
+                freeTool2: "100% Free",
+                exactCalc: "Exact Calculations",
+                important: "Important",
+                readDisclaimer: "Read Disclaimer",
+                provenStrategies: "Proven Strategies"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            // Removed event.target - using loop instead('active');
+        }
+
+        // Load TradingView Example Charts
+        function loadExampleCharts() {
+            // Bullish Example - NVDA (typically bullish tech stock)
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": "NASDAQ:NVDA",
+                "interval": "D",
+                "timezone": "Europe/Stockholm",
+                "theme": "dark",
+                "style": "1",
+                "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
+                "toolbar_bg": "#0D1F2D",
+                "enable_publishing": false,
+                "backgroundColor": "#0D1F2D",
+                "gridColor": "rgba(255, 255, 255, 0.06)",
+                "hide_top_toolbar": true,
+                "hide_legend": false,
+                "save_image": false,
+                "container_id": "bullish_chart",
+                "studies": [
+                    {
+                        "id": "MAExp@tv-basicstudies",
+                        "inputs": { "length": 200 }
+                    },
+                    {
+                        "id": "MAExp@tv-basicstudies",
+                        "inputs": { "length": 50 }
+                    },
+                    "RSI@tv-basicstudies"
+                ]
+            });
+
+            // Bearish Example - A stock showing bearish setup
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": "NYSE:XOM",
+                "interval": "D",
+                "timezone": "Europe/Stockholm",
+                "theme": "dark",
+                "style": "1",
+                "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
+                "toolbar_bg": "#0D1F2D",
+                "enable_publishing": false,
+                "backgroundColor": "#0D1F2D",
+                "gridColor": "rgba(255, 255, 255, 0.06)",
+                "hide_top_toolbar": true,
+                "hide_legend": false,
+                "save_image": false,
+                "container_id": "bearish_chart",
+                "studies": [
+                    {
+                        "id": "MAExp@tv-basicstudies",
+                        "inputs": { "length": 200 }
+                    },
+                    {
+                        "id": "MAExp@tv-basicstudies",
+                        "inputs": { "length": 50 }
+                    },
+                    "RSI@tv-basicstudies"
+                ]
+            });
+        }
+
+        // Load charts when page loads
+        window.addEventListener('load', function() {
+            loadExampleCharts();
+        });
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+    </script>
+</body>
+</html>
