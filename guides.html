@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>Trading Guider - SetMyTrade | Stop Loss & Take Profit Instruktioner</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Steg-för-steg guider för att sätta stop loss och take profit. Instruktioner för Avanza, Nordnet och andra mäklare." name="description">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00D084;
+            --dark: #0D2735;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #00B871;
+            border-color: #00B871;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+            margin-bottom: 0;
+        }
+
+        /* Guide Card */
+        .guide-card {
+            background: rgba(26, 47, 61, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #0D1F2D;
+            flex-shrink: 0;
+        }
+
+        .step-item {
+            background: rgba(13, 31, 45, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.15);
+            border: 2px solid #FFC107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: rgba(0, 208, 132, 0.15);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .broker-logo {
+            width: 120px;
+            height: 40px;
+            background: #FFFFFF;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #0D1F2D;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+        }
+
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer .btn-link:hover {
+            color: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    <span data-lang="professionalTool">Professionell Trading Kalkylator</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                    <span data-lang="freeTool">100% Gratis Verktyg</span>
+                </span>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="fundamentals.html" class="nav-item nav-link" data-lang="navFundamentals">Fundamental Analys</a>
+                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link active" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="guidesTitle">Steg-för-Steg Guider</h1>
+            <p class="text-white-50" data-lang="guidesDesc">Lär dig hur du sätter stop loss och take profit korrekt hos din mäklare</p>
+        </div>
+    </div>
+
+    <!-- Guides Section -->
+    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.3);">
+        <div class="container py-5">
+            
+            <!-- Guide 1: Stop Loss -->
+            <div class="guide-card">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-shield-alt fa-3x text-primary me-3"></i>
+                    <div>
+                        <h3 class="mb-2" data-lang="guide1Title">Hur Sätter Du Stop Loss?</h3>
+                        <p class="text-muted mb-0" data-lang="guide1Subtitle">Skydda ditt kapital automatiskt</p>
+                    </div>
+                </div>
+
+                <p class="text-white mb-4" data-lang="guide1Intro">
+                    En Stop Loss order säljer automatiskt din position när priset faller till en viss nivå. Detta skyddar dig från stora förluster.
+                </p>
+
+                <h5 class="text-primary mb-3" data-lang="steps">Steg-för-Steg:</h5>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">1</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step1Title">Beräkna Dina Nivåer</h6>
+                            <p class="mb-0 text-muted" data-lang="step1Desc">
+                                Använd SetMyTrade kalkylatorn. Fyll i inköpspris och välj risknivå. Du får exakt SL Trigger och SL Limit nivå.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">2</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step2Title">Logga In På Din Mäklare</h6>
+                            <p class="mb-0 text-muted" data-lang="step2Desc">
+                                Öppna din trading plattform (Avanza, Nordnet, etc.) och gå till din portfölj.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">3</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step3Title">Välj "Villkorad Order" eller "Stop Loss"</h6>
+                            <p class="mb-0 text-muted" data-lang="step3Desc">
+                                Olika mäklare har olika namn, men leta efter "Villkorad", "Stop Loss" eller "Stop Market" order.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">4</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step4Title">Fyll I SL Trigger Pris</h6>
+                            <p class="mb-0 text-muted" data-lang="step4Desc">
+                                Ange den "Trigger" nivå som kalkylatorn gav dig. Detta är priset där ordern aktiveras.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">5</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step5Title">Ange SL Limit Pris (Om Tillgängligt)</h6>
+                            <p class="mb-0 text-muted" data-lang="step5Desc">
+                                Vissa mäklare låter dig sätta både Trigger OCH Limit. Limit = det lägsta pris du accepterar vid försäljning.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">6</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="step6Title">Bekräfta Ordern</h6>
+                            <p class="mb-0 text-muted" data-lang="step6Desc">
+                                Dubbelkolla att alla värden är korrekta. Klicka på "Bekräfta" eller "Lägg Order".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h6 class="mb-2" style="color: #FFC107;"><i class="fas fa-exclamation-triangle me-2"></i><span data-lang="important">Viktigt!</span></h6>
+                    <p class="mb-0" data-lang="slWarning">
+                        Sätt ALLTID din stop loss SAMMA DAG som du köper. Vänta inte. Marknaderna kan röra sig snabbt och utan stop loss kan du förlora mycket mer än planerat.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Guide 2: Take Profit -->
+            <div class="guide-card">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-bullseye fa-3x text-primary me-3"></i>
+                    <div>
+                        <h3 class="mb-2" data-lang="guide2Title">Hur Sätter Du Take Profit?</h3>
+                        <p class="text-muted mb-0" data-lang="guide2Subtitle">Säkra din vinst automatiskt</p>
+                    </div>
+                </div>
+
+                <p class="text-white mb-4" data-lang="guide2Intro">
+                    En Take Profit order säljer automatiskt din position när priset når ditt vinstmål. Du behöver inte bevaka marknaden konstant.
+                </p>
+
+                <h5 class="text-primary mb-3" data-lang="steps">Steg-för-Steg:</h5>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">1</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="tpStep1Title">Få TP Nivå Från Kalkylatorn</h6>
+                            <p class="mb-0 text-muted" data-lang="tpStep1Desc">
+                                SetMyTrade kalkylatorn ger dig "TP Limit" nivån baserad på din risknivå och önskat risk/reward ratio.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">2</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="tpStep2Title">Välj "Limit Order" Hos Mäklaren</h6>
+                            <p class="mb-0 text-muted" data-lang="tpStep2Desc">
+                                Take Profit är en "Limit Sell Order". Du säljer till ett specifikt pris eller högre.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">3</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="tpStep3Title">Ange TP Limit Priset</h6>
+                            <p class="mb-0 text-muted" data-lang="tpStep3Desc">
+                                Fyll i det pris som kalkylatorn beräknade. Ordern aktiveras när aktien når detta pris.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number me-3">4</div>
+                        <div>
+                            <h6 class="text-white mb-2" data-lang="tpStep4Title">Sätt Giltighetstid</h6>
+                            <p class="mb-0 text-muted" data-lang="tpStep4Desc">
+                                Välj "Tills vidare" (Good Till Cancelled) så ordern ligger kvar tills den triggas eller du avbryter den.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h6 class="text-primary mb-2"><i class="fas fa-lightbulb me-2"></i><span data-lang="proTip">Pro-Tips!</span></h6>
+                    <p class="mb-0" data-lang="tpTip">
+                        Vissa traders föredrar att sälja 50% vid take profit nivån och låta resten rida med trailing stop. Detta maximerar både säkerhet och vinst.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Guide 3: Combined Order -->
+            <div class="guide-card">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-layer-group fa-3x text-primary me-3"></i>
+                    <div>
+                        <h3 class="mb-2" data-lang="guide3Title">OCO Order (One-Cancels-Other)</h3>
+                        <p class="text-muted mb-0" data-lang="guide3Subtitle">Stop Loss + Take Profit i samma order</p>
+                    </div>
+                </div>
+
+                <p class="text-white mb-4" data-lang="guide3Intro">
+                    En OCO order låter dig sätta både stop loss OCH take profit samtidigt. När en triggas avbryts den andra automatiskt.
+                </p>
+
+                <h5 class="text-primary mb-3" data-lang="availability">Tillgänglighet:</h5>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="broker-logo">AVANZA</div>
+                        <p class="mb-0 small text-muted" data-lang="avanzaOCO">
+                            Avanza har "Villkorad order" där du kan kombinera Stop Loss och Take Profit.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="broker-logo">NORDNET</div>
+                        <p class="mb-0 small text-muted" data-lang="nordnetOCO">
+                            Nordnet erbjuder "OCO" order för premium användare. Annars sätt två separata orders.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h6 class="mb-2" style="color: #FFC107;"><i class="fas fa-info-circle me-2"></i><span data-lang="note">Observera!</span></h6>
+                    <p class="mb-0" data-lang="ocoNote">
+                        Om din mäklare inte stödjer OCO, sätt helt enkelt två separata orders: en Stop Loss och en Limit Sell (Take Profit). Kom bara ihåg att avbryta den andra ordern manuellt när en av dem triggas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Guide 4: Broker Specific -->
+            <div class="guide-card">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-building fa-3x text-primary me-3"></i>
+                    <div>
+                        <h3 class="mb-2" data-lang="guide4Title">Mäklar-Specifika Instruktioner</h3>
+                        <p class="text-muted mb-0" data-lang="guide4Subtitle">Hur du hittar funktionerna hos populära mäklare</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Avanza -->
+                    <div class="col-lg-6">
+                        <div style="background: rgba(0, 208, 132, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                            <div class="broker-logo mb-3">AVANZA</div>
+                            <h6 class="text-white mb-3" data-lang="avanzaTitle">Så Här Gör Du På Avanza:</h6>
+                            <ol class="text-muted mb-0">
+                                <li data-lang="avanza1">Gå till "Min Sida" → "Mina Aktier"</li>
+                                <li data-lang="avanza2">Klicka på aktien du äger → "Villkorad order"</li>
+                                <li data-lang="avanza3">Välj "Stop Loss" ordertyp</li>
+                                <li data-lang="avanza4">Fyll i Trigger pris och Limit pris</li>
+                                <li data-lang="avanza5">För Take Profit: Skapa en separat Limit Sell order</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Nordnet -->
+                    <div class="col-lg-6">
+                        <div style="background: rgba(0, 208, 132, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                            <div class="broker-logo mb-3">NORDNET</div>
+                            <h6 class="text-white mb-3" data-lang="nordnetTitle">Så Här Gör Du På Nordnet:</h6>
+                            <ol class="text-muted mb-0">
+                                <li data-lang="nordnet1">Gå till "Översikt" → "Innehav"</li>
+                                <li data-lang="nordnet2">Klicka på aktien → "Handla" → "Avancerad"</li>
+                                <li data-lang="nordnet3">Välj "Stop Loss" från ordertyper</li>
+                                <li data-lang="nordnet4">Ange Stop pris (= Trigger nivå)</li>
+                                <li data-lang="nordnet5">Premium kunder: Använd "OCO" för kombinerad order</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4" style="background: rgba(13, 31, 45, 0.5); border-radius: 8px;">
+                    <h6 class="text-primary mb-3" data-lang="otherBrokers">Andra Mäklare:</h6>
+                    <p class="text-muted mb-2" data-lang="otherBrokersDesc">
+                        De flesta mäklare har liknande funktioner. Leta efter:
+                    </p>
+                    <ul class="text-muted">
+                        <li data-lang="broker1">"Villkorad Order", "Conditional Order" eller "Advanced Order"</li>
+                        <li data-lang="broker2">"Stop Loss", "Stop Market" eller "Stop Limit"</li>
+                        <li data-lang="broker3">"OCO" (One-Cancels-Other) för kombinerade orders</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Final Tips -->
+            <div class="guide-card" style="border-left: 4px solid #FFD700;">
+                <div class="text-center">
+                    <i class="fas fa-star fa-3x mb-3" style="color: #FFD700;"></i>
+                    <h4 class="text-white mb-3" data-lang="finalTips">Slutgiltiga Tips För Framgång</h4>
+                    
+                    <div class="row g-3 mt-4">
+                        <div class="col-md-4">
+                            <div style="background: rgba(13, 31, 45, 0.5); padding: 20px; border-radius: 8px; height: 100%;">
+                                <i class="fas fa-check-circle fa-2x text-primary mb-2"></i>
+                                <h6 class="text-white mb-2" data-lang="tip1Title">Planera Innan Du Köper</h6>
+                                <p class="small text-muted mb-0" data-lang="tip1Desc">Beräkna stop loss och take profit INNAN du köper aktien.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="background: rgba(13, 31, 45, 0.5); padding: 20px; border-radius: 8px; height: 100%;">
+                                <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+                                <h6 class="text-white mb-2" data-lang="tip2Title">Sätt Orders Direkt</h6>
+                                <p class="small text-muted mb-0" data-lang="tip2Desc">Sätt stop loss samma dag som köpet. Vänta aldrig.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="background: rgba(13, 31, 45, 0.5); padding: 20px; border-radius: 8px; height: 100%;">
+                                <i class="fas fa-brain fa-2x text-primary mb-2"></i>
+                                <h6 class="text-white mb-2" data-lang="tip3Title">Följ Din Plan</h6>
+                                <p class="small text-muted mb-0" data-lang="tip3Desc">Om stop loss triggas, acceptera det. Ingen "revenge trading".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-5">
+                <h4 class="text-white mb-4" data-lang="readyToTrade">Redo Att Handla Med Skydd?</h4>
+                <a href="calculator.html" class="btn btn-primary rounded-pill py-3 px-5">
+                    <i class="fas fa-calculator me-2"></i><span data-lang="startCalc">Börja Med Kalkylatorn</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50">Professional Stop Loss & Take Profit calculator for serious traders. 100% free tool.</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
+                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
+                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool2">100% Gratis</span></p>
+                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i><span data-lang="exactCalc">Exakta Beräkningar</span></p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="provenStrategies">Proven Strategier</span></p>
+                    <h5 class="text-white mb-3 mt-4"><i class="fas fa-exclamation-triangle text-warning me-2"></i><span data-lang="important">Viktigt</span></h5>
+                    <a href="disclaimer.html" class="btn btn-link text-warning ps-0"><i class="fas fa-file-contract me-2"></i><span data-lang="readDisclaimer">Läs Ansvarsbegränsning</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body">Built for traders worldwide</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentLanguage = 'sv';
+
+        const translations = {
+            sv: {
+                professionalTool: "Professionell Trading Kalkylator",
+                freeTool: "100% Gratis Verktyg",
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navFinviz: "Finviz Filter",
+                navCalendar: "Sektor Kalender",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                guidesTitle: "Steg-för-Steg Guider",
+                guidesDesc: "Lär dig hur du sätter stop loss och take profit korrekt hos din mäklare",
+                guide1Title: "Hur Sätter Du Stop Loss?",
+                guide1Subtitle: "Skydda ditt kapital automatiskt",
+                guide1Intro: "En Stop Loss order säljer automatiskt din position när priset faller till en viss nivå. Detta skyddar dig från stora förluster.",
+                steps: "Steg-för-Steg:",
+                step1Title: "Beräkna Dina Nivåer",
+                step1Desc: "Använd SetMyTrade kalkylatorn. Fyll i inköpspris och välj risknivå. Du får exakt SL Trigger och SL Limit nivå.",
+                step2Title: "Logga In På Din Mäklare",
+                step2Desc: "Öppna din trading plattform (Avanza, Nordnet, etc.) och gå till din portfölj.",
+                step3Title: "Välj \"Villkorad Order\" eller \"Stop Loss\"",
+                step3Desc: "Olika mäklare har olika namn, men leta efter \"Villkorad\", \"Stop Loss\" eller \"Stop Market\" order.",
+                step4Title: "Fyll I SL Trigger Pris",
+                step4Desc: "Ange den \"Trigger\" nivå som kalkylatorn gav dig. Detta är priset där ordern aktiveras.",
+                step5Title: "Ange SL Limit Pris (Om Tillgängligt)",
+                step5Desc: "Vissa mäklare låter dig sätta både Trigger OCH Limit. Limit = det lägsta pris du accepterar vid försäljning.",
+                step6Title: "Bekräfta Ordern",
+                step6Desc: "Dubbelkolla att alla värden är korrekta. Klicka på \"Bekräfta\" eller \"Lägg Order\".",
+                important: "Viktigt!",
+                slWarning: "Sätt ALLTID din stop loss SAMMA DAG som du köper. Vänta inte. Marknaderna kan röra sig snabbt och utan stop loss kan du förlora mycket mer än planerat.",
+                guide2Title: "Hur Sätter Du Take Profit?",
+                guide2Subtitle: "Säkra din vinst automatiskt",
+                guide2Intro: "En Take Profit order säljer automatiskt din position när priset når ditt vinstmål. Du behöver inte bevaka marknaden konstant.",
+                tpStep1Title: "Få TP Nivå Från Kalkylatorn",
+                tpStep1Desc: "SetMyTrade kalkylatorn ger dig \"TP Limit\" nivån baserad på din risknivå och önskat risk/reward ratio.",
+                tpStep2Title: "Välj \"Limit Order\" Hos Mäklaren",
+                tpStep2Desc: "Take Profit är en \"Limit Sell Order\". Du säljer till ett specifikt pris eller högre.",
+                tpStep3Title: "Ange TP Limit Priset",
+                tpStep3Desc: "Fyll i det pris som kalkylatorn beräknade. Ordern aktiveras när aktien når detta pris.",
+                tpStep4Title: "Sätt Giltighetstid",
+                tpStep4Desc: "Välj \"Tills vidare\" (Good Till Cancelled) så ordern ligger kvar tills den triggas eller du avbryter den.",
+                proTip: "Pro-Tips!",
+                tpTip: "Vissa traders föredrar att sälja 50% vid take profit nivån och låta resten rida med trailing stop. Detta maximerar både säkerhet och vinst.",
+                guide3Title: "OCO Order (One-Cancels-Other)",
+                guide3Subtitle: "Stop Loss + Take Profit i samma order",
+                guide3Intro: "En OCO order låter dig sätta både stop loss OCH take profit samtidigt. När en triggas avbryts den andra automatiskt.",
+                availability: "Tillgänglighet:",
+                avanzaOCO: "Avanza har \"Villkorad order\" där du kan kombinera Stop Loss och Take Profit.",
+                nordnetOCO: "Nordnet erbjuder \"OCO\" order för premium användare. Annars sätt två separata orders.",
+                note: "Observera!",
+                ocoNote: "Om din mäklare inte stödjer OCO, sätt helt enkelt två separata orders: en Stop Loss och en Limit Sell (Take Profit). Kom bara ihåg att avbryta den andra ordern manuellt när en av dem triggas.",
+                guide4Title: "Mäklar-Specifika Instruktioner",
+                guide4Subtitle: "Hur du hittar funktionerna hos populära mäklare",
+                avanzaTitle: "Så Här Gör Du På Avanza:",
+                avanza1: "Gå till \"Min Sida\" → \"Mina Aktier\"",
+                avanza2: "Klicka på aktien du äger → \"Villkorad order\"",
+                avanza3: "Välj \"Stop Loss\" ordertyp",
+                avanza4: "Fyll i Trigger pris och Limit pris",
+                avanza5: "För Take Profit: Skapa en separat Limit Sell order",
+                nordnetTitle: "Så Här Gör Du På Nordnet:",
+                nordnet1: "Gå till \"Översikt\" → \"Innehav\"",
+                nordnet2: "Klicka på aktien → \"Handla\" → \"Avancerad\"",
+                nordnet3: "Välj \"Stop Loss\" från ordertyper",
+                nordnet4: "Ange Stop pris (= Trigger nivå)",
+                nordnet5: "Premium kunder: Använd \"OCO\" för kombinerad order",
+                otherBrokers: "Andra Mäklare:",
+                otherBrokersDesc: "De flesta mäklare har liknande funktioner. Leta efter:",
+                broker1: "\"Villkorad Order\", \"Conditional Order\" eller \"Advanced Order\"",
+                broker2: "\"Stop Loss\", \"Stop Market\" eller \"Stop Limit\"",
+                broker3: "\"OCO\" (One-Cancels-Other) för kombinerade orders",
+                finalTips: "Slutgiltiga Tips För Framgång",
+                tip1Title: "Planera Innan Du Köper",
+                tip1Desc: "Beräkna stop loss och take profit INNAN du köper aktien.",
+                tip2Title: "Sätt Orders Direkt",
+                tip2Desc: "Sätt stop loss samma dag som köpet. Vänta aldrig.",
+                tip3Title: "Följ Din Plan",
+                tip3Desc: "Om stop loss triggas, acceptera det. Ingen \"revenge trading\".",
+                readyToTrade: "Redo Att Handla Med Skydd?",
+                startCalc: "Börja Med Kalkylatorn",
+                quickLinks: "Snabblänkar",
+                information: "Information",
+                freeTool2: "100% Gratis",
+                exactCalc: "Exakta Beräkningar",
+                important: "Viktigt",
+                readDisclaimer: "Läs Ansvarsbegränsning",
+                provenStrategies: "Proven Strategier"
+            },
+            en: {
+                professionalTool: "Professional Trading Calculator",
+                freeTool: "100% Free Tool",
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navFinviz: "Finviz Filters",
+                navCalendar: "Sector Calendar",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                guidesTitle: "Step-by-Step Guides",
+                guidesDesc: "Learn how to set stop loss and take profit correctly with your broker",
+                guide1Title: "How To Set Stop Loss?",
+                guide1Subtitle: "Protect your capital automatically",
+                guide1Intro: "A Stop Loss order automatically sells your position when price falls to a certain level. This protects you from large losses.",
+                steps: "Step-by-Step:",
+                step1Title: "Calculate Your Levels",
+                step1Desc: "Use SetMyTrade calculator. Fill in buy price and select risk level. You get exact SL Trigger and SL Limit levels.",
+                step2Title: "Log Into Your Broker",
+                step2Desc: "Open your trading platform and go to your portfolio.",
+                step3Title: "Select \"Conditional Order\" or \"Stop Loss\"",
+                step3Desc: "Different brokers have different names, but look for \"Conditional\", \"Stop Loss\" or \"Stop Market\" order.",
+                step4Title: "Fill In SL Trigger Price",
+                step4Desc: "Enter the \"Trigger\" level the calculator gave you. This is the price where the order activates.",
+                step5Title: "Enter SL Limit Price (If Available)",
+                step5Desc: "Some brokers let you set both Trigger AND Limit. Limit = the lowest price you accept for selling.",
+                step6Title: "Confirm Order",
+                step6Desc: "Double-check all values are correct. Click \"Confirm\" or \"Place Order\".",
+                important: "Important!",
+                slWarning: "ALWAYS set your stop loss the SAME DAY you buy. Don't wait. Markets can move quickly and without stop loss you can lose much more than planned.",
+                guide2Title: "How To Set Take Profit?",
+                guide2Subtitle: "Secure your profit automatically",
+                guide2Intro: "A Take Profit order automatically sells your position when price reaches your profit target. You don't need to watch the market constantly.",
+                tpStep1Title: "Get TP Level From Calculator",
+                tpStep1Desc: "SetMyTrade calculator gives you the \"TP Limit\" level based on your risk level and desired risk/reward ratio.",
+                tpStep2Title: "Select \"Limit Order\" At Broker",
+                tpStep2Desc: "Take Profit is a \"Limit Sell Order\". You sell at a specific price or higher.",
+                tpStep3Title: "Enter TP Limit Price",
+                tpStep3Desc: "Fill in the price the calculator calculated. Order activates when stock reaches this price.",
+                tpStep4Title: "Set Validity Period",
+                tpStep4Desc: "Choose \"Good Till Cancelled\" so the order stays until it triggers or you cancel it.",
+                proTip: "Pro-Tip!",
+                tpTip: "Some traders prefer to sell 50% at take profit level and let the rest ride with trailing stop. This maximizes both security and profit.",
+                guide3Title: "OCO Order (One-Cancels-Other)",
+                guide3Subtitle: "Stop Loss + Take Profit in same order",
+                guide3Intro: "An OCO order lets you set both stop loss AND take profit simultaneously. When one triggers, the other cancels automatically.",
+                availability: "Availability:",
+                avanzaOCO: "Avanza has \"Conditional order\" where you can combine Stop Loss and Take Profit.",
+                nordnetOCO: "Nordnet offers \"OCO\" orders for premium users. Otherwise set two separate orders.",
+                note: "Note!",
+                ocoNote: "If your broker doesn't support OCO, simply set two separate orders: one Stop Loss and one Limit Sell (Take Profit). Just remember to cancel the other order manually when one triggers.",
+                guide4Title: "Broker-Specific Instructions",
+                guide4Subtitle: "How to find features at popular brokers",
+                avanzaTitle: "How To Do It On Avanza:",
+                avanza1: "Go to \"My Page\" → \"My Stocks\"",
+                avanza2: "Click on the stock you own → \"Conditional order\"",
+                avanza3: "Select \"Stop Loss\" order type",
+                avanza4: "Fill in Trigger price and Limit price",
+                avanza5: "For Take Profit: Create a separate Limit Sell order",
+                nordnetTitle: "How To Do It On Nordnet:",
+                nordnet1: "Go to \"Overview\" → \"Holdings\"",
+                nordnet2: "Click on stock → \"Trade\" → \"Advanced\"",
+                nordnet3: "Select \"Stop Loss\" from order types",
+                nordnet4: "Enter Stop price (= Trigger level)",
+                nordnet5: "Premium users: Use \"OCO\" for combined order",
+                otherBrokers: "Other Brokers:",
+                otherBrokersDesc: "Most brokers have similar features. Look for:",
+                broker1: "\"Conditional Order\", \"Advanced Order\"",
+                broker2: "\"Stop Loss\", \"Stop Market\" or \"Stop Limit\"",
+                broker3: "\"OCO\" (One-Cancels-Other) for combined orders",
+                finalTips: "Final Tips For Success",
+                tip1Title: "Plan Before You Buy",
+                tip1Desc: "Calculate stop loss and take profit BEFORE buying the stock.",
+                tip2Title: "Set Orders Immediately",
+                tip2Desc: "Set stop loss same day as purchase. Never wait.",
+                tip3Title: "Follow Your Plan",
+                tip3Desc: "If stop loss triggers, accept it. No \"revenge trading\".",
+                readyToTrade: "Ready To Trade With Protection?",
+                startCalc: "Start With Calculator",
+                quickLinks: "Quick Links",
+                information: "Information",
+                freeTool2: "100% Free",
+                exactCalc: "Exact Calculations",
+                important: "Important",
+                readDisclaimer: "Read Disclaimer",
+                provenStrategies: "Proven Strategies"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            // Removed event.target - using loop instead('active');
+        }
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+    </script>
+</body>
+</html>

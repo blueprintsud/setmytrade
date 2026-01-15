@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>Fundamental Analys - SetMyTrade | Långsiktig Investering</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Fundamental analys för svenska aktier. Välj mellan 5 olika värderingsmodeller." name="description">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00D084;
+            --dark: #0D2735;
+            --warning: #FF6B6B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .text-primary { color: var(--primary) !important; }
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: #00B871;
+            border-color: #00B871;
+        }
+
+        /* Topbar & Navbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+        }
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+        }
+
+        /* Legal Disclaimer */
+        .legal-disclaimer {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 50, 50, 0.1));
+            border: 3px solid var(--warning);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.3);
+        }
+        .disclaimer-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .disclaimer-header i {
+            font-size: 48px;
+            color: var(--warning);
+            animation: pulse-warning 2s infinite;
+        }
+        @keyframes pulse-warning {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .disclaimer-header h2 {
+            color: var(--warning);
+            font-size: 28px;
+            margin-top: 15px;
+        }
+        .disclaimer-content {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .disclaimer-content strong {
+            color: var(--warning);
+            font-weight: 700;
+        }
+        .disclaimer-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .disclaimer-content ul li {
+            margin: 10px 0;
+        }
+        .small-print {
+            font-size: 13px;
+            color: #B0B0B0;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        .disclaimer-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .disclaimer-checkbox input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* Card Styles */
+        .card-custom {
+            background: rgba(26, 47, 61, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Model Selector */
+        .model-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .model-card {
+            background: rgba(13, 31, 45, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .model-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.2);
+        }
+        .model-card.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 208, 132, 0.3);
+        }
+        .model-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+        .model-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #0D1F2D;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .model-description {
+            font-size: 14px;
+            color: #B0B0B0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .model-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .model-features li {
+            font-size: 13px;
+            color: #E0E0E0;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .model-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Time Horizon Slider */
+        .horizon-slider-container {
+            background: rgba(13, 31, 45, 0.6);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .slider-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .slider-wrapper {
+            position: relative;
+            padding: 20px 0;
+        }
+        .custom-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+        .custom-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+            border: none;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #B0B0B0;
+        }
+        .horizon-recommendations {
+            background: rgba(0, 208, 132, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .horizon-recommendations h5 {
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .recommendation-item {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #E0E0E0;
+        }
+        .recommendation-item i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        /* Manual Input Section */
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .input-group-custom {
+            background: rgba(13, 31, 45, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .input-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .input-field {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            color: #E0E0E0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.2);
+        }
+        .data-source {
+            font-size: 12px;
+            color: #B0B0B0;
+            margin-top: 8px;
+            display: block;
+        }
+        .data-source strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Results Section */
+        .result-card {
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1), rgba(26, 47, 61, 0.9));
+            border-radius: 15px;
+            padding: 40px;
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            margin: 30px 0;
+        }
+        .result-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .result-score {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .result-grade {
+            font-size: 36px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        .grade-a { color: #00FF88; }
+        .grade-b { color: #00D084; }
+        .grade-c { color: #FFD700; }
+        .grade-d { color: #FFA500; }
+        .grade-f { color: #FF6B6B; }
+
+        /* Category Breakdown */
+        .category-item {
+            background: rgba(13, 31, 45, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+        .category-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .progress-bar-custom {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #00FF88);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 208, 132, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+            margin-top: 60px;
+        }
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+        .footer .btn-link:hover {
+            color: var(--primary);
+        }
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .model-selector {
+                grid-template-columns: 1fr;
+            }
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            .result-score {
+                font-size: 56px;
+            }
+            .result-grade {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    <span data-lang="professionalTool">Professionell Fundamental Analys</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                    <span data-lang="freeTool">100% Gratis Verktyg</span>
+                </span>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">SV</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">EN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="fundamentals.html" class="nav-item nav-link active" data-lang="navFundamentals">Fundamental Analys</a>
+                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="fundTitle">Fundamental Analys - Långsiktig Investering</h1>
+            <p class="text-white-50" data-lang="fundDesc">Välj analysmodell, mata in data och få professionell värdering baserad på din investeringshorisont</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.3);">
+        <div class="container py-5">
+            
+            <!-- LEGAL DISCLAIMER -->
+            <div class="legal-disclaimer">
+                <div class="disclaimer-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h2 data-lang="disclaimerTitle">VIKTIG INFORMATION</h2>
+                </div>
+                <div class="disclaimer-content">
+                    <p><strong data-lang="disclaimerMain">DENNA ANALYS ÄR ENDAST FÖR UTBILDNINGSSYFTE OCH UTGÖR INTE FINANSIELL RÅDGIVNING.</strong></p>
+                    
+                    <ul>
+                        <li data-lang="disclaimer1">Vi ansvarar INTE för förluster eller dåliga investeringsbeslut</li>
+                        <li data-lang="disclaimer2">Alla investeringar innebär BETYDANDE RISKER</li>
+                        <li data-lang="disclaimer3">Historisk avkastning är INGEN GARANTI för framtida resultat</li>
+                        <li data-lang="disclaimer4">Fundamental analys kan vara FELAKTIG</li>
+                        <li data-lang="disclaimer5">Marknaden kan bete sig IRRATIONELLT</li>
+                        <li data-lang="disclaimer6">Konsultera alltid en PROFESSIONELL FINANSIELL RÅDGIVARE</li>
+                        <li data-lang="disclaimer7">Investera endast pengar du har råd att FÖRLORA</li>
+                    </ul>
+                    
+                    <p class="small-print" data-lang="smallPrint">
+                        SetMyTrade.xyz är ett analysverktyg och INTE en investeringsrådgivare. 
+                        Vi har ingen licens att ge finansiell rådgivning enligt svensk lag. 
+                        All information är baserad på offentliga data och kan innehålla fel.
+                    </p>
+                    
+                    <label class="disclaimer-checkbox">
+                        <input type="checkbox" id="acceptDisclaimer" onchange="toggleAnalysis()">
+                        <span data-lang="acceptCheckbox">Jag förstår och accepterar ovanstående varning</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Content hidden until disclaimer accepted -->
+            <div id="mainContent" style="display: none;">
+                
+                <!-- Step 1: Choose Model -->
+                <div class="card-custom">
+                    <h3 class="mb-4">
+                        <span class="text-primary">STEG 1:</span> Välj Analysmodell
+                    </h3>
+                    <p class="text-muted mb-4">Välj den värderingsmodell som passar din investeringsstil bäst</p>
+                    
+                    <div class="model-selector" id="modelSelector">
+                        <!-- Model 1: Quantitative Scoring -->
+                        <div class="model-card" data-model="scoring" onclick="selectModel('scoring')">
+                            <span class="model-badge">REKOMMENDERAD</span>
+                            <div class="model-title">Kvantitativ Scoring</div>
+                            <div class="model-description">
+                                Poängbaserad modell med viktade kategorier. Enklast att förstå och använda.
+                            </div>
+                            <ul class="model-features">
+                                <li><i class="fas fa-check text-primary me-2"></i>0-100 poäng system</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>5 viktade kategorier</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>Perfekt för nybörjare</li>
+                            </ul>
+                        </div>
+
+                        <!-- Model 2: DCF -->
+                        <div class="model-card" data-model="dcf" onclick="selectModel('dcf')">
+                            <span class="model-badge">AVANCERAD</span>
+                            <div class="model-title">DCF - Discounted Cash Flow</div>
+                            <div class="model-description">
+                                Nuvärdesberäkning av framtida kassaflöden. Används av investment banks.
+                            </div>
+                            <ul class="model-features">
+                                <li><i class="fas fa-check text-primary me-2"></i>Framtida kassaflöden</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>Diskonteringsränta</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>För erfarna investerare</li>
+                            </ul>
+                        </div>
+
+                        <!-- Model 3: DDM -->
+                        <div class="model-card" data-model="ddm" onclick="selectModel('ddm')">
+                            <span class="model-badge">UTDELNING</span>
+                            <div class="model-title">Dividend Discount Model</div>
+                            <div class="model-description">
+                                Värdering baserad på framtida utdelningar. Perfekt för inkomstinvesterare.
+                            </div>
+                            <ul class="model-features">
+                                <li><i class="fas fa-check text-primary me-2"></i>Utdelningsfokus</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>Dividend growth rate</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>För stabila bolag</li>
+                            </ul>
+                        </div>
+
+                        <!-- Model 4: PEG -->
+                        <div class="model-card" data-model="peg" onclick="selectModel('peg')">
+                            <span class="model-badge">TILLVÄXT</span>
+                            <div class="model-title">PEG Ratio Model</div>
+                            <div class="model-description">
+                                P/E justerat för tillväxt. Identifierar undervärderade tillväxtaktier.
+                            </div>
+                            <ul class="model-features">
+                                <li><i class="fas fa-check text-primary me-2"></i>P/E / Growth Rate</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>Värdering vs tillväxt</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>För growth stocks</li>
+                            </ul>
+                        </div>
+
+                        <!-- Model 5: Graham Number -->
+                        <div class="model-card" data-model="graham" onclick="selectModel('graham')">
+                            <span class="model-badge">VALUE</span>
+                            <div class="model-title">Graham Number / Value Investing</div>
+                            <div class="model-description">
+                                Benjamin Grahams formel med säkerhetsmarginal. För värdeinvesterare.
+                            </div>
+                            <ul class="model-features">
+                                <li><i class="fas fa-check text-primary me-2"></i>Säkerhetsmarginal</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>Konservativ värdering</li>
+                                <li><i class="fas fa-check text-primary me-2"></i>För value investors</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Time Horizon -->
+                <div class="card-custom">
+                    <h3 class="mb-4">
+                        <span class="text-primary">STEG 2:</span> Välj Investeringshorisont
+                    </h3>
+                    <p class="text-muted mb-4">Hur länge planerar du att hålla investeringen? Detta påverkar vilka nyckeltal som är viktigast.</p>
+                    
+                    <div class="horizon-slider-container">
+                        <div class="slider-header">
+                            <div>
+                                <h4>Investeringshorisont</h4>
+                                <p class="text-muted mb-0">Välj mellan 1 och 20 år</p>
+                            </div>
+                            <div class="text-end">
+                                <div class="slider-value"><span id="horizonValue">7</span> år</div>
+                            </div>
+                        </div>
+                        
+                        <div class="slider-wrapper">
+                            <input type="range" min="1" max="20" value="7" class="custom-slider" id="horizonSlider" oninput="updateHorizon(this.value)">
+                            <div class="slider-labels">
+                                <span>1 år</span>
+                                <span>5 år</span>
+                                <span>10 år</span>
+                                <span>15 år</span>
+                                <span>20 år</span>
+                            </div>
+                        </div>
+                        
+                        <div class="horizon-recommendations" id="horizonRecommendations">
+                            <!-- Dynamically updated recommendations -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Input Data -->
+                <div class="card-custom" id="inputSection">
+                    <h3 class="mb-4">
+                        <span class="text-primary">STEG 3:</span> Mata In Data
+                    </h3>
+                    <p class="text-muted mb-4">Fyll i relevant data för den valda modellen. Datakällor visas under varje fält.</p>
+                    
+                    <div class="input-section" id="inputFields">
+                        <!-- Dynamically generated based on selected model -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary btn-lg px-5 py-3" onclick="calculate()">
+                            <i class="fas fa-calculator me-2"></i>
+                            <span data-lang="btnCalculate">Beräkna Värdering</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" style="display: none;">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50">Professional fundamental analysis tools for Swedish stock market investors.</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="calendar.html" class="btn btn-link" data-lang="navCalendar">Sektor Kalender</a>
+                    <a href="fundamentals.html" class="btn btn-link" data-lang="navFundamentals">Fundamental Analys</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i>100% Gratis</p>
+                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i>Professionella Modeller</p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i>Svenska Aktier</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body">Built for Swedish investors</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentLanguage = 'sv';
+        let selectedModel = 'scoring';
+        let investmentHorizon = 7;
+
+        const translations = {
+            sv: {
+                professionalTool: "Professionell Fundamental Analys",
+                freeTool: "100% Gratis Verktyg",
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navCalendar: "Sektor Kalender",
+                navFundamentals: "Fundamental Analys",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                fundTitle: "Fundamental Analys - Långsiktig Investering",
+                fundDesc: "Välj analysmodell, mata in data och få professionell värdering baserad på din investeringshorisont",
+                disclaimerTitle: "VIKTIG INFORMATION",
+                disclaimerMain: "DENNA ANALYS ÄR ENDAST FÖR UTBILDNINGSSYFTE OCH UTGÖR INTE FINANSIELL RÅDGIVNING.",
+                disclaimer1: "Vi ansvarar INTE för förluster eller dåliga investeringsbeslut",
+                disclaimer2: "Alla investeringar innebär BETYDANDE RISKER",
+                disclaimer3: "Historisk avkastning är INGEN GARANTI för framtida resultat",
+                disclaimer4: "Fundamental analys kan vara FELAKTIG",
+                disclaimer5: "Marknaden kan bete sig IRRATIONELLT",
+                disclaimer6: "Konsultera alltid en PROFESSIONELL FINANSIELL RÅDGIVARE",
+                disclaimer7: "Investera endast pengar du har råd att FÖRLORA",
+                smallPrint: "SetMyTrade.xyz är ett analysverktyg och INTE en investeringsrådgivare.",
+                acceptCheckbox: "Jag förstår och accepterar ovanstående varning",
+                btnCalculate: "Beräkna Värdering",
+                quickLinks: "Snabblänkar",
+                information: "Information"
+            },
+            en: {
+                professionalTool: "Professional Fundamental Analysis",
+                freeTool: "100% Free Tool",
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navCalendar: "Sector Calendar",
+                navFundamentals: "Fundamental Analysis",
+                navFinviz: "Finviz Filters",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                fundTitle: "Fundamental Analysis - Long-term Investment",
+                fundDesc: "Choose analysis model, input data and get professional valuation based on your investment horizon",
+                disclaimerTitle: "IMPORTANT INFORMATION",
+                disclaimerMain: "THIS ANALYSIS IS FOR EDUCATIONAL PURPOSES ONLY AND IS NOT FINANCIAL ADVICE.",
+                disclaimer1: "We are NOT responsible for losses or bad investment decisions",
+                disclaimer2: "All investments involve SIGNIFICANT RISKS",
+                disclaimer3: "Historical returns are NO GUARANTEE of future results",
+                disclaimer4: "Fundamental analysis can be INCORRECT",
+                disclaimer5: "Markets can behave IRRATIONALLY",
+                disclaimer6: "Always consult a PROFESSIONAL FINANCIAL ADVISOR",
+                disclaimer7: "Only invest money you can afford to LOSE",
+                smallPrint: "SetMyTrade.xyz is an analysis tool and NOT an investment advisor.",
+                acceptCheckbox: "I understand and accept the above warning",
+                btnCalculate: "Calculate Valuation",
+                quickLinks: "Quick Links",
+                information: "Information"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function toggleAnalysis() {
+            const checkbox = document.getElementById('acceptDisclaimer');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (checkbox.checked) {
+                mainContent.style.display = 'block';
+                selectModel('scoring'); // Default model
+                updateHorizon(7); // Default horizon
+            } else {
+                mainContent.style.display = 'none';
+            }
+        }
+
+        function selectModel(model) {
+            selectedModel = model;
+            
+            // Update UI
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-model="${model}"]`).classList.add('active');
+            
+            // Generate input fields based on model
+            generateInputFields(model);
+        }
+
+        function generateInputFields(model) {
+            const container = document.getElementById('inputFields');
+            let html = '';
+            
+            switch(model) {
+                case 'scoring':
+                    html = `
+                        <div class="input-group-custom">
+                            <label class="input-label">P/E Ratio</label>
+                            <input type="number" class="input-field" id="input_pe" placeholder="14.2" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Statistics → Valuation</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">ROE (%)</label>
+                            <input type="number" class="input-field" id="input_roe" placeholder="18.5" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Börsdata → Nyckeltal → Lönsamhet</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">CAGR 5 år (%)</label>
+                            <input type="number" class="input-field" id="input_cagr" placeholder="12.5" step="0.1">
+                            <span class="data-source"><strong>Beräkna från:</strong> Morningstar → Growth → EPS History</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">FCF (MSEK)</label>
+                            <input type="number" class="input-field" id="input_fcf" placeholder="8200" step="100">
+                            <span class="data-source"><strong>Hitta på:</strong> Årsredovisning → Kassaflödesanalys</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Vinstmarginal (%)</label>
+                            <input type="number" class="input-field" id="input_margin" placeholder="8.2" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Statistics → Profitability</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Debt/Equity</label>
+                            <input type="number" class="input-field" id="input_debt" placeholder="0.65" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Årsredovisning → Balansräkning</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">P/B Ratio</label>
+                            <input type="number" class="input-field" id="input_pb" placeholder="1.8" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Statistics → Valuation</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Dividend Yield (%)</label>
+                            <input type="number" class="input-field" id="input_dividend" placeholder="2.8" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Börsdata → Utdelning → Direktavkastning</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'dcf':
+                    html = `
+                        <div class="input-group-custom">
+                            <label class="input-label">Current FCF (MSEK)</label>
+                            <input type="number" class="input-field" id="input_current_fcf" placeholder="8200" step="100">
+                            <span class="data-source"><strong>Hitta på:</strong> Årsredovisning → Kassaflödesanalys</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">FCF Growth Rate (%)</label>
+                            <input type="number" class="input-field" id="input_fcf_growth" placeholder="8.5" step="0.1">
+                            <span class="data-source"><strong>Beräkna från:</strong> Historiska kassaflöden (5 år)</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Discount Rate (WACC) (%)</label>
+                            <input type="number" class="input-field" id="input_discount" placeholder="9.5" step="0.1">
+                            <span class="data-source"><strong>Beräkna:</strong> Risk-free rate + Risk premium</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Terminal Growth (%)</label>
+                            <input type="number" class="input-field" id="input_terminal" placeholder="2.5" step="0.1">
+                            <span class="data-source"><strong>Använd:</strong> 2-3% (långsiktig BNP-tillväxt)</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Projection Period (år)</label>
+                            <input type="number" class="input-field" id="input_projection" placeholder="10" step="1">
+                            <span class="data-source"><strong>Rekommenderat:</strong> 10 år för stabila bolag</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Shares Outstanding (miljoner)</label>
+                            <input type="number" class="input-field" id="input_shares" placeholder="2400" step="1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Statistics</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ddm':
+                    html = `
+                        <div class="input-group-custom">
+                            <label class="input-label">Current Dividend (SEK/aktie)</label>
+                            <input type="number" class="input-field" id="input_current_div" placeholder="7.50" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Börsdata → Utdelning → Per aktie</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Dividend Growth Rate (%)</label>
+                            <input type="number" class="input-field" id="input_div_growth" placeholder="6.5" step="0.1">
+                            <span class="data-source"><strong>Beräkna från:</strong> Historisk utdelningstillväxt (5 år)</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Required Return (%)</label>
+                            <input type="number" class="input-field" id="input_required_return" placeholder="10.0" step="0.1">
+                            <span class="data-source"><strong>Använd:</strong> Din önskade avkastning (8-12%)</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Current Stock Price (SEK)</label>
+                            <input type="number" class="input-field" id="input_current_price" placeholder="245.50" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Aktuell börskurs</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Payout Ratio (%)</label>
+                            <input type="number" class="input-field" id="input_payout" placeholder="45.0" step="0.1">
+                            <span class="data-source"><strong>Beräkna:</strong> (Utdelning / Vinst) × 100</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'peg':
+                    html = `
+                        <div class="input-group-custom">
+                            <label class="input-label">P/E Ratio</label>
+                            <input type="number" class="input-field" id="input_pe_peg" placeholder="14.2" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Statistics</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">EPS Growth Rate (%)</label>
+                            <input type="number" class="input-field" id="input_eps_growth" placeholder="12.5" step="0.1">
+                            <span class="data-source"><strong>Beräkna från:</strong> Historisk EPS (5 år)</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Current Stock Price (SEK)</label>
+                            <input type="number" class="input-field" id="input_price_peg" placeholder="245.50" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Aktuell börskurs</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Forward P/E (1 år)</label>
+                            <input type="number" class="input-field" id="input_forward_pe" placeholder="12.8" step="0.1">
+                            <span class="data-source"><strong>Hitta på:</strong> Yahoo Finance → Analysis → Estimates</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'graham':
+                    html = `
+                        <div class="input-group-custom">
+                            <label class="input-label">EPS (SEK/aktie)</label>
+                            <input type="number" class="input-field" id="input_eps" placeholder="18.50" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Årsredovisning → Resultat per aktie</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Book Value per Share (SEK)</label>
+                            <input type="number" class="input-field" id="input_book_value" placeholder="135.0" step="0.01">
+                            <span class="data-source"><strong>Beräkna:</strong> Eget kapital / Antal aktier</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Current Stock Price (SEK)</label>
+                            <input type="number" class="input-field" id="input_price_graham" placeholder="245.50" step="0.01">
+                            <span class="data-source"><strong>Hitta på:</strong> Aktuell börskurs</span>
+                        </div>
+                        <div class="input-group-custom">
+                            <label class="input-label">Margin of Safety (%)</label>
+                            <input type="number" class="input-field" id="input_margin_safety" placeholder="25.0" step="1">
+                            <span class="data-source"><strong>Rekommenderat:</strong> 25-33% säkerhetsmarginal</span>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function updateHorizon(years) {
+            investmentHorizon = parseInt(years);
+            document.getElementById('horizonValue').textContent = years;
+            
+            // Update recommendations based on horizon
+            const container = document.getElementById('horizonRecommendations');
+            let recommendations = '';
+            
+            if (years <= 3) {
+                recommendations = `
+                    <h5>Kortsiktig Investering (1-3 år)</h5>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Fokusera på P/E ratio och momentum
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Stabila kassaflöden viktigare än tillväxt
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                        Högre risk för volatilitet - diversifiera väl
+                    </div>
+                `;
+            } else if (years <= 7) {
+                recommendations = `
+                    <h5>Medellång Investering (4-7 år)</h5>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Balans mellan tillväxt och stabilitet
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        ROE och dividend growth viktiga
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Acceptabel skuldsättning upp till 0.8
+                    </div>
+                `;
+            } else if (years <= 12) {
+                recommendations = `
+                    <h5>Långsiktig Investering (8-12 år)</h5>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        CAGR och långsiktig tillväxt i fokus
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Dividend aristocrats rekommenderas
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Kortsiktig volatilitet mindre viktig
+                    </div>
+                `;
+            } else {
+                recommendations = `
+                    <h5>Mycket Långsiktig Investering (13-20 år)</h5>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Hållbarhet och ESG viktigt
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Fokus på företag med konkurrensfördel
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-check-circle"></i>
+                        Reinvestering av utdelning rekommenderas
+                    </div>
+                    <div class="recommendation-item">
+                        <i class="fas fa-info-circle text-primary"></i>
+                        Historiska avkastningar: ~8-10% per år
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = recommendations;
+        }
+
+        function calculate() {
+            // Validate inputs
+            const inputs = document.querySelectorAll('.input-field');
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                if (!input.value) {
+                    allFilled = false;
+                    input.style.borderColor = 'var(--warning)';
+                } else {
+                    input.style.borderColor = 'rgba(0, 208, 132, 0.3)';
+                }
+            });
+            
+            if (!allFilled) {
+                alert('Vänligen fyll i alla fält');
+                return;
+            }
+            
+            // Calculate based on selected model
+            let result = {};
+            
+            switch(selectedModel) {
+                case 'scoring':
+                    result = calculateScoring();
+                    break;
+                case 'dcf':
+                    result = calculateDCF();
+                    break;
+                case 'ddm':
+                    result = calculateDDM();
+                    break;
+                case 'peg':
+                    result = calculatePEG();
+                    break;
+                case 'graham':
+                    result = calculateGraham();
+                    break;
+            }
+            
+            displayResults(result);
+        }
+
+        function calculateScoring() {
+            // Get inputs
+            const pe = parseFloat(document.getElementById('input_pe').value);
+            const roe = parseFloat(document.getElementById('input_roe').value);
+            const cagr = parseFloat(document.getElementById('input_cagr').value);
+            const fcf = parseFloat(document.getElementById('input_fcf').value);
+            const margin = parseFloat(document.getElementById('input_margin').value);
+            const debt = parseFloat(document.getElementById('input_debt').value);
+            const pb = parseFloat(document.getElementById('input_pb').value);
+            const dividend = parseFloat(document.getElementById('input_dividend').value);
+            
+            let score = 0;
+            
+            // 1. Growth & Profitability (30 points)
+            if (cagr > 20) score += 15;
+            else if (cagr > 15) score += 13;
+            else if (cagr > 10) score += 11;
+            else if (cagr > 5) score += 8;
+            
+            if (fcf > 5000) score += 15;
+            else if (fcf > 0) score += 10;
+            
+            // 2. Profitability (25 points)
+            if (roe > 25) score += 15;
+            else if (roe > 20) score += 13;
+            else if (roe > 15) score += 11;
+            
+            if (margin > 15) score += 10;
+            else if (margin > 10) score += 8;
+            else if (margin > 5) score += 5;
+            
+            // 3. Stability (20 points)
+            if (debt < 0.3) score += 12;
+            else if (debt < 0.5) score += 10;
+            else if (debt < 0.8) score += 7;
+            else if (debt < 1.2) score += 4;
+            
+            score += 8; // Assume good interest coverage
+            
+            // 4. Valuation (15 points)
+            if (pe < 12) score += 10;
+            else if (pe < 18) score += 8;
+            else if (pe < 25) score += 6;
+            
+            if (pb < 1.5) score += 5;
+            else if (pb < 2.5) score += 4;
+            
+            // 5. Sustainability (10 points)
+            if (dividend > 3) score += 5;
+            else if (dividend > 2) score += 4;
+            
+            score += 5; // Assume decent ESG
+            
+            let grade = 'F';
+            let gradeClass = 'grade-f';
+            
+            if (score >= 85) { grade = 'A+'; gradeClass = 'grade-a'; }
+            else if (score >= 75) { grade = 'A'; gradeClass = 'grade-a'; }
+            else if (score >= 65) { grade = 'B+'; gradeClass = 'grade-b'; }
+            else if (score >= 55) { grade = 'B'; gradeClass = 'grade-b'; }
+            else if (score >= 45) { grade = 'C'; gradeClass = 'grade-c'; }
+            else if (score >= 35) { grade = 'D'; gradeClass = 'grade-d'; }
+            
+            return {
+                model: 'Kvantitativ Scoring',
+                score: Math.round(score),
+                grade: grade,
+                gradeClass: gradeClass,
+                recommendation: score >= 65 ? 'KÖPVÄRD' : score >= 45 ? 'NEUTRAL' : 'UNDVIK',
+                details: `
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">Tillväxt & Lönsamhet</span>
+                            <span class="category-score">${Math.round(cagr > 10 ? 25 : 15)}/30</span>
+                        </div>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" style="width: ${(cagr > 10 ? 25 : 15) / 30 * 100}%"></div>
+                        </div>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">Lönsamhet & Effektivitet</span>
+                            <span class="category-score">${Math.round(roe > 15 ? 20 : 15)}/25</span>
+                        </div>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" style="width: ${(roe > 15 ? 20 : 15) / 25 * 100}%"></div>
+                        </div>
+                    </div>
+                `
+            };
+        }
+
+        function calculateDCF() {
+            const currentFCF = parseFloat(document.getElementById('input_current_fcf').value);
+            const growth = parseFloat(document.getElementById('input_fcf_growth').value) / 100;
+            const discount = parseFloat(document.getElementById('input_discount').value) / 100;
+            const terminal = parseFloat(document.getElementById('input_terminal').value) / 100;
+            const years = parseInt(document.getElementById('input_projection').value);
+            const shares = parseFloat(document.getElementById('input_shares').value) * 1000000;
+            
+            let pv = 0;
+            let fcf = currentFCF;
+            
+            // Calculate PV of projected FCF
+            for (let i = 1; i <= years; i++) {
+                fcf = fcf * (1 + growth);
+                pv += fcf / Math.pow(1 + discount, i);
+            }
+            
+            // Terminal value
+            const terminalFCF = fcf * (1 + terminal);
+            const terminalValue = terminalFCF / (discount - terminal);
+            const pvTerminal = terminalValue / Math.pow(1 + discount, years);
+            
+            const enterpriseValue = pv + pvTerminal;
+            const equityValue = enterpriseValue; // Simplified (should subtract debt)
+            const pricePerShare = equityValue / shares * 1000000; // Convert back to SEK
+            
+            return {
+                model: 'DCF - Discounted Cash Flow',
+                score: Math.round(pricePerShare),
+                grade: 'DCF',
+                gradeClass: 'grade-b',
+                recommendation: 'Uppskattat värde: ' + Math.round(pricePerShare) + ' SEK/aktie',
+                details: `
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">Beräkningsdetaljer</span>
+                        </div>
+                        <p style="color: #E0E0E0; margin: 10px 0;">
+                            Enterprise Value: ${Math.round(enterpriseValue).toLocaleString('sv-SE')} MSEK<br>
+                            Per Share: ${Math.round(pricePerShare).toLocaleString('sv-SE')} SEK<br>
+                            Projection Period: ${years} år<br>
+                            Discount Rate: ${(discount * 100).toFixed(1)}%
+                        </p>
+                    </div>
+                `
+            };
+        }
+
+        function calculateDDM() {
+            const currentDiv = parseFloat(document.getElementById('input_current_div').value);
+            const growth = parseFloat(document.getElementById('input_div_growth').value) / 100;
+            const required = parseFloat(document.getElementById('input_required_return').value) / 100;
+            const currentPrice = parseFloat(document.getElementById('input_current_price').value);
+            
+            // Gordon Growth Model
+            const fairValue = (currentDiv * (1 + growth)) / (required - growth);
+            const upside = ((fairValue - currentPrice) / currentPrice) * 100;
+            
+            return {
+                model: 'Dividend Discount Model',
+                score: Math.round(fairValue),
+                grade: 'DDM',
+                gradeClass: upside > 20 ? 'grade-a' : upside > 0 ? 'grade-b' : 'grade-d',
+                recommendation: upside > 20 ? 'UNDERVÄRDERAD' : upside > 0 ? 'RIMLIGT VÄRDERAD' : 'ÖVERVÄRDERAD',
+                details: `
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">Värderingsanalys</span>
+                        </div>
+                        <p style="color: #E0E0E0; margin: 10px 0;">
+                            Fair Value: ${Math.round(fairValue)} SEK<br>
+                            Current Price: ${Math.round(currentPrice)} SEK<br>
+                            Upside/Downside: ${upside.toFixed(1)}%<br>
+                            Dividend Growth: ${(growth * 100).toFixed(1)}%
+                        </p>
+                    </div>
+                `
+            };
+        }
+
+        function calculatePEG() {
+            const pe = parseFloat(document.getElementById('input_pe_peg').value);
+            const growth = parseFloat(document.getElementById('input_eps_growth').value);
+            
+            const peg = pe / growth;
+            let rating = '';
+            let gradeClass = 'grade-f';
+            
+            if (peg < 1.0) {
+                rating = 'UNDERVÄRDERAD';
+                gradeClass = 'grade-a';
+            } else if (peg < 1.5) {
+                rating = 'RIMLIGT VÄRDERAD';
+                gradeClass = 'grade-b';
+            } else if (peg < 2.0) {
+                rating = 'NÅGOT ÖVERVÄRDERAD';
+                gradeClass = 'grade-c';
+            } else {
+                rating = 'ÖVERVÄRDERAD';
+                gradeClass = 'grade-d';
+            }
+            
+            return {
+                model: 'PEG Ratio Model',
+                score: peg.toFixed(2),
+                grade: 'PEG',
+                gradeClass: gradeClass,
+                recommendation: rating,
+                details: `
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">PEG Analys</span>
+                        </div>
+                        <p style="color: #E0E0E0; margin: 10px 0;">
+                            P/E Ratio: ${pe.toFixed(1)}<br>
+                            EPS Growth: ${growth.toFixed(1)}%<br>
+                            PEG Ratio: ${peg.toFixed(2)}<br><br>
+                            <strong>Tolkning:</strong><br>
+                            PEG < 1.0 = Undervärderad<br>
+                            PEG 1.0-1.5 = Rimlig<br>
+                            PEG > 1.5 = Övervärderad
+                        </p>
+                    </div>
+                `
+            };
+        }
+
+        function calculateGraham() {
+            const eps = parseFloat(document.getElementById('input_eps').value);
+            const bookValue = parseFloat(document.getElementById('input_book_value').value);
+            const currentPrice = parseFloat(document.getElementById('input_price_graham').value);
+            const marginSafety = parseFloat(document.getElementById('input_margin_safety').value) / 100;
+            
+            // Graham Number = sqrt(22.5 × EPS × Book Value)
+            const grahamNumber = Math.sqrt(22.5 * eps * bookValue);
+            const buyPrice = grahamNumber * (1 - marginSafety);
+            
+            let recommendation = '';
+            let gradeClass = 'grade-f';
+            
+            if (currentPrice < buyPrice) {
+                recommendation = 'STARK KÖP';
+                gradeClass = 'grade-a';
+            } else if (currentPrice < grahamNumber) {
+                recommendation = 'KÖP';
+                gradeClass = 'grade-b';
+            } else if (currentPrice < grahamNumber * 1.2) {
+                recommendation = 'NEUTRAL';
+                gradeClass = 'grade-c';
+            } else {
+                recommendation = 'ÖVERVÄRDERAD';
+                gradeClass = 'grade-d';
+            }
+            
+            return {
+                model: 'Graham Number / Value Investing',
+                score: Math.round(grahamNumber),
+                grade: 'GRAHAM',
+                gradeClass: gradeClass,
+                recommendation: recommendation,
+                details: `
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-title">Graham Värdering</span>
+                        </div>
+                        <p style="color: #E0E0E0; margin: 10px 0;">
+                            Graham Number: ${Math.round(grahamNumber)} SEK<br>
+                            Köppris (med marginal): ${Math.round(buyPrice)} SEK<br>
+                            Aktuellt pris: ${Math.round(currentPrice)} SEK<br>
+                            Säkerhetsmarginal: ${(marginSafety * 100).toFixed(0)}%
+                        </p>
+                    </div>
+                `
+            };
+        }
+
+        function displayResults(result) {
+            const container = document.getElementById('resultsSection');
+            
+            let html = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <h4 class="mb-3">${result.model}</h4>
+                        <div class="result-score">${result.score}</div>
+                        <div class="result-grade ${result.gradeClass}">${result.grade}</div>
+                        <div class="mt-4">
+                            <span class="badge" style="background: var(--primary); font-size: 18px; padding: 12px 24px;">
+                                ${result.recommendation}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    ${result.details}
+                    
+                    <div class="mt-4 p-4" style="background: rgba(0, 208, 132, 0.05); border-radius: 10px; border-left: 4px solid var(--primary);">
+                        <h5 class="text-primary mb-3">Investeringshorisont: ${investmentHorizon} år</h5>
+                        <p style="color: #E0E0E0;">
+                            Baserat på din valda horisont och analysmodell är detta en ${result.recommendation} för långsiktig investering.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+            container.style.display = 'block';
+            
+            // Scroll to results
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+    </script>
+</body>
+</html>
