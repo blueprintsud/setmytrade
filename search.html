@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8">
+    <title>Sök Aktier - SetMyTrade | Smart Market Search</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Sök efter aktier globalt med smart dataaggregering" name="description">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- TradingView Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+    <style>
+        :root {
+            --primary: #00D084;
+            --dark: #0D2735;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #00B871;
+            border-color: #00B871;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+        }
+
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+        }
+
+        /* Stock Search Card */
+        .stock-search-card {
+            background: rgba(26, 47, 61, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            color: #E0E0E0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: #FFFFFF;
+        }
+
+        /* Stock Result */
+        .stock-result {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.05), rgba(26, 47, 61, 0.3));
+            border-radius: 15px;
+            border: 2px solid rgba(0, 208, 132, 0.2);
+            display: none;
+        }
+
+        .stock-ticker {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stock-price {
+            font-size: 36px;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+
+        .stock-change {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .stock-change.positive {
+            color: #00FF88;
+        }
+
+        .stock-change.negative {
+            color: #FF6B6B;
+        }
+
+        /* Loading */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 208, 132, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+            margin-top: 60px;
+        }
+
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer .btn-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+
+        @media (max-width: 768px) {
+            .stock-ticker { font-size: 22px; }
+            .stock-price { font-size: 28px; }
+            .stock-change { font-size: 16px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-search text-primary me-2"></i>
+                    <span data-lang="professionalSearch">Professionell Aktiesökning</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-brain text-primary me-2"></i>
+                    <span data-lang="smartEngine">Smart Data Engine</span>
+                </span>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link active" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="fundamentals.html" class="nav-item nav-link" data-lang="navFundamentals">Fundamental Analys</a>
+                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="searchTitle">Smart Aktiesökning</h1>
+            <p class="text-white-50" data-lang="searchDesc">Sök efter aktier globalt med intelligent dataaggregering</p>
+        </div>
+    </div>
+
+    <!-- Stock Search Section -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stock-search-card p-4">
+                        <div class="text-center mb-4">
+                            <h5 class="text-primary text-uppercase" data-lang="searchStocks">Sök Aktier</h5>
+                            <h3 class="mb-3" data-lang="searchHeading">Ange Ticker Symbol</h3>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-lg-8 col-md-7">
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="form-control search-input" 
+                                    placeholder="Ange ticker (t.ex. AAPL, TSLA, MSFT...)"
+                                    data-lang-placeholder="searchPlaceholder"
+                                    style="text-transform: uppercase;"
+                                    onkeypress="if(event.key === 'Enter') searchStock()"
+                                >
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <button class="btn btn-primary w-100 py-3" onclick="searchStock()">
+                                    <i class="fas fa-search me-2"></i><span data-lang="btnSearch">Sök Aktie</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3 mb-0" style="background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.3); color: #E0E0E0;">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong data-lang="tipsTitle">Tips:</strong> <span data-lang="apiTips">Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)</span>
+                        </div>
+
+                        <!-- Stock Result -->
+                        <div id="stockResult" class="stock-result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50" data-lang="footerDesc">Professionell aktiesökning med smart dataaggregering</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="calendar.html" class="btn btn-link" data-lang="navCalendar">Sektor Kalender</a>
+                    <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
+                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
+                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool">100% Gratis</span></p>
+                    <p class="text-white-50"><i class="fas fa-globe text-primary me-2"></i><span data-lang="globalMarkets">Globala Marknader</span></p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="realtimeData">Realtidsdata</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body" data-lang="copyright">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body" data-lang="poweredBy">Powered by Smart Data Engine</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentLanguage = 'sv';
+        let currentStock = null;
+
+        const translations = {
+            sv: {
+                professionalSearch: "Professionell Aktiesökning",
+                smartEngine: "Smart Data Engine",
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navCalendar: "Sektor Kalender",
+                navFundamentals: "Fundamental Analys",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                searchTitle: "Smart Aktiesökning",
+                searchDesc: "Sök efter aktier globalt med intelligent dataaggregering",
+                searchStocks: "Sök Aktier",
+                searchHeading: "Ange Ticker Symbol",
+                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT...)",
+                btnSearch: "Sök Aktie",
+                tipsTitle: "Tips:",
+                apiTips: "Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)",
+                footerDesc: "Professionell aktiesökning med smart dataaggregering",
+                quickLinks: "Snabblänkar",
+                information: "Information",
+                freeTool: "100% Gratis",
+                globalMarkets: "Globala Marknader",
+                realtimeData: "Realtidsdata",
+                poweredBy: "Powered by Smart Data Engine",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                searching: "Söker...",
+                tickerNotFound: "Ticker hittades inte",
+                noData: "Ingen data tillgänglig",
+                errorOccurred: "Ett fel uppstod",
+                tryAgain: "Försök igen",
+                technicalAnalysis: "Teknisk Analys - TradingView Chart",
+                useCalculator: "Använd Kalkylator"
+            },
+            en: {
+                professionalSearch: "Professional Stock Search",
+                smartEngine: "Smart Data Engine",
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navCalendar: "Sector Calendar",
+                navFundamentals: "Fundamental Analysis",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                searchTitle: "Smart Stock Search",
+                searchDesc: "Search for stocks globally with intelligent data aggregation",
+                searchStocks: "Search Stocks",
+                searchHeading: "Enter Ticker Symbol",
+                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT...)",
+                btnSearch: "Search Stock",
+                tipsTitle: "Tips:",
+                apiTips: "Automatically searches for stocks. Works best with US stocks (AAPL, TSLA, MSFT, etc.)",
+                footerDesc: "Professional stock search with smart data aggregation",
+                quickLinks: "Quick Links",
+                information: "Information",
+                freeTool: "100% Free",
+                globalMarkets: "Global Markets",
+                realtimeData: "Real-time Data",
+                poweredBy: "Powered by Smart Data Engine",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                searching: "Searching...",
+                tickerNotFound: "Ticker not found",
+                noData: "No data available",
+                errorOccurred: "An error occurred",
+                tryAgain: "Try again",
+                technicalAnalysis: "Technical Analysis - TradingView Chart",
+                useCalculator: "Use Calculator"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Apply translations
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholder
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput && searchInput.hasAttribute('data-lang-placeholder')) {
+                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
+                if (translations[lang][placeholderKey]) {
+                    searchInput.placeholder = translations[lang][placeholderKey];
+                }
+            }
+        }
+
+        async function searchStock() {
+            const ticker = document.getElementById('searchInput').value.trim().toUpperCase();
+            
+            if (!ticker) {
+                alert(translations[currentLanguage].tickerNotFound);
+                return;
+            }
+            
+            const resultDiv = document.getElementById('stockResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p class="text-white fw-bold">${translations[currentLanguage].searching}</p>
+                </div>
+            `;
+            
+            try {
+                // Try multiple methods to get stock data
+                
+                // METHOD 1: Yahoo Finance with CORS proxy
+                const corsProxy = 'https://api.allorigins.win/raw?url=';
+                const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+                
+                let response = await fetch(corsProxy + encodeURIComponent(yahooUrl));
+                let data = await response.json();
+                
+                console.log('Yahoo API Response:', data);
+                
+                if (data.chart && data.chart.result && data.chart.result[0]) {
+                    const result = data.chart.result[0];
+                    const meta = result.meta;
+                    const quote = result.indicators.quote[0];
+                    
+                    const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
+                    const previousClose = meta.chartPreviousClose || meta.previousClose;
+                    const change = currentPrice - previousClose;
+                    const changePercent = (change / previousClose) * 100;
+                    
+                    currentStock = {
+                        ticker: meta.symbol || ticker,
+                        price: currentPrice,
+                        change: change,
+                        changePercent: changePercent
+                    };
+                    
+                    displayStockResult();
+                } else {
+                    // METHOD 2: Fallback - show mock data with TradingView
+                    console.log('Using TradingView only mode');
+                    currentStock = {
+                        ticker: ticker,
+                        price: 0,
+                        change: 0,
+                        changePercent: 0,
+                        tradingViewOnly: true
+                    };
+                    displayStockResult();
+                }
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                
+                // FALLBACK: Show TradingView chart anyway
+                currentStock = {
+                    ticker: ticker,
+                    price: 0,
+                    change: 0,
+                    changePercent: 0,
+                    tradingViewOnly: true
+                };
+                displayStockResult();
+            }
+        }
+
+        function displayStockResult() {
+            const s = currentStock;
+            
+            let priceHtml = '';
+            
+            if (s.tradingViewOnly) {
+                // Show only TradingView chart if price data not available
+                priceHtml = `
+                    <div class="text-center mb-4">
+                        <div class="stock-ticker">${s.ticker}</div>
+                        <p class="text-muted">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Visar TradingView chart med live data
+                        </p>
+                    </div>
+                `;
+            } else {
+                const changeColor = s.change >= 0 ? 'positive' : 'negative';
+                const changeSign = s.change >= 0 ? '+' : '';
+                
+                priceHtml = `
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-4 text-center text-md-start">
+                            <div class="stock-ticker">${s.ticker}</div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="stock-price">$${s.price.toFixed(2)}</div>
+                        </div>
+                        <div class="col-md-4 text-center text-md-end">
+                            <div class="stock-change ${changeColor}">
+                                ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const html = `
+                ${priceHtml}
+                
+                <!-- TradingView Chart -->
+                <div class="mb-4">
+                    <h6 class="text-white mb-3">
+                        <i class="fas fa-chart-area text-primary me-2"></i>
+                        <span data-lang="technicalAnalysis">${translations[currentLanguage].technicalAnalysis}</span>
+                    </h6>
+                    <div id="tradingview_chart" style="height: 500px; border-radius: 10px; overflow: hidden;"></div>
+                </div>
+                
+                <a href="calculator.html" class="btn btn-primary w-100 mt-3">
+                    <i class="fas fa-calculator me-2"></i>
+                    <span data-lang="useCalculator">${translations[currentLanguage].useCalculator}</span>
+                </a>
+            `;
+            
+            document.getElementById('stockResult').innerHTML = html;
+            
+            // Initialize TradingView Chart
+            if (typeof TradingView !== 'undefined') {
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": 500,
+                    "symbol": s.ticker,
+                    "interval": "D",
+                    "timezone": "Europe/Stockholm",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
+                    "toolbar_bg": "#0D1F2D",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": false,
+                    "allow_symbol_change": true,
+                    "studies": [
+                        "MASimple@tv-basicstudies",
+                        "RSI@tv-basicstudies"
+                    ],
+                    "container_id": "tradingview_chart"
+                });
+            }
+        }
+
+        // Scroll to top functionality
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+    </script>
+</body>
+</html>
