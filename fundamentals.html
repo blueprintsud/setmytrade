@@ -1,0 +1,331 @@
+: {
+                            beginAtZero: false,
+                            ticks: {
+                                color: '#E0E0E0',
+                                font: {
+                                    size: 12,
+                                    family: 'Inter'
+                                },
+                                callback: function(value) {
+                                    return '$' + value.toFixed(0);
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderColor: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#E0E0E0',
+                                font: {
+                                    size: 12,
+                                    family: 'Inter'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                borderColor: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
+        
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
+        });
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            const searchInput = document.getElementById('stockSearch');
+            if (searchInput && searchInput.hasAttribute('data-lang-placeholder')) {
+                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
+                if (translations[lang][placeholderKey]) {
+                    searchInput.placeholder = translations[lang][placeholderKey];
+                }
+            }
+            
+            const modelSection = document.getElementById('modelSection');
+            if (modelSection && modelSection.style.display !== 'none') {
+                renderModels();
+            }
+        }
+
+        // ============================================
+        // TRANSLATIONS
+        // ============================================
+        const translations = {
+            sv: {
+                // Topbar
+                professionalAnalysis: "5 Unika Värderingsmodeller",
+                finvizPowered: "Powered by Finviz Data",
+                
+                // Navbar
+                navHome: "Hem",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navCalendar: "Sektor Kalender",
+                navFundamentals: "Fundamental Analys",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                btnGetStarted: "Kom Igång",
+                
+                // Page Header
+                pageTitle: "5 Professionella Värderingsmodeller",
+                pageSubtitle: "Jämför olika analysmetoder och få en objektiv bedömning",
+                
+                // Info Box
+                infoTitle: "Ny Version:",
+                infoText: "Nu med Finviz-integration för 100% data coverage! Varje modell ger unika resultat och rekommendationer.",
+                
+                // Disclaimer
+                disclaimerTitle: "VIKTIG INFORMATION",
+                disclaimerMain: "DENNA ANALYS ÄR ENDAST FÖR UTBILDNINGSSYFTE OCH UTGÖR INTE FINANSIELL RÅDGIVNING.",
+                disclaimer1: "Vi ansvarar INTE för förluster eller dåliga investeringsbeslut",
+                disclaimer2: "Alla investeringar innebär BETYDANDE RISKER",
+                disclaimer3: "Historisk avkastning är INGEN GARANTI för framtida resultat",
+                disclaimer4: "Fundamental analys kan vara FELAKTIG",
+                disclaimer5: "Marknadsdata kan innehålla fel eller vara ofullständig",
+                disclaimer6: "Konsultera alltid en PROFESSIONELL FINANSIELL RÅDGIVARE",
+                disclaimer7: "Investera endast pengar du har råd att FÖRLORA",
+                disclaimerFootnote: "SetMyTrade.xyz är ett analysverktyg och INTE en investeringsrådgivare. Vi har ingen licens att ge finansiell rådgivning enligt svensk lag.",
+                disclaimerAccept: "Jag förstår och accepterar ovanstående varning",
+                
+                // Steps
+                step1: "STEG 1:",
+                step1Title: "Sök Aktie",
+                step1Subtitle: "Ange ticker för automatisk datahämtning från Finviz",
+                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT)...",
+                searchButton: "Sök Aktie",
+                manualInputButton: "Fyll i Manuellt",
+                fetchedDataTitle: "Hämtad Data från Finviz:",
+                editDataButton: "Redigera Data",
+                manualInputTitle: "Manuell Inmatning:",
+                labelCompany: "Företagsnamn:",
+                labelTicker: "Ticker:",
+                labelPrice: "Pris (USD):",
+                labelDividend: "Dividend (%):",
+                labelMargin: "Profit Margin (%):",
+                saveButton: "Spara Data",
+                cancelButton: "Avbryt",
+                
+                step2: "STEG 2:",
+                step2Title: "Välj Analysmodell",
+                step2Subtitle: "Välj den värderingsmodell som passar din investeringsstil. Varje modell ger unikt resultat!",
+                
+                // Model badges
+                badgeRecommended: "REKOMMENDERAD",
+                badgeAdvanced: "AVANCERAD",
+                badgeDividend: "UTDELNING",
+                badgeGrowth: "TILLVÄXT",
+                badgeValue: "VALUE",
+                
+                // Model 1: Scoring
+                modelScoring: "Kvantitativ Scoring",
+                modelScoringDesc: "Poängbaserad modell (0-100) med viktade kategorier",
+                featureScoring1: "Profitabilitet (30p)",
+                featureScoring2: "Värdering (25p)",
+                featureScoring3: "Tillväxt (20p)",
+                featureScoring4: "Finansiell hälsa (15p)",
+                featureScoring5: "Utdelning (10p)",
+                
+                // Model 2: DCF
+                modelDCF: "DCF - Discounted Cash Flow",
+                modelDCFDesc: "Beräknar intrinsic value med diskonterade kassaflöden",
+                featureDCF1: "Framtida kassaflöden",
+                featureDCF2: "Diskonteringsränta 10%",
+                featureDCF3: "Terminal value",
+                featureDCF4: "Inkluderar graf",
+                
+                // Model 3: DDM
+                modelDDM: "Dividend Discount Model",
+                modelDDMDesc: "Värdering baserad på framtida utdelningar (Gordon Growth)",
+                featureDDM1: "Utdelningstillväxt 5%",
+                featureDDM2: "Required return 10%",
+                featureDDM3: "Total yield beräkning",
+                featureDDM4: "Inkluderar graf",
+                
+                // Model 4: PEG
+                modelPEG: "PEG Ratio Analysis",
+                modelPEGDesc: "P/E justerat för tillväxt - perfekt för tillväxtaktier",
+                featurePEG1: "PEG < 1 = Undervärderad",
+                featurePEG2: "PEG 1-2 = Rimlig",
+                featurePEG3: "PEG > 2 = Övervärderad",
+                featurePEG4: "Snabb analys",
+                
+                // Model 5: Graham
+                modelGraham: "Graham Number",
+                modelGrahamDesc: "Ben Graham's value investing formel med säkerhetsmarginal",
+                featureGraham1: "Konservativ approach",
+                featureGraham2: "Säkerhetsmarginal",
+                featureGraham3: "Value investing",
+                featureGraham4: "Defensiv strategi",
+                
+                step3: "STEG 3:",
+                step3Title: "Välj Investeringshorisont",
+                step3Subtitle: "Hur länge planerar du att hålla investeringen?",
+                horizonTitle: "Investeringshorisont",
+                horizonSubtitle: "Välj mellan 1 och 20 år",
+                years: "år",
+                yearShort: "år",
+                calculateButton: "Beräkna Värdering",
+                
+                // Footer
+                footerDescription: "5 professionella värderingsmodeller med Finviz-integration",
+                quickLinks: "Snabblänkar",
+                dataQuality: "Modeller",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                poweredBy: "Powered by Finviz & Smart Analytics"
+            },
+            en: {
+                // Topbar
+                professionalAnalysis: "5 Unique Valuation Models",
+                finvizPowered: "Powered by Finviz Data",
+                
+                // Navbar
+                navHome: "Home",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navCalendar: "Sector Calendar",
+                navFundamentals: "Fundamental Analysis",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                btnGetStarted: "Get Started",
+                
+                // Page Header
+                pageTitle: "5 Professional Valuation Models",
+                pageSubtitle: "Compare different analysis methods and get an objective assessment",
+                
+                // Info Box
+                infoTitle: "New Version:",
+                infoText: "Now with Finviz integration for 100% data coverage! Each model gives unique results and recommendations.",
+                
+                // Disclaimer
+                disclaimerTitle: "IMPORTANT INFORMATION",
+                disclaimerMain: "THIS ANALYSIS IS FOR EDUCATIONAL PURPOSES ONLY AND DOES NOT CONSTITUTE FINANCIAL ADVICE.",
+                disclaimer1: "We are NOT responsible for losses or poor investment decisions",
+                disclaimer2: "All investments involve SIGNIFICANT RISKS",
+                disclaimer3: "Historical returns are NO GUARANTEE of future results",
+                disclaimer4: "Fundamental analysis can be INCORRECT",
+                disclaimer5: "Market data may contain errors or be incomplete",
+                disclaimer6: "Always consult a PROFESSIONAL FINANCIAL ADVISOR",
+                disclaimer7: "Only invest money you can afford to LOSE",
+                disclaimerFootnote: "SetMyTrade.xyz is an analysis tool and NOT an investment advisor. We have no license to provide financial advice under Swedish law.",
+                disclaimerAccept: "I understand and accept the above warning",
+                
+                // Steps
+                step1: "STEP 1:",
+                step1Title: "Search Stock",
+                step1Subtitle: "Enter ticker for automatic data retrieval from Finviz",
+                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT)...",
+                searchButton: "Search Stock",
+                manualInputButton: "Fill in Manually",
+                fetchedDataTitle: "Fetched Data from Finviz:",
+                editDataButton: "Edit Data",
+                manualInputTitle: "Manual Input:",
+                labelCompany: "Company Name:",
+                labelTicker: "Ticker:",
+                labelPrice: "Price (USD):",
+                labelDividend: "Dividend (%):",
+                labelMargin: "Profit Margin (%):",
+                saveButton: "Save Data",
+                cancelButton: "Cancel",
+                
+                step2: "STEP 2:",
+                step2Title: "Choose Analysis Model",
+                step2Subtitle: "Select the valuation model that fits your investment style. Each model gives unique results!",
+                
+                // Model badges
+                badgeRecommended: "RECOMMENDED",
+                badgeAdvanced: "ADVANCED",
+                badgeDividend: "DIVIDEND",
+                badgeGrowth: "GROWTH",
+                badgeValue: "VALUE",
+                
+                // Model 1: Scoring
+                modelScoring: "Quantitative Scoring",
+                modelScoringDesc: "Point-based model (0-100) with weighted categories",
+                featureScoring1: "Profitability (30p)",
+                featureScoring2: "Valuation (25p)",
+                featureScoring3: "Growth (20p)",
+                featureScoring4: "Financial health (15p)",
+                featureScoring5: "Dividend (10p)",
+                
+                // Model 2: DCF
+                modelDCF: "DCF - Discounted Cash Flow",
+                modelDCFDesc: "Calculates intrinsic value with discounted cash flows",
+                featureDCF1: "Future cash flows",
+                featureDCF2: "Discount rate 10%",
+                featureDCF3: "Terminal value",
+                featureDCF4: "Includes chart",
+                
+                // Model 3: DDM
+                modelDDM: "Dividend Discount Model",
+                modelDDMDesc: "Valuation based on future dividends (Gordon Growth)",
+                featureDDM1: "Dividend growth 5%",
+                featureDDM2: "Required return 10%",
+                featureDDM3: "Total yield calculation",
+                featureDDM4: "Includes chart",
+                
+                // Model 4: PEG
+                modelPEG: "PEG Ratio Analysis",
+                modelPEGDesc: "P/E adjusted for growth - perfect for growth stocks",
+                featurePEG1: "PEG < 1 = Undervalued",
+                featurePEG2: "PEG 1-2 = Fair",
+                featurePEG3: "PEG > 2 = Overvalued",
+                featurePEG4: "Quick analysis",
+                
+                // Model 5: Graham
+                modelGraham: "Graham Number",
+                modelGrahamDesc: "Ben Graham's value investing formula with margin of safety",
+                featureGraham1: "Conservative approach",
+                featureGraham2: "Margin of safety",
+                featureGraham3: "Value investing",
+                featureGraham4: "Defensive strategy",
+                
+                step3: "STEP 3:",
+                step3Title: "Choose Investment Horizon",
+                step3Subtitle: "How long do you plan to hold the investment?",
+                horizonTitle: "Investment Horizon",
+                horizonSubtitle: "Choose between 1 and 20 years",
+                years: "years",
+                yearShort: "yr",
+                calculateButton: "Calculate Valuation",
+                
+                // Footer
+                footerDescription: "5 professional valuation models with Finviz integration",
+                quickLinks: "Quick Links",
+                dataQuality: "Models",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                poweredBy: "Powered by Finviz & Smart Analytics"
+            }
+        };
+    </script>
+</body>
+</html>
