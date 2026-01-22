@@ -862,7 +862,38 @@
                 showManualInput();
             }
         }
-
+        async function autoFillFromFinviz() {
+    const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
+    if (!ticker) return;
+    
+    try {
+        // Use CORS proxy
+        const proxy = 'https://api.allorigins.win/raw?url=';
+        const url = `https://finviz.com/quote.ashx?t=${ticker}`;
+        
+        const response = await fetch(proxy + encodeURIComponent(url));
+        const html = await response.text();
+        
+        // Parse HTML
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract data from title
+        const title = doc.querySelector('title')?.textContent || '';
+        const company = title.split('-')[1]?.split('Stock')[0]?.trim() || ticker;
+        
+        // Fill form
+        document.getElementById('manualCompany').value = company;
+        document.getElementById('manualTicker').value = ticker;
+        
+        // Parse table data
+        const tables = doc.querySelectorAll('table');
+        // (fortsättning i nästa meddelande)
+        
+    } catch (e) {
+        console.log('Autofill failed:', e);
+    }
+}
         async function fetchWithFallback(ticker) {
             // Level 1: Try Render API (silent fail)
             try {
