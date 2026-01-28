@@ -831,84 +831,6 @@
             }
         }
 
-        async function autoFillFromFinviz(ticker) {
-    const proxies = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?'
-    ];
-    
-    for (const proxy of proxies) {
-        try {
-            const url = `https://finviz.com/quote.ashx?t=${ticker}`;
-            const response = await fetch(proxy + encodeURIComponent(url), {
-                signal: AbortSignal.timeout(8000)
-            });
-            
-            if (!response.ok) continue;
-            
-            const html = await response.text();
-            
-            // CHECK if HTML is valid
-if (!html.includes('snapshot-table') || html.length < 5000) {
-    console.log('Invalid HTML - skipping proxy');
-    continue;
-}
-            
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            // Rest of code...
-                    
-                    const title = doc.querySelector('title')?.textContent || '';
-                    const companyMatch = title.match(/([^-]+)-/);
-                    const company = companyMatch ? companyMatch[1].trim() : ticker;
-                    
-                    const data = {};
-                    const cells = doc.querySelectorAll('td.snapshot-td2-cp, td.snapshot-td2');
-                    
-                    for (let i = 0; i < cells.length - 1; i += 2) {
-                        const label = cells[i]?.textContent?.trim();
-                        const value = cells[i + 1]?.textContent?.trim();
-                        if (label && value) data[label] = value;
-                    }
-                    
-                    const parseNum = (str) => {
-                        if (!str || str === '-') return '';
-                        str = str.replace(/[,%$]/g, '');
-                        let mult = 1;
-                        if (str.includes('B')) { mult = 1e9; str = str.replace('B', ''); }
-                        else if (str.includes('M')) { mult = 1e6; str = str.replace('M', ''); }
-                        else if (str.includes('K')) { mult = 1e3; str = str.replace('K', ''); }
-                        const num = parseFloat(str);
-                        return isNaN(num) ? '' : (num * mult).toString();
-                    };
-                    
-                    document.getElementById('manualCompany').value = company;
-                    document.getElementById('manualTicker').value = ticker;
-                    document.getElementById('manualPrice').value = parseNum(data['Price']);
-                    document.getElementById('manualPE').value = parseNum(data['P/E']);
-                    document.getElementById('manualROE').value = parseNum(data['ROE']);
-                    document.getElementById('manualGrowth').value = parseNum(data['EPS this Y']);
-                    document.getElementById('manualPB').value = parseNum(data['P/B']);
-                    document.getElementById('manualDividend').value = parseNum(data['Dividend %']);
-                    document.getElementById('manualDebt').value = parseNum(data['Debt/Eq']);
-                    document.getElementById('manualMargin').value = parseNum(data['Profit Margin']);
-                    document.getElementById('manualEPS').value = parseNum(data['EPS (ttm)']);
-                    
-                    const marketCap = parseNum(data['Market Cap']);
-                    if (marketCap) {
-                        document.getElementById('manualMarketCap').value = (parseFloat(marketCap) / 1e9).toFixed(2);
-                    }
-                    
-                    return true;
-                } catch (e) {
-                    console.log(`Autofill failed:`, e);
-                    continue;
-                }
-            }
-            return false;
-        }
-
         async function searchStock() {
             const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
             if (!ticker) {
@@ -921,7 +843,7 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
             const t = translations[currentLanguage];
             
             statusDot.className = 'status-dot loading';
-            dataSource.textContent = `${t.fetchingData} Market data...`;
+            dataSource.textContent = `${t.fetchingData} market data...`;
             
             // Try 3-level fallback
             stockData = await fetchWithFallback(ticker);
@@ -936,6 +858,47 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
             }
         }
 
+        async function fetchYahooFinance(ticker) {
+            try {
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+                        'x-rapidapi-key': 'e8d51696e2msh6316528ba069319p1d9c30jsn22c0216eaa00'
+                    }
+                };
+                
+                const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol=${ticker}&region=US`;
+                const response = await fetch(url, options);
+                
+                if (!response.ok) return null;
+                
+                const data = await response.json();
+                const price = data.price?.regularMarketPrice?.raw;
+                const summary = data.summaryDetail;
+                const financials = data.defaultKeyStatistics;
+                
+                return {
+                    ticker: ticker,
+                    company: data.quoteType?.longName || ticker,
+                    price: price,
+                    pe: summary?.trailingPE?.raw,
+                    pb: financials?.priceToBook?.raw,
+                    roe: financials?.returnOnEquity?.raw ? financials.returnOnEquity.raw * 100 : null,
+                    dividend: summary?.dividendYield?.raw ? summary.dividendYield.raw * 100 : null,
+                    eps: financials?.trailingEps?.raw,
+                    epsGrowth: financials?.earningsQuarterlyGrowth?.raw ? financials.earningsQuarterlyGrowth.raw * 100 : null,
+                    margin: financials?.profitMargins?.raw ? financials.profitMargins.raw * 100 : null,
+                    debt: financials?.debtToEquity?.raw,
+                    marketCap: price && data.price?.marketCap?.raw ? data.price.marketCap.raw : null,
+                    dataSource: 'Yahoo Finance'
+                };
+            } catch (e) {
+                console.log('Yahoo Finance failed:', e);
+                return null;
+            }
+        }
+
         async function fetchWithFallback(ticker) {
             // Level 1: Try Render API
             try {
@@ -944,14 +907,26 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
                 });
                 if (renderResp.ok) {
                     const data = await renderResp.json();
-                    data.dataSource = 'Render API';
-                    return data;
+                    if (data.price) {
+                        data.dataSource = 'Render API';
+                        return data;
+                    }
                 }
             } catch (e) {
                 console.log('Render API failed:', e.message);
             }
             
-            // Level 2: CORS Proxy + Finviz scraping
+            // Level 2: Try Yahoo Finance (RapidAPI)
+            try {
+                const yahooData = await fetchYahooFinance(ticker);
+                if (yahooData && yahooData.price) {
+                    return yahooData;
+                }
+            } catch (e) {
+                console.log('Yahoo Finance failed:', e.message);
+            }
+            
+            // Level 3: CORS Proxy + Finviz scraping
             const proxies = [
                 'https://api.allorigins.win/raw?url=',
                 'https://corsproxy.io/?'
@@ -963,6 +938,13 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
                     const resp = await fetch(url, { signal: AbortSignal.timeout(5000) });
                     if (resp.ok) {
                         const html = await resp.text();
+                        
+                        // Validate HTML (not error page)
+                        if (!html.includes('snapshot-table') || html.length < 5000) {
+                            console.log('Invalid HTML from proxy');
+                            continue;
+                        }
+                        
                         const parsed = parseFinvizHTML(html, ticker);
                         if (parsed && parsed.price) {
                             parsed.dataSource = 'Finviz (CORS Proxy)';
@@ -1030,13 +1012,6 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
         }
 
         function showManualInput() {
-            const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
-            if (ticker) {
-                // Try autofill first
-                autoFillFromFinviz(ticker).catch(() => {
-                    console.log('Autofill failed, manual input mode');
-                });
-            }
             document.getElementById('manualModal').classList.add('show');
         }
 
