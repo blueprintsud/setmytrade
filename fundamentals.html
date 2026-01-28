@@ -921,7 +921,7 @@ if (!html.includes('snapshot-table') || html.length < 5000) {
             const t = translations[currentLanguage];
             
             statusDot.className = 'status-dot loading';
-            dataSource.textContent = `${t.fetchingData} Finviz...`;
+            dataSource.textContent = `${t.fetchingData} Market data...`;
             
             // Try 3-level fallback
             stockData = await fetchWithFallback(ticker);
