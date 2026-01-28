@@ -832,23 +832,32 @@
         }
 
         async function autoFillFromFinviz(ticker) {
-            const proxies = [
-                'https://api.allorigins.win/raw?url=',
-                'https://corsproxy.io/?'
-            ];
+    const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?'
+    ];
+    
+    for (const proxy of proxies) {
+        try {
+            const url = `https://finviz.com/quote.ashx?t=${ticker}`;
+            const response = await fetch(proxy + encodeURIComponent(url), {
+                signal: AbortSignal.timeout(8000)
+            });
             
-            for (const proxy of proxies) {
-                try {
-                    const url = `https://finviz.com/quote.ashx?t=${ticker}`;
-                    const response = await fetch(proxy + encodeURIComponent(url), {
-                        signal: AbortSignal.timeout(8000)
-                    });
-                    
-                    if (!response.ok) continue;
-                    
-                    const html = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
+            if (!response.ok) continue;
+            
+            const html = await response.text();
+            
+            // CHECK if HTML is valid
+if (!html.includes('snapshot-table') || html.length < 5000) {
+    console.log('Invalid HTML - skipping proxy');
+    continue;
+}
+            
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Rest of code...
                     
                     const title = doc.querySelector('title')?.textContent || '';
                     const companyMatch = title.match(/([^-]+)-/);
