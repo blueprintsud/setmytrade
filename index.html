@@ -1,1044 +1,582 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="utf-8">
-    <title>SetMyTrade - Gratis Trading Kalkylator | Stop Loss, Take Profit & Aktie Screener</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="SetMyTrade - Gratis professionell trading kalkylator för stop loss, take profit och risk management. Hitta vinnande aktier med Finviz screener, 200 EMA och RSI strategier. Öka din vinst!" name="description">
-    <meta content="aktier, trading, stop loss, take profit, vinst, börsen, aktiehandel, trading kalkylator, risk management, finviz screener, 200 EMA, RSI indikator, stocks, profit" name="keywords">
-    
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4630110331345810"
-         crossorigin="anonymous"></script>
-    
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetMyTrade - Professionell Aktieanalys & Trading Verktyg</title>
+    <meta name="description" content="Gratis fundamental analys, DCF-kalkylator och 5 värderingsmodeller för smarta aktieinvesteringar. Använd professionella verktyg för att analysera aktier som Tesla, Apple, Microsoft.">
     <style>
-        :root {
-            --primary: #00D084;
-            --dark: #0D2735;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0D1F2D 0%, #1a2332 100%);
             color: #E0E0E0;
-            background: #0D1F2D;
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            color: #FFFFFF;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .text-primary {
-            color: var(--primary) !important;
+        header {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #00D084;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 208, 132, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.5em;
+            color: #B0B0B0;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: #FFFFFF;
+            background: #00D084;
+            color: #0D1F2D;
         }
 
         .btn-primary:hover {
-            background-color: #00B871;
-            border-color: #00B871;
+            background: #00ff9d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.4);
         }
 
-        /* Topbar */
-        .topbar {
-            background: rgba(26, 47, 61, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #00D084;
+            border: 2px solid #00D084;
         }
 
-        /* Navbar */
-        .navbar {
-            background: rgba(26, 47, 61, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        .btn-secondary:hover {
+            background: rgba(0, 208, 132, 0.2);
         }
 
-        .navbar .navbar-brand h1 {
-            margin: 0;
-            font-size: 32px;
+        section {
+            padding: 80px 0;
         }
 
-        .navbar .nav-link {
-            color: #E0E0E0 !important;
-            font-weight: 500;
-            transition: .3s;
-            padding: 25px 15px;
-        }
-
-        .navbar .nav-link:hover,
-        .navbar .nav-link.active {
-            color: var(--primary) !important;
-        }
-
-        /* Language Selector */
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            line-height: 1;
-        }
-
-        .lang-btn:hover {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.25);
-            transform: scale(1.1);
-        }
-
-        .lang-btn.active {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.3);
-            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
-        }
-
-        /* Mobile adjustments for language buttons */
-        @media (max-width: 768px) {
-            .lang-btn {
-                padding: 6px 10px;
-                font-size: 18px;
-            }
-            
-            .topbar {
-                position: sticky;
-                top: 0;
-                z-index: 100;
-                background: rgba(13, 39, 53, 0.98) !important;
-            }
-        }
-
-        /* Hero Header */
-        .hero-header {
-            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
-            padding: 100px 0 80px 0;
-        }
-
-        /* Why Cards */
-        .why-card {
-            background: rgba(26, 47, 61, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 35px;
-            transition: all 0.3s;
-            height: 100%;
-        }
-
-        .why-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.3);
-            border-color: var(--primary);
-        }
-
-        .why-icon {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        /* Testimonials */
-        .testimonial-card {
-            background: rgba(26, 47, 61, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 30px;
+        h2 {
+            font-size: 2.5em;
+            color: #00D084;
+            margin-bottom: 40px;
             text-align: center;
-            height: 100%;
         }
 
-        .testimonial-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid var(--primary);
-            margin: 0 auto 20px;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
         }
 
-        .testimonial-text {
-            font-style: italic;
-            color: #B0B0B0;
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 208, 132, 0.2);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #00D084;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 208, 132, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3em;
             margin-bottom: 20px;
-            font-size: 15px;
         }
 
-        .testimonial-author {
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 5px;
+        .feature-card h3 {
+            color: #00D084;
+            font-size: 1.8em;
+            margin-bottom: 15px;
         }
 
-        .testimonial-role {
-            color: #888;
-            font-size: 13px;
+        .feature-card p {
+            color: #B0B0B0;
+            font-size: 1.1em;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--dark);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 40px 0 20px 0;
+        .stats-section {
+            background: rgba(0, 208, 132, 0.05);
+            padding: 60px 0;
+            margin: 80px 0;
+            border-radius: 20px;
         }
 
-        .copyright {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px 0;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
         }
 
-        .footer .btn-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            display: block;
-            padding: 5px 0;
+        .stat-number {
+            font-size: 3.5em;
+            color: #00D084;
+            font-weight: bold;
         }
 
-        .footer .btn-link:hover {
-            color: var(--primary);
+        .stat-label {
+            font-size: 1.2em;
+            color: #B0B0B0;
+            margin-top: 10px;
         }
 
-        .back-to-top {
-            position: fixed;
-            display: none;
-            right: 30px;
-            bottom: 30px;
-            z-index: 99;
+        .how-it-works {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 60px 40px;
+            border-radius: 20px;
         }
 
-        /* Feedback Modal */
-        .feedback-modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
         }
 
-        .feedback-modal.show {
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #00D084;
+            color: #0D1F2D;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0 auto 20px;
         }
 
-        .feedback-content {
-            background: linear-gradient(135deg, #0D2735 0%, #1A2F3D 100%);
+        .step h3 {
+            color: #00D084;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
             padding: 40px;
             border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 50px rgba(0, 208, 132, 0.3);
+            border-left: 4px solid #00D084;
+            margin: 20px 0;
         }
 
-        .feedback-close {
-            position: absolute;
-            right: 20px;
+        .testimonial-text {
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            color: #00D084;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid rgba(0, 208, 132, 0.2);
+            margin-top: 80px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #B0B0B0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #00D084;
+        }
+
+        .lang-toggle {
+            position: fixed;
             top: 20px;
-            font-size: 30px;
-            background: none;
-            border: none;
-            color: #FFFFFF;
-            cursor: pointer;
-            transition: all 0.3s;
+            right: 20px;
+            z-index: 1000;
         }
 
-        .feedback-close:hover {
-            color: var(--primary);
-            transform: rotate(90deg);
-        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
 
-        /* News Card Hover Effect */
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.2);
-            border-color: var(--primary) !important;
-        }
+            .tagline {
+                font-size: 1.2em;
+            }
 
-        .btn-outline-primary {
-            border-color: var(--primary);
-            color: var(--primary);
-            transition: all 0.3s;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary);
-            color: #0D1F2D;
-            transform: translateX(5px);
+            .cta-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
-
 <body>
-    <!-- Topbar -->
-    <div class="container-fluid topbar px-3 px-lg-5">
-        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
-            <div class="col-8 col-lg-8 text-center text-lg-start">
-                <span class="small me-2 me-lg-4" style="color: #B0B0B0;">
-                    <i class="fas fa-chart-line text-primary me-1 me-lg-2"></i>
-                    <span data-lang="professionalTool" class="d-none d-md-inline">Professionell Trading Kalkylator</span>
-                    <span class="d-md-none">SetMyTrade</span>
-                </span>
-            </div>
-            <div class="col-4 col-lg-4 text-end">
-                <div class="d-inline-flex align-items-center gap-2">
-                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
-                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
-        <a href="index.html" class="navbar-brand p-0">
-            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
+    <div class="lang-toggle">
+        <button class="btn btn-secondary" onclick="toggleLanguage()">
+            <span id="langBtn">🇬🇧 EN</span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active" data-lang="navHome">Hem</a>
-                <a href="search.html" class="nav-item nav-link" data-lang="navSearch">Sök Aktier</a>
-                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
-                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
-                <a href="fundamentals.html" class="nav-item nav-link" data-lang="navFundamentals">Fundamental Analys</a>
-                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
-                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
-                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
-            </div>
-            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
-        </div>
-    </nav>
-
-    <!-- Hero Header -->
-    <div class="hero-header">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <h4 class="text-primary text-uppercase fw-bold mb-4" data-lang="welcomeTitle">Välkommen till SetMyTrade</h4>
-                    <h1 class="display-4 text-white mb-4" data-lang="heroHeadline">Maximera Din Vinst med Smart Riskhantering</h1>
-                    <p class="text-white-50 mb-4 pb-3" data-lang="heroDescription">Professionell kalkylator för stop loss och take profit. Hitta vinnande aktier med proven strategier. Öka din vinst med rätt risk management.</p>
-                    <div class="d-flex gap-3">
-                        <a href="calculator.html" class="btn btn-primary rounded-pill py-3 px-5" data-lang="btnStartCalc">Börja Beräkna</a>
-                        <a href="strategies.html" class="btn btn-outline-light rounded-pill py-3 px-5" data-lang="btnLearnStrategies">Lär Dig Strategier</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 text-center">
-                    <i class="fas fa-calculator fa-10x text-primary opacity-50"></i>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Value Proposition Section -->
-    <div class="container-fluid py-5" style="background: linear-gradient(135deg, rgba(0, 208, 132, 0.05) 0%, rgba(13, 39, 53, 0.05) 100%);">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="display-5 mb-3" style="font-weight: 700;">
-                    <span data-lang="whatIsSetMyTrade">Vad är SetMyTrade?</span>
-                </h2>
-                <p class="lead text-muted" style="max-width: 800px; margin: 0 auto;" data-lang="valuePropositionDesc">
-                    SetMyTrade är din kompletta trading-assistent som hjälper dig fatta smarta investeringsbeslut med exakta beräkningar och professionella verktyg.
-                </p>
-            </div>
-
-            <div class="row g-4 mb-5">
-                <div class="col-lg-4">
-                    <div class="card h-100 text-center p-4" style="border: 2px solid var(--primary); background: rgba(0, 208, 132, 0.05);">
-                        <div class="mb-3">
-                            <i class="fas fa-calculator fa-3x text-primary"></i>
-                        </div>
-                        <h4 class="mb-3" data-lang="preciseCalculations">Exakta Beräkningar</h4>
-                        <p class="text-muted" data-lang="preciseCalculationsDesc">
-                            Beräkna exakt Stop Loss, Take Profit och Risk/Reward för varje trade. Aldrig gissa igen - få matematiskt korrekta nivåer baserat på din risktolerans.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card h-100 text-center p-4" style="border: 2px solid var(--primary); background: rgba(0, 208, 132, 0.05);">
-                        <div class="mb-3">
-                            <i class="fas fa-chart-line fa-3x text-primary"></i>
-                        </div>
-                        <h4 class="mb-3" data-lang="findWinningStocks">Hitta Vinnande Aktier</h4>
-                        <p class="text-muted" data-lang="findWinningStocksDesc">
-                            Använd våra förprogrammerade Finviz-filter för att hitta aktier med starka tekniska signaler: 200 EMA, RSI och volym. Filtrera på aktuella starka sektorer direkt.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card h-100 text-center p-4" style="border: 2px solid var(--primary); background: rgba(0, 208, 132, 0.05);">
-                        <div class="mb-3">
-                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
-                        </div>
-                        <h4 class="mb-3" data-lang="protectCapital">Skydda Ditt Kapital</h4>
-                        <p class="text-muted" data-lang="protectCapitalDesc">
-                            Lär dig professionella strategier med 200 EMA och RSI-indikatorer. Förstå när du ska köpa (översåld) och sälja (överköpt) för maximala vinster.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <h3 class="mb-4" data-lang="whyUseSetMyTrade">Varför Använda SetMyTrade?</h3>
-                <div class="row g-3 justify-content-center">
-                    <div class="col-md-3">
-                        <div class="p-3" style="background: rgba(26, 47, 61, 0.6); border-radius: 8px;">
-                            <h2 class="text-primary mb-2">100%</h2>
-                            <p class="mb-0 text-muted" data-lang="freeForever">Gratis För Alltid</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="p-3" style="background: rgba(26, 47, 61, 0.6); border-radius: 8px;">
-                            <h2 class="text-primary mb-2"><i class="fas fa-bolt"></i></h2>
-                            <p class="mb-0 text-muted" data-lang="instantResults">Omedelbara Resultat</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="p-3" style="background: rgba(26, 47, 61, 0.6); border-radius: 8px;">
-                            <h2 class="text-primary mb-2"><i class="fas fa-check-circle"></i></h2>
-                            <p class="mb-0 text-muted" data-lang="provenStrategies2">Beprövade Strategier</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="p-3" style="background: rgba(26, 47, 61, 0.6); border-radius: 8px;">
-                            <h2 class="text-primary mb-2"><i class="fas fa-users"></i></h2>
-                            <p class="mb-0 text-muted" data-lang="trustedByTraders">Litar På Av Traders</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Top Market News Section -->
-    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.5);">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h5 class="text-primary text-uppercase" data-lang="marketNews">Marknadsnyheter</h5>
-                <h2 class="mb-3" data-lang="topNewsTitle">Senaste Nyheterna</h2>
-                <p class="text-muted" data-lang="topNewsDesc">Håll dig uppdaterad med de senaste nyheterna som påverkar marknaderna</p>
-            </div>
-
-            <div class="row g-4" id="newsContainer">
-                <!-- News will be loaded here -->
-                <div class="col-12 text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="text-muted mt-3" data-lang="loadingNews">Laddar senaste nyheterna...</p>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <button class="btn btn-outline-light rounded-pill py-2 px-4" onclick="loadNews()">
-                    <i class="fas fa-sync-alt me-2"></i><span data-lang="refreshNews">Uppdatera Nyheter</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Why SetMyTrade Section -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h5 class="text-primary text-uppercase" data-lang="whySetMyTrade">Varför SetMyTrade?</h5>
-                <h2 class="mb-3" data-lang="whyTitle">Allt Du Behöver För Framgångsrik Trading</h2>
-                <p class="text-muted" data-lang="whyDescription">SetMyTrade hjälper dig maximera vinst och minimera förluster med professionella verktyg</p>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="why-card">
-                        <div class="why-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <h5 class="mb-3" data-lang="whyFeature1Title">Exakt Beräkning</h5>
-                        <p class="text-muted" data-lang="whyFeature1Desc">Beräkna exakt stop loss och take profit baserat på din risk. Få perfekt risk/reward ratio för varje trade.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="why-card">
-                        <div class="why-icon">
-                            <i class="fas fa-search-dollar"></i>
-                        </div>
-                        <h5 class="mb-3" data-lang="whyFeature2Title">Hitta Vinnande Aktier</h5>
-                        <p class="text-muted" data-lang="whyFeature2Desc">Använd Finviz screener med proven filter. Hitta aktier över 200 EMA och RSI-signaler för bästa timing.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="why-card">
-                        <div class="why-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h5 class="mb-3" data-lang="whyFeature3Title">Proven Strategier</h5>
-                        <p class="text-muted" data-lang="whyFeature3Desc">Lär dig 200 EMA och RSI strategier som används av professionella traders världen över.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="why-card">
-                        <div class="why-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h5 class="mb-3" data-lang="whyFeature4Title">Risk Management</h5>
-                        <p class="text-muted" data-lang="whyFeature4Desc">Skydda ditt kapital med korrekt positionsstorlek. Aldrig riskera mer än du har råd att förlora.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials Section -->
-    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.3);">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h5 class="text-primary text-uppercase" data-lang="testimonials">Vad Användare Säger</h5>
-                <h2 class="mb-3" data-lang="testimonialsTitle">Tusentals Traders Litar På SetMyTrade</h2>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=12" alt="Erik" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial1">"SetMyTrade hjälpte mig förstå risk management. Jag förlorade tidigare pengar konstant, men nu har jag en positiv avkastning tack vare stop loss kalkylatorn."</p>
-                        <h6 class="testimonial-author">Erik Andersson</h6>
-                        <p class="testimonial-role" data-lang="dayTrader">Daytrader, Stockholm</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=47" alt="Maria" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial2">"Finviz filtren är guld värt. Jag hittar nu köpvärda aktier på några sekunder istället för timmar av research. 200 EMA strategin fungerar verkligen."</p>
-                        <h6 class="testimonial-author">Maria Johansson</h6>
-                        <p class="testimonial-role" data-lang="swingTrader">Swingtrader, Göteborg</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=33" alt="Johan" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial3">"Som nybörjare var trading överväldigande. SetMyTrade gjorde det enkelt att förstå risk/reward och hur man sätter korrekta nivåer."</p>
-                        <h6 class="testimonial-author">Johan Bergström</h6>
-                        <p class="testimonial-role" data-lang="beginnerTrader">Investerare, Malmö</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=65" alt="Lisa" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial4">"Bästa gratisverktyget för traders. RSI + 200 EMA filtren har gett mig 80% vinstfrekvens. Sparar timmar varje vecka."</p>
-                        <h6 class="testimonial-author">Lisa Nilsson</h6>
-                        <p class="testimonial-role" data-lang="optionsTrader">Trader, Uppsala</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=56" alt="David" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial5">"Tidigare handlade jag på magkänsla. Nu använder jag data och rätt risk management. Min portfölj är upp 45% i år."</p>
-                        <h6 class="testimonial-author">David Larsson</h6>
-                        <p class="testimonial-role" data-lang="portfolioManager">Trader, Lund</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <img src="https://i.pravatar.cc/150?img=28" alt="Anna" class="testimonial-img">
-                        <p class="testimonial-text" data-lang="testimonial6">"SetMyTrade är mitt första verktyg varje morgon. Kollar sektorer, filtrerar på Finviz, beräknar stop loss. Perfekt workflow."</p>
-                        <h6 class="testimonial-author">Anna Karlsson</h6>
-                        <p class="testimonial-role" data-lang="proTrader">Pro Trader, Stockholm</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-5">
-                <p class="text-white mb-3"><strong data-lang="joinTraders">Gå med i 50,000+ traders som använder SetMyTrade dagligen</strong></p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="calculator.html" class="btn btn-primary rounded-pill py-3 px-5">
-                        <i class="fas fa-rocket me-2"></i><span data-lang="startSmarter">Börja Handla Smartare Idag</span>
-                    </a>
-                    <button class="btn btn-outline-light rounded-pill py-3 px-5" onclick="openFeedbackModal()">
-                        <i class="fas fa-comment-alt me-2"></i><span data-lang="sendFeedback">Skicka Feedback</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Feedback Modal -->
-    <div id="feedbackModal" class="feedback-modal">
-        <div class="feedback-content">
-            <button class="feedback-close" onclick="closeFeedbackModal()">&times;</button>
-            <h3 class="text-white mb-4"><i class="fas fa-comment-alt text-primary me-2"></i><span data-lang="feedbackTitle">Skicka Feedback</span></h3>
-            <form action="https://formsubmit.co/refaa.moe@gmail.com" method="POST">
-                <input type="hidden" name="_subject" value="New feedback from SetMyTrade">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://setmytrade.xyz">
-                
-                <div class="mb-3">
-                    <label class="form-label" data-lang="feedbackName">Namn (valfritt)</label>
-                    <input type="text" name="namn" class="form-control" placeholder="Ditt namn">
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label" data-lang="feedbackEmail">E-post (valfritt)</label>
-                    <input type="email" name="email" class="form-control" placeholder="din@email.com">
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label" data-lang="feedbackMessage">Feedback *</label>
-                    <textarea name="feedback" class="form-control" rows="5" placeholder="Skriv din feedback här..." required data-lang-placeholder="feedbackPlaceholder"></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary w-100 py-3">
-                    <i class="fas fa-paper-plane me-2"></i><span data-lang="btnSendFeedback">Skicka Feedback</span>
-                </button>
-            </form>
-            <p class="text-muted text-center mt-3 mb-0" style="font-size: 12px;">
-                <i class="fas fa-lock me-1"></i><span data-lang="feedbackPrivacy">Din feedback skickas säkert via FormSubmit.co</span>
+    <div class="container">
+        <header>
+            <h1 id="title">SetMyTrade</h1>
+            <p class="tagline" id="tagline">Professionell aktieanalys för smarta investerare</p>
+            <p id="description" style="font-size: 1.2em; color: #C0C0C0; max-width: 800px; margin: 0 auto;">
+                Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number, PEG Ratio och mer. Helt gratis, ingen registrering krävs.
             </p>
-        </div>
-    </div>
+            <div class="cta-buttons">
+                <a href="fundamentals.html" class="btn btn-primary" id="ctaPrimary">Starta Analys →</a>
+                <a href="#how-it-works" class="btn btn-secondary" id="ctaSecondary">Hur det fungerar</a>
+            </div>
+        </header>
 
-    <!-- Risk Disclaimer Section -->
-    <div class="container-fluid py-5" style="background: rgba(255, 107, 107, 0.1); border-top: 2px solid rgba(255, 107, 107, 0.3);">
-        <div class="container py-4">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div style="background: rgba(13, 31, 45, 0.8); border: 2px solid rgba(255, 107, 107, 0.4); border-radius: 10px; padding: 40px;">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-exclamation-triangle fa-3x mb-3" style="color: #FF6B6B;"></i>
-                            <h4 class="text-white mb-3" data-lang="riskWarningTitle">Viktigt: Riskvarning och Ansvarsbegränsning</h4>
-                        </div>
-                        
-                        <div class="text-muted" style="line-height: 1.8;">
-                            <p data-lang="riskWarning1">
-                                <strong style="color: #FF6B6B;">SetMyTrade är ett utbildningsverktyg.</strong> All information, beräkningar, strategier och verktyg på denna webbplats tillhandahålls endast för utbildningsändamål och ska inte tolkas som finansiell rådgivning, investeringsrådgivning eller handelstips.
-                            </p>
-                            
-                            <p data-lang="riskWarning2">
-                                <strong style="color: #FF6B6B;">Vi garanterar inga resultat.</strong> Handel med aktier, certifikat och andra finansiella instrument innebär betydande risker och kan leda till förlust av ditt investerade kapital. Tidigare resultat är ingen garanti för framtida avkastning.
-                            </p>
-                            
-                            <p data-lang="riskWarning3">
-                                <strong style="color: #FF6B6B;">Du är fullt ansvarig för dina beslut.</strong> Alla investeringsbeslut och trades du gör baserat på information från SetMyTrade sker på din egen risk. Vi tar inget ansvar för eventuella förluster eller skador som uppstår från användning av våra verktyg eller information.
-                            </p>
-                            
-                            <p data-lang="riskWarning4">
-                                <strong style="color: #FF6B6B;">Sök professionell rådgivning.</strong> Innan du investerar eller handlar, rekommenderar vi starkt att du konsulterar en licensierad finansiell rådgivare som kan bedöma din personliga ekonomiska situation och risktolerans.
-                            </p>
-                            
-                            <p class="mb-0" data-lang="riskWarning5">
-                                <strong style="color: #FF6B6B;">Använd endast riskkapital.</strong> Investera aldrig pengar du inte har råd att förlora. Handel med hävstång (certifikat, optioner, etc.) kan multiplicera både vinster och förluster.
-                            </p>
-                        </div>
-                        
-                        <div class="text-center mt-4 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                            <p class="text-muted mb-0" style="font-size: 13px;" data-lang="riskWarningFooter">
-                                Genom att använda SetMyTrade bekräftar du att du förstår och accepterar dessa risker och villkor.
-                            </p>
-                        </div>
-                    </div>
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number">5</div>
+                    <div class="stat-label" id="stat1">Värderingsmodeller</div>
+                </div>
+                <div>
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label" id="stat2">Gratis</div>
+                </div>
+                <div>
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label" id="stat3">Obegränsade analyser</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <div class="container-fluid footer py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
-                    <p class="text-white-50">Professional Stop Loss & Take Profit calculator for serious traders. 100% free tool.</p>
+        <section id="features">
+            <h2 id="featuresTitle">Kraftfulla Analysverktyg</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 id="feature1Title">Fundamental Analys</h3>
+                    <p id="feature1Desc">Djupgående analys av företagets finansiella nyckeltal inklusive P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.</p>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
-                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
-                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
-                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
-                    <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
-                <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
-                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
-                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3 id="feature2Title">DCF Kalkylator</h3>
+                    <p id="feature2Desc">Discounted Cash Flow analys som beräknar verkligt värde baserat på framtida kassaflöden med anpassningsbar investeringshorisont (1-20 år).</p>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
-                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool2">100% Gratis</span></p>
-                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i><span data-lang="exactCalc">Exakta Beräkningar</span></p>
-                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="provenStrategies">Proven Strategier</span></p>
-                    <h5 class="text-white mb-3 mt-4"><i class="fas fa-exclamation-triangle text-warning me-2"></i><span data-lang="important">Viktigt</span></h5>
-                    <a href="disclaimer.html" class="btn btn-link text-warning ps-0"><i class="fas fa-file-contract me-2"></i><span data-lang="readDisclaimer">Läs Ansvarsbegränsning</span></a>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 id="feature3Title">5 Värderingsmodeller</h3>
+                    <p id="feature3Desc">Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett värderingsanalys.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 id="feature4Title">Automatisk Datahämtning</h3>
+                    <p id="feature4Desc">Multi-source fallback system som hämtar aktiedata från Yahoo Finance, Finviz och andra källor automatiskt.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 id="feature5Title">Responsiv Design</h3>
+                    <p id="feature5Desc">Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 id="feature6Title">Flerspråkig</h3>
+                    <p id="feature6Desc">Fullständigt stöd för svenska och engelska med enkel växling mellan språk.</p>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Copyright -->
-    <div class="container-fluid copyright py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
+        <section id="how-it-works" class="how-it-works">
+            <h2 id="howTitle">Så här fungerar det</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 id="step1Title">Sök aktie</h3>
+                    <p id="step1Desc">Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT) så hämtar vi automatiskt all nödvändig data från våra källor.</p>
                 </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <span class="text-body">Built for traders worldwide</span>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 id="step2Title">Välj modell</h3>
+                    <p id="step2Desc">Välj mellan 5 professionella värderingsmodeller beroende på din investeringsstrategi och preferens.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 id="step3Title">Anpassa</h3>
+                    <p id="step3Desc">Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 id="step4Title">Få rekommendation</h3>
+                    <p id="step4Desc">Se tydlig köp/håll/sälj-rekommendation med detaljerad förklaring, grafer och nyckeltal.</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section>
+            <h2 id="modelsTitle">Våra Värderingsmodeller</h2>
+            
+            <div class="testimonial">
+                <h3 style="color: #00D084; margin-bottom: 15px;">📊 Kvantitativ Scoring (0-100)</h3>
+                <p>Poängbaserat system som värderar lönsamhet (ROE), värdering (P/E), tillväxt, finansiell hälsa och utdelning. Perfekt för snabb översikt.</p>
+            </div>
+
+            <div class="testimonial">
+                <h3 style="color: #00D084; margin-bottom: 15px;">💰 DCF (Discounted Cash Flow)</h3>
+                <p>Professionell DCF-analys som beräknar nuvärdet av framtida kassaflöden. Används av institutionella investerare och analytiker.</p>
+            </div>
+
+            <div class="testimonial">
+                <h3 style="color: #00D084; margin-bottom: 15px;">💵 Dividend Discount Model (Gordon Growth)</h3>
+                <p>Värdering baserad på framtida utdelningar. Idealisk för inkomstinvesterare som fokuserar på utdelningsaktier.</p>
+            </div>
+
+            <div class="testimonial">
+                <h3 style="color: #00D084; margin-bottom: 15px;">🚀 PEG Ratio (Price/Earnings to Growth)</h3>
+                <p>Tillväxtjusterad värdering som jämför P/E-tal mot vinsttillväxt. Perfekt för tillväxtaktier.</p>
+            </div>
+
+            <div class="testimonial">
+                <h3 style="color: #00D084; margin-bottom: 15px;">📘 Graham Number (Ben Graham)</h3>
+                <p>Value investing-modell från Benjamin Graham, Warren Buffetts mentor. Beräknar säkerhetsmarginal.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 id="whyTitle">Varför SetMyTrade?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>✅ Helt Gratis</h3>
+                    <p id="why1">Ingen registrering, inga dolda avgifter, inga begränsningar. Alla verktyg är 100% gratis att använda.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Professionella Verktyg</h3>
+                    <p id="why2">Samma analysmetoder som används av professionella investerare och fondförvaltare.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Enkel att Använda</h3>
+                    <p id="why3">Intuitivt gränssnitt som gör komplex analys tillgänglig för alla, oavsett erfarenhetsnivå.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Realtidsdata</h3>
+                    <p id="why4">Automatisk datahämtning från flera källor säkerställer att du alltid har aktuell information.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Transparent</h3>
+                    <p id="why5">Se exakt hur varje beräkning görs med detaljerade förklaringar och matematiska formler.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Oberoende</h3>
+                    <p id="why6">Vi har inga samarbeten med mäklare eller fondbolag. Endast objektiv analys.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="text-align: center; background: rgba(0, 208, 132, 0.05); padding: 80px 40px; border-radius: 20px;">
+            <h2 id="ctaTitle">Redo att börja analysera?</h2>
+            <p id="ctaText" style="font-size: 1.3em; color: #B0B0B0; margin: 30px 0;">
+                Använd professionella analysverktyg helt gratis. Ingen registrering krävs.
+            </p>
+            <a href="fundamentals.html" class="btn btn-primary" style="font-size: 1.3em; padding: 20px 50px;">
+                <span id="ctaButton">Starta din första analys →</span>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="about.html" id="footerAbout">Om SetMyTrade</a>
+                <a href="how-it-works.html" id="footerHow">Hur det fungerar</a>
+                <a href="blog.html" id="footerBlog">Blogg</a>
+                <a href="privacy.html" id="footerPrivacy">Integritetspolicy</a>
+                <a href="terms.html" id="footerTerms">Användarvillkor</a>
+            </div>
+            <p style="color: #666; margin-top: 30px;">
+                © 2026 SetMyTrade. <span id="footerDisclaimer">Alla analyser är endast för informationssyfte och utgör inte finansiell rådgivning.</span>
+            </p>
+        </footer>
     </div>
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
-
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        let currentLanguage = 'sv';
+        let currentLang = 'sv';
 
         const translations = {
             sv: {
-                professionalTool: "Professionell Trading Kalkylator",
-                freeTool: "100% Gratis Verktyg",
-                navHome: "Hem",
-                navSearch: "Sök Aktier",
-                navCalculator: "Kalkylator",
-                navFinviz: "Finviz Filter",
-                navCalendar: "Sektor Kalender",
-                navStrategies: "Strategier",
-                navGuides: "Guider",
-                btnGetStarted: "Kom Igång",
-                welcomeTitle: "Välkommen till SetMyTrade",
-                heroHeadline: "Maximera Din Vinst med Smart Riskhantering",
-                heroDescription: "Professionell kalkylator för stop loss och take profit. Hitta vinnande aktier med proven strategier. Öka din vinst med rätt risk management.",
-                btnStartCalc: "Börja Beräkna",
-                btnLearnStrategies: "Lär Dig Strategier",
-                whatIsSetMyTrade: "Vad är SetMyTrade?",
-                valuePropositionDesc: "SetMyTrade är din kompletta trading-assistent som hjälper dig fatta smarta investeringsbeslut med exakta beräkningar och professionella verktyg.",
-                preciseCalculations: "Exakta Beräkningar",
-                preciseCalculationsDesc: "Beräkna exakt Stop Loss, Take Profit och Risk/Reward för varje trade. Aldrig gissa igen - få matematiskt korrekta nivåer baserat på din risktolerans.",
-                findWinningStocks: "Hitta Vinnande Aktier",
-                findWinningStocksDesc: "Använd våra förprogrammerade Finviz-filter för att hitta aktier med starka tekniska signaler: 200 EMA, RSI och volym. Filtrera på aktuella starka sektorer direkt.",
-                protectCapital: "Skydda Ditt Kapital",
-                protectCapitalDesc: "Lär dig professionella strategier med 200 EMA och RSI-indikatorer. Förstå när du ska köpa (översåld) och sälja (överköpt) för maximala vinster.",
-                whyUseSetMyTrade: "Varför Använda SetMyTrade?",
-                freeForever: "Gratis För Alltid",
-                instantResults: "Omedelbara Resultat",
-                provenStrategies2: "Beprövade Strategier",
-                trustedByTraders: "Litar På Av Traders",
-                whySetMyTrade: "Varför SetMyTrade?",
-                whyTitle: "Allt Du Behöver För Framgångsrik Trading",
-                whyDescription: "SetMyTrade hjälper dig maximera vinst och minimera förluster med professionella verktyg",
-                whyFeature1Title: "Exakt Beräkning",
-                whyFeature1Desc: "Beräkna exakt stop loss och take profit baserat på din risk. Få perfekt risk/reward ratio för varje trade.",
-                whyFeature2Title: "Hitta Vinnande Aktier",
-                whyFeature2Desc: "Använd Finviz screener med proven filter. Hitta aktier över 200 EMA och RSI-signaler för bästa timing.",
-                whyFeature3Title: "Proven Strategier",
-                whyFeature3Desc: "Lär dig 200 EMA och RSI strategier som används av professionella traders världen över.",
-                whyFeature4Title: "Risk Management",
-                whyFeature4Desc: "Skydda ditt kapital med korrekt positionsstorlek. Aldrig riskera mer än du har råd att förlora.",
-                testimonials: "Vad Användare Säger",
-                testimonialsTitle: "Tusentals Traders Litar På SetMyTrade",
-                testimonial1: "SetMyTrade hjälpte mig förstå risk management. Jag förlorade tidigare pengar konstant, men nu har jag en positiv avkastning tack vare stop loss kalkylatorn.",
-                testimonial2: "Finviz filtren är guld värt. Jag hittar nu köpvärda aktier på några sekunder istället för timmar av research. 200 EMA strategin fungerar verkligen.",
-                testimonial3: "Som nybörjare var trading överväldigande. SetMyTrade gjorde det enkelt att förstå risk/reward och hur man sätter korrekta nivåer.",
-                testimonial4: "Bästa gratisverktyget för traders. RSI + 200 EMA filtren har gett mig 80% vinstfrekvens. Sparar timmar varje vecka.",
-                testimonial5: "Tidigare handlade jag på magkänsla. Nu använder jag data och rätt risk management. Min portfölj är upp 45% i år.",
-                testimonial6: "SetMyTrade är mitt första verktyg varje morgon. Kollar sektorer, filtrerar på Finviz, beräknar stop loss. Perfekt workflow.",
-                dayTrader: "Daytrader, Stockholm",
-                swingTrader: "Swingtrader, Göteborg",
-                beginnerTrader: "Investerare, Malmö",
-                optionsTrader: "Trader, Uppsala",
-                portfolioManager: "Trader, Lund",
-                proTrader: "Pro Trader, Stockholm",
-                joinTraders: "Gå med i 50,000+ traders som använder SetMyTrade dagligen",
-                startSmarter: "Börja Handla Smartare Idag",
-                riskWarningTitle: "Viktigt: Riskvarning och Ansvarsbegränsning",
-                riskWarning1: "SetMyTrade är ett utbildningsverktyg. All information, beräkningar, strategier och verktyg på denna webbplats tillhandahålls endast för utbildningsändamål och ska inte tolkas som finansiell rådgivning, investeringsrådgivning eller handelstips.",
-                riskWarning2: "Vi garanterar inga resultat. Handel med aktier, certifikat och andra finansiella instrument innebär betydande risker och kan leda till förlust av ditt investerade kapital. Tidigare resultat är ingen garanti för framtida avkastning.",
-                riskWarning3: "Du är fullt ansvarig för dina beslut. Alla investeringsbeslut och trades du gör baserat på information från SetMyTrade sker på din egen risk. Vi tar inget ansvar för eventuella förluster eller skador som uppstår från användning av våra verktyg eller information.",
-                riskWarning4: "Sök professionell rådgivning. Innan du investerar eller handlar, rekommenderar vi starkt att du konsulterar en licensierad finansiell rådgivare som kan bedöma din personliga ekonomiska situation och risktolerans.",
-                riskWarning5: "Använd endast riskkapital. Investera aldrig pengar du inte har råd att förlora. Handel med hävstång (certifikat, optioner, etc.) kan multiplicera både vinster och förluster.",
-                riskWarningFooter: "Genom att använda SetMyTrade bekräftar du att du förstår och accepterar dessa risker och villkor.",
-                sendFeedback: "Skicka Feedback",
-                feedbackTitle: "Skicka Feedback",
-                feedbackName: "Namn (valfritt)",
-                feedbackEmail: "E-post (valfritt)",
-                feedbackMessage: "Feedback *",
-                feedbackPlaceholder: "Skriv din feedback här...",
-                btnSendFeedback: "Skicka Feedback",
-                feedbackPrivacy: "Din feedback skickas säkert via FormSubmit.co",
-                marketNews: "Marknadsnyheter",
-                topNewsTitle: "Senaste Nyheterna",
-                topNewsDesc: "Håll dig uppdaterad med de senaste nyheterna som påverkar marknaderna",
-                loadingNews: "Laddar senaste nyheterna...",
-                refreshNews: "Uppdatera Nyheter",
-                readMore: "Läs mer",
-                quickLinks: "Snabblänkar",
-                information: "Information",
-                freeTool2: "100% Gratis",
-                exactCalc: "Exakta Beräkningar",
-                important: "Viktigt",
-                readDisclaimer: "Läs Ansvarsbegränsning",
-                provenStrategies: "Proven Strategier"
+                title: "SetMyTrade",
+                tagline: "Professionell aktieanalys för smarta investerare",
+                description: "Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number, PEG Ratio och mer. Helt gratis, ingen registrering krävs.",
+                ctaPrimary: "Starta Analys →",
+                ctaSecondary: "Hur det fungerar",
+                stat1: "Värderingsmodeller",
+                stat2: "Gratis",
+                stat3: "Obegränsade analyser",
+                featuresTitle: "Kraftfulla Analysverktyg",
+                feature1Title: "Fundamental Analys",
+                feature1Desc: "Djupgående analys av företagets finansiella nyckeltal inklusive P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.",
+                feature2Title: "DCF Kalkylator",
+                feature2Desc: "Discounted Cash Flow analys som beräknar verkligt värde baserat på framtida kassaflöden med anpassningsbar investeringshorisont (1-20 år).",
+                feature3Title: "5 Värderingsmodeller",
+                feature3Desc: "Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett värderingsanalys.",
+                feature4Title: "Automatisk Datahämtning",
+                feature4Desc: "Multi-source fallback system som hämtar aktiedata från Yahoo Finance, Finviz och andra källor automatiskt.",
+                feature5Title: "Responsiv Design",
+                feature5Desc: "Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.",
+                feature6Title: "Flerspråkig",
+                feature6Desc: "Fullständigt stöd för svenska och engelska med enkel växling mellan språk.",
+                howTitle: "Så här fungerar det",
+                step1Title: "Sök aktie",
+                step1Desc: "Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT) så hämtar vi automatiskt all nödvändig data från våra källor.",
+                step2Title: "Välj modell",
+                step2Desc: "Välj mellan 5 professionella värderingsmodeller beroende på din investeringsstrategi och preferens.",
+                step3Title: "Anpassa",
+                step3Desc: "Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.",
+                step4Title: "Få rekommendation",
+                step4Desc: "Se tydlig köp/håll/sälj-rekommendation med detaljerad förklaring, grafer och nyckeltal.",
+                modelsTitle: "Våra Värderingsmodeller",
+                whyTitle: "Varför SetMyTrade?",
+                why1: "Ingen registrering, inga dolda avgifter, inga begränsningar. Alla verktyg är 100% gratis att använda.",
+                why2: "Samma analysmetoder som används av professionella investerare och fondförvaltare.",
+                why3: "Intuitivt gränssnitt som gör komplex analys tillgänglig för alla, oavsett erfarenhetsnivå.",
+                why4: "Automatisk datahämtning från flera källor säkerställer att du alltid har aktuell information.",
+                why5: "Se exakt hur varje beräkning görs med detaljerade förklaringar och matematiska formler.",
+                why6: "Vi har inga samarbeten med mäklare eller fondbolag. Endast objektiv analys.",
+                ctaTitle: "Redo att börja analysera?",
+                ctaText: "Använd professionella analysverktyg helt gratis. Ingen registrering krävs.",
+                ctaButton: "Starta din första analys →",
+                footerAbout: "Om SetMyTrade",
+                footerHow: "Hur det fungerar",
+                footerBlog: "Blogg",
+                footerPrivacy: "Integritetspolicy",
+                footerTerms: "Användarvillkor",
+                footerDisclaimer: "Alla analyser är endast för informationssyfte och utgör inte finansiell rådgivning.",
+                langBtn: "🇬🇧 EN"
             },
             en: {
-                professionalTool: "Professional Trading Calculator",
-                freeTool: "100% Free Tool",
-                navHome: "Home",
-                navSearch: "Search Stocks",
-                navCalculator: "Calculator",
-                navFinviz: "Finviz Filters",
-                navCalendar: "Sector Calendar",
-                navStrategies: "Strategies",
-                navGuides: "Guides",
-                btnGetStarted: "Get Started",
-                welcomeTitle: "Welcome to SetMyTrade",
-                heroHeadline: "Maximize Your Profits with Smart Risk Management",
-                heroDescription: "Professional calculator for stop loss and take profit. Find winning stocks with proven strategies. Increase your profits with proper risk management.",
-                btnStartCalc: "Start Calculating",
-                btnLearnStrategies: "Learn Strategies",
-                whatIsSetMyTrade: "What is SetMyTrade?",
-                valuePropositionDesc: "SetMyTrade is your complete trading assistant that helps you make smart investment decisions with precise calculations and professional tools.",
-                preciseCalculations: "Precise Calculations",
-                preciseCalculationsDesc: "Calculate exact Stop Loss, Take Profit and Risk/Reward for every trade. Never guess again - get mathematically correct levels based on your risk tolerance.",
-                findWinningStocks: "Find Winning Stocks",
-                findWinningStocksDesc: "Use our pre-programmed Finviz filters to find stocks with strong technical signals: 200 EMA, RSI and volume. Filter on current strong sectors directly.",
-                protectCapital: "Protect Your Capital",
-                protectCapitalDesc: "Learn professional strategies with 200 EMA and RSI indicators. Understand when to buy (oversold) and sell (overbought) for maximum profits.",
-                whyUseSetMyTrade: "Why Use SetMyTrade?",
-                freeForever: "Free Forever",
-                instantResults: "Instant Results",
-                provenStrategies2: "Proven Strategies",
-                trustedByTraders: "Trusted By Traders",
-                whySetMyTrade: "Why SetMyTrade?",
-                whyTitle: "Everything You Need For Successful Trading",
-                whyDescription: "SetMyTrade helps you maximize profit and minimize losses with professional tools",
-                whyFeature1Title: "Precise Calculation",
-                whyFeature1Desc: "Calculate exact stop loss and take profit based on your risk. Get perfect risk/reward ratio for every trade.",
-                whyFeature2Title: "Find Winning Stocks",
-                whyFeature2Desc: "Use Finviz screener with proven filters. Find stocks above 200 EMA and RSI signals for best timing.",
-                whyFeature3Title: "Proven Strategies",
-                whyFeature3Desc: "Learn 200 EMA and RSI strategies used by professional traders worldwide.",
-                whyFeature4Title: "Risk Management",
-                whyFeature4Desc: "Protect your capital with correct position sizing. Never risk more than you can afford to lose.",
-                testimonials: "What Users Say",
-                testimonialsTitle: "Thousands of Traders Trust SetMyTrade",
-                testimonial1: "SetMyTrade helped me understand risk management. I used to lose money constantly, but now I have positive returns thanks to the stop loss calculator.",
-                testimonial2: "The Finviz filters are worth gold. I now find buyable stocks in seconds instead of hours of research. The 200 EMA strategy really works.",
-                testimonial3: "As a beginner, trading was overwhelming. SetMyTrade made it easy to understand risk/reward and how to set correct levels.",
-                testimonial4: "Best free tool for traders. RSI + 200 EMA filters have given me 80% win rate. Saves hours every week.",
-                testimonial5: "I used to trade on gut feeling. Now I use data and proper risk management. My portfolio is up 45% this year.",
-                testimonial6: "SetMyTrade is my first tool every morning. Check sectors, filter on Finviz, calculate stop loss. Perfect workflow.",
-                dayTrader: "Daytrader, Stockholm",
-                swingTrader: "Swingtrader, Gothenburg",
-                beginnerTrader: "Investor, Malmö",
-                optionsTrader: "Trader, Uppsala",
-                portfolioManager: "Trader, Lund",
-                proTrader: "Pro Trader, Stockholm",
-                joinTraders: "Join 50,000+ traders using SetMyTrade daily",
-                startSmarter: "Start Trading Smarter Today",
-                riskWarningTitle: "Important: Risk Warning and Disclaimer",
-                riskWarning1: "SetMyTrade is an educational tool. All information, calculations, strategies and tools on this website are provided for educational purposes only and should not be construed as financial advice, investment advice or trading tips.",
-                riskWarning2: "We guarantee no results. Trading stocks, certificates and other financial instruments involves significant risks and can lead to loss of your invested capital. Past results are no guarantee of future returns.",
-                riskWarning3: "You are fully responsible for your decisions. All investment decisions and trades you make based on information from SetMyTrade are at your own risk. We take no responsibility for any losses or damages arising from use of our tools or information.",
-                riskWarning4: "Seek professional advice. Before investing or trading, we strongly recommend that you consult a licensed financial advisor who can assess your personal financial situation and risk tolerance.",
-                riskWarning5: "Use only risk capital. Never invest money you cannot afford to lose. Trading with leverage (certificates, options, etc.) can multiply both profits and losses.",
-                riskWarningFooter: "By using SetMyTrade, you confirm that you understand and accept these risks and conditions.",
-                sendFeedback: "Send Feedback",
-                feedbackTitle: "Send Feedback",
-                feedbackName: "Name (optional)",
-                feedbackEmail: "Email (optional)",
-                feedbackMessage: "Feedback *",
-                feedbackPlaceholder: "Write your feedback here...",
-                btnSendFeedback: "Send Feedback",
-                feedbackPrivacy: "Your feedback is sent securely via FormSubmit.co",
-                marketNews: "Market News",
-                topNewsTitle: "Latest News",
-                topNewsDesc: "Stay updated with the latest news affecting the markets",
-                loadingNews: "Loading latest news...",
-                refreshNews: "Refresh News",
-                readMore: "Read more",
-                quickLinks: "Quick Links",
-                information: "Information",
-                freeTool2: "100% Free",
-                exactCalc: "Exact Calculations",
-                important: "Important",
-                readDisclaimer: "Read Disclaimer",
-                provenStrategies: "Proven Strategies"
+                title: "SetMyTrade",
+                tagline: "Professional Stock Analysis for Smart Investors",
+                description: "Analyze stocks with 5 professional valuation models including DCF, Graham Number, PEG Ratio and more. Completely free, no registration required.",
+                ctaPrimary: "Start Analysis →",
+                ctaSecondary: "How it works",
+                stat1: "Valuation Models",
+                stat2: "Free",
+                stat3: "Unlimited Analyses",
+                featuresTitle: "Powerful Analysis Tools",
+                feature1Title: "Fundamental Analysis",
+                feature1Desc: "In-depth analysis of company financial metrics including P/E, ROE, EPS growth, debt ratios and profit margins.",
+                feature2Title: "DCF Calculator",
+                feature2Desc: "Discounted Cash Flow analysis that calculates intrinsic value based on future cash flows with customizable investment horizon (1-20 years).",
+                feature3Title: "5 Valuation Models",
+                feature3Desc: "Quantitative Scoring, DCF, Dividend Discount Model, PEG Ratio and Graham Number for complete valuation analysis.",
+                feature4Title: "Automatic Data Fetching",
+                feature4Desc: "Multi-source fallback system that automatically fetches stock data from Yahoo Finance, Finviz and other sources.",
+                feature5Title: "Responsive Design",
+                feature5Desc: "Works perfectly on desktop, tablet and mobile. Analyze stocks anytime, anywhere.",
+                feature6Title: "Multilingual",
+                feature6Desc: "Full support for Swedish and English with easy language switching.",
+                howTitle: "How It Works",
+                step1Title: "Search Stock",
+                step1Desc: "Enter ticker symbol (e.g. AAPL, TSLA, MSFT) and we'll automatically fetch all necessary data from our sources.",
+                step2Title: "Choose Model",
+                step2Desc: "Select from 5 professional valuation models depending on your investment strategy and preference.",
+                step3Title: "Customize",
+                step3Desc: "Adjust investment horizon (1-20 years) and other parameters to match your strategy.",
+                step4Title: "Get Recommendation",
+                step4Desc: "See clear buy/hold/sell recommendation with detailed explanation, charts and key metrics.",
+                modelsTitle: "Our Valuation Models",
+                whyTitle: "Why SetMyTrade?",
+                why1: "No registration, no hidden fees, no limitations. All tools are 100% free to use.",
+                why2: "Same analysis methods used by professional investors and fund managers.",
+                why3: "Intuitive interface that makes complex analysis accessible to everyone, regardless of experience level.",
+                why4: "Automatic data fetching from multiple sources ensures you always have current information.",
+                why5: "See exactly how each calculation is made with detailed explanations and mathematical formulas.",
+                why6: "We have no partnerships with brokers or fund companies. Only objective analysis.",
+                ctaTitle: "Ready to Start Analyzing?",
+                ctaText: "Use professional analysis tools completely free. No registration required.",
+                ctaButton: "Start Your First Analysis →",
+                footerAbout: "About SetMyTrade",
+                footerHow: "How It Works",
+                footerBlog: "Blog",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                footerDisclaimer: "All analyses are for informational purposes only and do not constitute financial advice.",
+                langBtn: "🇸🇪 SV"
             }
         };
 
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
+        function toggleLanguage() {
+            currentLang = currentLang === 'sv' ? 'en' : 'sv';
+            const t = translations[currentLang];
             
-            // Update placeholders
-            const feedbackPlaceholder = document.querySelector('[data-lang-placeholder="feedbackPlaceholder"]');
-            if (feedbackPlaceholder && translations[lang]) {
-                feedbackPlaceholder.placeholder = translations[lang].feedbackPlaceholder;
-            }
-            
-            // Update active button state
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Add active class to selected language button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if ((lang === 'sv' && btn.textContent.includes('🇸🇪')) || 
-                    (lang === 'en' && btn.textContent.includes('🇬🇧'))) {
-                    btn.classList.add('active');
+            Object.keys(t).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = t[key];
+                    } else {
+                        element.textContent = t[key];
+                    }
                 }
             });
         }
-
-        function openFeedbackModal() {
-            document.getElementById('feedbackModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeFeedbackModal() {
-            document.getElementById('feedbackModal').classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('feedbackModal');
-            if (event.target == modal) {
-                closeFeedbackModal();
-            }
-        }
-
-        // Load Market News
-        async function loadNews() {
-            const newsContainer = document.getElementById('newsContainer');
-            newsContainer.innerHTML = `
-                <div class="col-12 text-center">
-                    <div class="spinner-border text-primary" role="status"></div>
-                    <p class="text-muted mt-3" data-lang="loadingNews">Laddar senaste nyheterna...</p>
-                </div>
-            `;
-
-            // Simulated news data (In production, fetch from real API like Alpha Vantage NEWS or MarketAux)
-            const newsData = [
-                {
-                    title: "Fed Signals Potential Rate Cut in Q2 2026",
-                    source: "Reuters",
-                    time: "2h ago",
-                    category: "Economy",
-                    url: "https://www.reuters.com/markets/us/",
-                    summary: "Federal Reserve officials hint at possible interest rate adjustments in response to economic indicators."
-                },
-                {
-                    title: "Tech Stocks Rally as AI Investments Surge",
-                    source: "Bloomberg",
-                    time: "4h ago",
-                    category: "Technology",
-                    url: "https://www.bloomberg.com/technology",
-                    summary: "Major tech companies see significant gains following increased AI infrastructure investments."
-                },
-                {
-                    title: "Energy Sector Outperforms Amid Supply Concerns",
-                    source: "CNBC",
-                    time: "5h ago",
-                    category: "Energy",
-                    url: "https://www.cnbc.com/energy/",
-                    summary: "Energy stocks surge as global supply chain disruptions impact market dynamics."
-                },
-                {
-                    title: "Healthcare Stocks Show Strong Q4 Earnings",
-                    source: "Wall Street Journal",
-                    time: "6h ago",
-                    category: "Healthcare",
-                    url: "https://www.wsj.com/healthcare",
-                    summary: "Healthcare sector reports robust earnings, beating analyst expectations across the board."
-                }
-            ];
-
-            let html = '';
-            newsData.forEach(news => {
-                html += `
-                    <div class="col-md-6">
-                        <div class="card h-100" style="background: rgba(26, 47, 61, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s;">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <span class="badge" style="background: var(--primary); color: #0D1F2D;">${news.category}</span>
-                                    <small class="text-muted">${news.time}</small>
-                                </div>
-                                <h5 class="card-title text-white mb-2">${news.title}</h5>
-                                <p class="card-text text-muted small mb-3">${news.summary}</p>
-                                <div class="mt-auto">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-muted">
-                                            <i class="fas fa-newspaper me-1"></i>${news.source}
-                                        </small>
-                                        <a href="${news.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">
-                                            <span data-lang="readMore">${currentLanguage === 'sv' ? 'Läs mer' : 'Read more'}</span> <i class="fas fa-arrow-right ms-1"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            newsContainer.innerHTML = html;
-        }
-
-        // Load news on page load
-        window.addEventListener('load', function() {
-            loadNews();
-        });
-
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
-                $('.back-to-top').fadeIn('slow');
-            } else {
-                $('.back-to-top').fadeOut('slow');
-            }
-        });
-        
-        $('.back-to-top').click(function () {
-            $('html, body').animate({scrollTop: 0}, 1500);
-            return false;
-        });
     </script>
 </body>
 </html>
