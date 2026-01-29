@@ -262,6 +262,122 @@
     </style>
 </head>
 <body>
+    <!-- NAVIGATION BAR -->
+    <style>
+.smt-navbar {
+    background: rgba(13, 31, 45, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    border-bottom: 2px solid rgba(0, 208, 132, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.smt-navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.smt-logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #00D084;
+    text-decoration: none;
+}
+
+.smt-nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.smt-dropdown {
+    position: relative;
+}
+
+.smt-dropdown-toggle {
+    cursor: pointer;
+    color: #E0E0E0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+}
+
+.smt-dropdown-toggle:hover {
+    background: rgba(0, 208, 132, 0.1);
+    color: #00D084;
+}
+
+.smt-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1a2332;
+    min-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 208, 132, 0.3);
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+}
+
+.smt-dropdown:hover .smt-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.smt-dropdown-item {
+    display: block;
+    padding: 15px 20px;
+    color: #E0E0E0;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.smt-dropdown-item:hover {
+    background: rgba(0, 208, 132, 0.15);
+    color: #00D084;
+    padding-left: 30px;
+}
+</style>
+
+<nav class="smt-navbar">
+    <div class="smt-navbar-container">
+        <a href="index.html" class="smt-logo">SetMyTrade</a>
+        <div class="smt-nav-links">
+            <div class="smt-dropdown">
+                <div class="smt-dropdown-toggle">
+                    📊 Verktyg ▼
+                </div>
+                <div class="smt-dropdown-menu">
+                    <a href="fundamentals.html" class="smt-dropdown-item">📊 Fundamental Analys</a>
+                    <a href="search.html" class="smt-dropdown-item">🔍 Aktiesök</a>
+                    <a href="calculator.html" class="smt-dropdown-item">🧮 Kalkylator</a>
+                    <a href="calendar.html" class="smt-dropdown-item">📅 Sektor Kalender</a>
+                    <a href="finviz.html" class="smt-dropdown-item">🎯 Finviz Filter</a>
+                    <a href="strategies.html" class="smt-dropdown-item">📈 Strategier</a>
+                    <a href="guides.html" class="smt-dropdown-item">📚 Guider</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
     <div class="lang-toggle">
         <button class="btn btn-secondary" onclick="toggleLanguage()">
             <span id="langBtn">🇬🇧 EN</span>
