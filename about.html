@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om SetMyTrade - Professionell Aktieanalys</title>
+    <meta name="description" content="SetMyTrade erbjuder gratis professionella analysverktyg för aktieinvesterare. Lär dig mer om vårt uppdrag att demokratisera finansiell analys.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0D1F2D 0%, #1a2332 100%);
+            color: #E0E0E0;
+            line-height: 1.8;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 3em; color: #00D084; margin-bottom: 30px; text-align: center; }
+        h2 { font-size: 2em; color: #00D084; margin: 40px 0 20px; }
+        p { font-size: 1.15em; margin-bottom: 20px; color: #C0C0C0; }
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #00D084;
+            color: #0D1F2D;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+        .back-btn:hover { background: #00ff9d; }
+        .highlight-box {
+            background: rgba(0, 208, 132, 0.1);
+            border-left: 4px solid #00D084;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #00D084;
+            color: #E0E0E0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button class="lang-toggle" onclick="toggleLang()"><span id="langBtn">🇬🇧 EN</span></button>
+    
+    <div class="container">
+        <a href="index.html" class="back-btn" id="backBtn">← Tillbaka till startsidan</a>
+        
+        <h1 id="title">Om SetMyTrade</h1>
+        
+        <p id="intro">SetMyTrade grundades med en enkel idé: professionella analysverktyg för aktier ska vara tillgängliga för alla, inte bara institutionella investerare och fondförvaltare.</p>
+        
+        <h2 id="missionTitle">Vårt Uppdrag</h2>
+        <p id="mission1">Vi tror att varje investerare förtjänar tillgång till samma kraftfulla analysverktyg som används av Wall Street. Därför har vi skapat SetMyTrade - en komplett plattform för fundamental analys som är 100% gratis och kräver ingen registrering.</p>
+        
+        <div class="highlight-box">
+            <h3 style="color: #00D084; margin-bottom: 15px;" id="visionTitle">Vår Vision</h3>
+            <p id="vision">Att demokratisera finansiell analys genom att erbjuda professionella värderingsmodeller, realtidsdata och intuitiva verktyg som hjälper investerare att fatta välgrundade beslut.</p>
+        </div>
+        
+        <h2 id="whatTitle">Vad vi erbjuder</h2>
+        <p id="what1">SetMyTrade ger dig tillgång till fem olika värderingsmodeller som används av professionella analytiker:</p>
+        
+        <ul style="margin: 20px 0; padding-left: 40px; font-size: 1.15em; color: #C0C0C0;">
+            <li style="margin-bottom: 15px;" id="model1"><strong style="color: #00D084;">Kvantitativ Scoring:</strong> Poängbaserat system som utvärderar lönsamhet, värdering, tillväxt och finansiell hälsa</li>
+            <li style="margin-bottom: 15px;" id="model2"><strong style="color: #00D084;">DCF (Discounted Cash Flow):</strong> Beräknar intrinsic värde baserat på framtida kassaflöden</li>
+            <li style="margin-bottom: 15px;" id="model3"><strong style="color: #00D084;">Dividend Discount Model:</strong> Värdering för utdelningsaktier enligt Gordon Growth Model</li>
+            <li style="margin-bottom: 15px;" id="model4"><strong style="color: #00D084;">PEG Ratio:</strong> Tillväxtjusterad värdering perfekt för tillväxtaktier</li>
+            <li style="margin-bottom: 15px;" id="model5"><strong style="color: #00D084;">Graham Number:</strong> Benjamin Grahams klassiska value investing-metod</li>
+        </ul>
+        
+        <h2 id="whyFreeTitle">Varför är det gratis?</h2>
+        <p id="whyFree1">Vi finansieras genom etisk reklam och samarbeten som inte påverkar våra analyser eller rekommendationer. Vi har inga samarbeten med mäklare, fondbolag eller finansiella rådgivare som kan påverka vår objektivitet.</p>
+        <p id="whyFree2">Vårt mål är inte att tjäna pengar på användardata eller dölja funktioner bakom betalväggar. Vi vill helt enkelt göra finansiell analys tillgänglig för alla.</p>
+        
+        <h2 id="techTitle">Teknologi</h2>
+        <p id="tech1">SetMyTrade använder ett intelligent multi-source fallback-system för datahämtning. Vi hämtar automatiskt aktiedata från Yahoo Finance, Finviz och andra pålitliga källor för att säkerställa att du alltid har aktuell och korrekt information.</p>
+        <p id="tech2">Alla beräkningar görs i realtid direkt i din webbläsare, vilket garanterar snabbhet och integritet - vi lagrar ingen av din analyshistorik eller sökningar.</p>
+        
+        <h2 id="principlesTitle">Våra Principer</h2>
+        
+        <div class="highlight-box">
+            <h3 style="color: #00D084;" id="principle1Title">🎯 Transparens</h3>
+            <p id="principle1">Alla våra beräkningar är öppna och förklarade. Du ser exakt hur vi kommer fram till varje rekommendation.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h3 style="color: #00D084;" id="principle2Title">🔒 Integritet</h3>
+            <p id="principle2">Vi samlar inte in personlig information. Ingen registrering, inga cookies för tracking, ingen försäljning av data.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h3 style="color: #00D084;" id="principle3Title">⚖️ Objektivitet</h3>
+            <p id="principle3">Våra analyser är algoritmbaserade och opåverkade av externa intressen. Vi får ingen ersättning för att rekommendera specifika aktier.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h3 style="color: #00D084;" id="principle4Title">📚 Utbildning</h3>
+            <p id="principle4">Vi tror på att utbilda investerare. Varje modell förklaras i detalj så att du förstår metodiken bakom rekommendationerna.</p>
+        </div>
+        
+        <h2 id="disclaimerTitle">Viktig Information</h2>
+        <p id="disclaimer">SetMyTrade tillhandahåller analysverktyg och information endast för utbildningssyfte. Vi är inte finansiella rådgivare och våra analyser ska inte betraktas som investeringsrådgivning. Alla investeringsbeslut är ditt eget ansvar. Konsultera alltid en licensierad finansiell rådgivare innan du fattar investeringsbeslut.</p>
+        
+        <h2 id="contactTitle">Kontakt</h2>
+        <p id="contact">Har du frågor, feedback eller förslag? Vi skulle gärna höra från dig! Kontakta oss på:</p>
+        <p style="text-align: center; font-size: 1.3em; color: #00D084; margin: 30px 0;">
+            <strong>contact@setmytrade.xyz</strong>
+        </p>
+        
+        <div style="text-align: center; margin-top: 60px;">
+            <a href="fundamentals.html" class="back-btn" id="startBtn" style="font-size: 1.2em; padding: 18px 40px;">
+                Börja analysera aktier →
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        let lang = 'sv';
+        const t = {
+            sv: {
+                langBtn: '🇬🇧 EN',
+                backBtn: '← Tillbaka till startsidan',
+                title: 'Om SetMyTrade',
+                intro: 'SetMyTrade grundades med en enkel idé: professionella analysverktyg för aktier ska vara tillgängliga för alla, inte bara institutionella investerare och fondförvaltare.',
+                missionTitle: 'Vårt Uppdrag',
+                mission1: 'Vi tror att varje investerare förtjänar tillgång till samma kraftfulla analysverktyg som används av Wall Street. Därför har vi skapat SetMyTrade - en komplett plattform för fundamental analys som är 100% gratis och kräver ingen registrering.',
+                visionTitle: 'Vår Vision',
+                vision: 'Att demokratisera finansiell analys genom att erbjuda professionella värderingsmodeller, realtidsdata och intuitiva verktyg som hjälper investerare att fatta välgrundade beslut.',
+                whatTitle: 'Vad vi erbjuder',
+                what1: 'SetMyTrade ger dig tillgång till fem olika värderingsmodeller som används av professionella analytiker:',
+                model1: '<strong style="color: #00D084;">Kvantitativ Scoring:</strong> Poängbaserat system som utvärderar lönsamhet, värdering, tillväxt och finansiell hälsa',
+                model2: '<strong style="color: #00D084;">DCF (Discounted Cash Flow):</strong> Beräknar intrinsic värde baserat på framtida kassaflöden',
+                model3: '<strong style="color: #00D084;">Dividend Discount Model:</strong> Värdering för utdelningsaktier enligt Gordon Growth Model',
+                model4: '<strong style="color: #00D084;">PEG Ratio:</strong> Tillväxtjusterad värdering perfekt för tillväxtaktier',
+                model5: '<strong style="color: #00D084;">Graham Number:</strong> Benjamin Grahams klassiska value investing-metod',
+                whyFreeTitle: 'Varför är det gratis?',
+                whyFree1: 'Vi finansieras genom etisk reklam och samarbeten som inte påverkar våra analyser eller rekommendationer. Vi har inga samarbeten med mäklare, fondbolag eller finansiella rådgivare som kan påverka vår objektivitet.',
+                whyFree2: 'Vårt mål är inte att tjäna pengar på användardata eller dölja funktioner bakom betalväggar. Vi vill helt enkelt göra finansiell analys tillgänglig för alla.',
+                techTitle: 'Teknologi',
+                tech1: 'SetMyTrade använder ett intelligent multi-source fallback-system för datahämtning. Vi hämtar automatiskt aktiedata från Yahoo Finance, Finviz och andra pålitliga källor för att säkerställa att du alltid har aktuell och korrekt information.',
+                tech2: 'Alla beräkningar görs i realtid direkt i din webbläsare, vilket garanterar snabbhet och integritet - vi lagrar ingen av din analyshistorik eller sökningar.',
+                principlesTitle: 'Våra Principer',
+                principle1Title: '🎯 Transparens',
+                principle1: 'Alla våra beräkningar är öppna och förklarade. Du ser exakt hur vi kommer fram till varje rekommendation.',
+                principle2Title: '🔒 Integritet',
+                principle2: 'Vi samlar inte in personlig information. Ingen registrering, inga cookies för tracking, ingen försäljning av data.',
+                principle3Title: '⚖️ Objektivitet',
+                principle3: 'Våra analyser är algoritmbaserade och opåverkade av externa intressen. Vi får ingen ersättning för att rekommendera specifika aktier.',
+                principle4Title: '📚 Utbildning',
+                principle4: 'Vi tror på att utbilda investerare. Varje modell förklaras i detalj så att du förstår metodiken bakom rekommendationerna.',
+                disclaimerTitle: 'Viktig Information',
+                disclaimer: 'SetMyTrade tillhandahåller analysverktyg och information endast för utbildningssyfte. Vi är inte finansiella rådgivare och våra analyser ska inte betraktas som investeringsrådgivning. Alla investeringsbeslut är ditt eget ansvar. Konsultera alltid en licensierad finansiell rådgivare innan du fattar investeringsbeslut.',
+                contactTitle: 'Kontakt',
+                contact: 'Har du frågor, feedback eller förslag? Vi skulle gärna höra från dig! Kontakta oss på:',
+                startBtn: 'Börja analysera aktier →'
+            },
+            en: {
+                langBtn: '🇸🇪 SV',
+                backBtn: '← Back to homepage',
+                title: 'About SetMyTrade',
+                intro: 'SetMyTrade was founded with a simple idea: professional stock analysis tools should be accessible to everyone, not just institutional investors and fund managers.',
+                missionTitle: 'Our Mission',
+                mission1: 'We believe every investor deserves access to the same powerful analysis tools used by Wall Street. That\'s why we created SetMyTrade - a complete fundamental analysis platform that is 100% free and requires no registration.',
+                visionTitle: 'Our Vision',
+                vision: 'To democratize financial analysis by offering professional valuation models, real-time data, and intuitive tools that help investors make informed decisions.',
+                whatTitle: 'What We Offer',
+                what1: 'SetMyTrade gives you access to five different valuation models used by professional analysts:',
+                model1: '<strong style="color: #00D084;">Quantitative Scoring:</strong> Point-based system evaluating profitability, valuation, growth, and financial health',
+                model2: '<strong style="color: #00D084;">DCF (Discounted Cash Flow):</strong> Calculates intrinsic value based on future cash flows',
+                model3: '<strong style="color: #00D084;">Dividend Discount Model:</strong> Valuation for dividend stocks using Gordon Growth Model',
+                model4: '<strong style="color: #00D084;">PEG Ratio:</strong> Growth-adjusted valuation perfect for growth stocks',
+                model5: '<strong style="color: #00D084;">Graham Number:</strong> Benjamin Graham\'s classic value investing method',
+                whyFreeTitle: 'Why Is It Free?',
+                whyFree1: 'We are funded through ethical advertising and partnerships that do not affect our analyses or recommendations. We have no partnerships with brokers, fund companies, or financial advisors that could influence our objectivity.',
+                whyFree2: 'Our goal is not to profit from user data or hide features behind paywalls. We simply want to make financial analysis accessible to everyone.',
+                techTitle: 'Technology',
+                tech1: 'SetMyTrade uses an intelligent multi-source fallback system for data retrieval. We automatically fetch stock data from Yahoo Finance, Finviz, and other reliable sources to ensure you always have current and accurate information.',
+                tech2: 'All calculations are done in real-time directly in your browser, guaranteeing speed and privacy - we don\'t store any of your analysis history or searches.',
+                principlesTitle: 'Our Principles',
+                principle1Title: '🎯 Transparency',
+                principle1: 'All our calculations are open and explained. You see exactly how we arrive at each recommendation.',
+                principle2Title: '🔒 Privacy',
+                principle2: 'We don\'t collect personal information. No registration, no tracking cookies, no data selling.',
+                principle3Title: '⚖️ Objectivity',
+                principle3: 'Our analyses are algorithm-based and unaffected by external interests. We receive no compensation for recommending specific stocks.',
+                principle4Title: '📚 Education',
+                principle4: 'We believe in educating investors. Each model is explained in detail so you understand the methodology behind recommendations.',
+                disclaimerTitle: 'Important Information',
+                disclaimer: 'SetMyTrade provides analysis tools and information for educational purposes only. We are not financial advisors and our analyses should not be considered investment advice. All investment decisions are your own responsibility. Always consult a licensed financial advisor before making investment decisions.',
+                contactTitle: 'Contact',
+                contact: 'Have questions, feedback, or suggestions? We\'d love to hear from you! Contact us at:',
+                startBtn: 'Start analyzing stocks →'
+            }
+        };
+        
+        function toggleLang() {
+            lang = lang === 'sv' ? 'en' : 'sv';
+            Object.keys(t[lang]).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) el.innerHTML = t[lang][key];
+            });
+        }
+    </script>
+</body>
+</html>
