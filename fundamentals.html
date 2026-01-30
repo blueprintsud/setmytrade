@@ -902,7 +902,49 @@
         }
 
         async function fetchWithFallback(ticker) {
-            // Level 1: Try Render API
+            // Level 1: Try FREE Yahoo Finance API (direct)
+            try {
+                const yahooUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=defaultKeyStatistics,financialData,summaryDetail,quoteType`;
+                
+                let response = await fetch(yahooUrl, { signal: AbortSignal.timeout(5000) });
+                
+                // If CORS blocked, try with proxy
+                if (!response.ok) {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl);
+                    response = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+                }
+                
+                if (response.ok) {
+                    const json = await response.json();
+                    const qs = json.quoteSummary.result[0];
+                    const finData = qs.financialData;
+                    const summary = qs.summaryDetail;
+                    const keyStats = qs.defaultKeyStatistics;
+                    
+                    const yahooData = {
+                        ticker: ticker,
+                        company: qs.quoteType.longName || ticker,
+                        price: summary.regularMarketPrice?.raw,
+                        pe: keyStats.trailingPE?.raw || summary.trailingPE?.raw,
+                        pb: keyStats.priceToBook?.raw,
+                        roe: finData.returnOnEquity?.raw ? finData.returnOnEquity.raw * 100 : null,
+                        dividend: summary.dividendYield?.raw ? summary.dividendYield.raw * 100 : null,
+                        eps: keyStats.trailingEps?.raw,
+                        epsGrowth: finData.earningsQuarterlyGrowth?.raw ? finData.earningsQuarterlyGrowth.raw * 100 : 
+                                   (finData.earningsGrowth?.raw ? finData.earningsGrowth.raw * 100 : null),
+                        margin: finData.profitMargins?.raw ? finData.profitMargins.raw * 100 : null,
+                        debt: finData.debtToEquity?.raw || keyStats.debtToEquity?.raw,
+                        marketCap: summary.marketCap?.raw,
+                        dataSource: 'Yahoo Finance (Free API)'
+                    };
+                    
+                    if (yahooData.price) return yahooData;
+                }
+            } catch (e) {
+                console.log('Free Yahoo API failed:', e.message);
+            }
+            
+            // Level 2: Try Render API
             try {
                 const renderResp = await fetch(`https://setmytrade-api.onrender.com/api/finviz?ticker=${ticker}`, {
                     signal: AbortSignal.timeout(5000)
@@ -918,17 +960,17 @@
                 console.log('Render API failed:', e.message);
             }
             
-            // Level 2: Try Yahoo Finance (RapidAPI)
+            // Level 3: Try Yahoo Finance (RapidAPI - backup)
             try {
                 const yahooData = await fetchYahooFinance(ticker);
                 if (yahooData && yahooData.price) {
                     return yahooData;
                 }
             } catch (e) {
-                console.log('Yahoo Finance failed:', e.message);
+                console.log('Yahoo RapidAPI failed:', e.message);
             }
             
-            // Level 3: CORS Proxy + Finviz scraping
+            // Level 4: CORS Proxy + Finviz scraping
             const proxies = [
                 'https://api.allorigins.win/raw?url=',
                 'https://corsproxy.io/?'
@@ -958,7 +1000,7 @@
                 }
             }
             
-            // Level 3: Manual input
+            // Level 5: Manual input
             return null;
         }
 
