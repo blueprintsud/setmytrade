@@ -1,638 +1,451 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="utf-8">
-    <title>Sektor Kalender - SetMyTrade | Live Sektor Status</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Live sektor kalender som visar vilka sektorer som är i play just nu. Technology, Energy, Healthcare, Finance, Consumer, Industrials." name="description">
-    
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sektor Kalender - SetMyTrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
-        :root {
-            --primary: #00D084;
-            --dark: #0D2735;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; list-style: none; }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0D1F2D 0%, #1a2332 100%);
             color: #E0E0E0;
-            background: #0D1F2D;
             min-height: 100vh;
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            color: #FFFFFF;
-        }
-
-        .text-primary {
-            color: var(--primary) !important;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: #FFFFFF;
-        }
-
-        .btn-primary:hover {
-            background-color: #00B871;
-            border-color: #00B871;
-        }
-
-        /* Topbar */
-        .topbar {
-            background: rgba(26, 47, 61, 0.8);
+        .smt-navbar {
+            background: rgba(13, 31, 45, 0.98);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            border-bottom: 2px solid rgba(0, 208, 132, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
-
-        /* Navbar */
-        .navbar {
-            background: rgba(26, 47, 61, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        .smt-navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-
-        .navbar .navbar-brand h1 {
-            margin: 0;
-            font-size: 32px;
+        .smt-logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00D084;
+            text-decoration: none;
         }
-
-        .navbar .nav-link {
-            color: #E0E0E0 !important;
-            font-weight: 500;
-            transition: .3s;
-            padding: 25px 15px;
+        .smt-nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
         }
-
-        .navbar .nav-link:hover,
-        .navbar .nav-link.active {
-            color: var(--primary) !important;
-        }
-
-        /* Language Selector */
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 20px;
-            cursor: pointer;
+        .smt-nav-link {
+            color: #E0E0E0;
+            text-decoration: none;
+            font-size: 1.05em;
+            padding: 8px 16px;
+            border-radius: 8px;
             transition: all 0.3s;
-            line-height: 1;
         }
-
-        .lang-btn:hover {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.25);
-            transform: scale(1.1);
+        .smt-nav-link:hover, .smt-nav-link.active {
+            background: rgba(0, 208, 132, 0.15);
+            color: #00D084;
         }
-
-        .lang-btn.active {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.3);
-            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        .smt-lang-toggle {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00D084;
+            color: #E0E0E0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
         }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
-            padding: 60px 0 40px 0;
-            margin-bottom: 0;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
-
-        /* Calendar Card */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 3em;
+            color: #00D084;
+            margin-bottom: 15px;
+        }
+        .header p {
+            font-size: 1.3em;
+            color: #B0B0B0;
+        }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
         .calendar-card {
-            background: linear-gradient(135deg, rgba(0, 208, 132, 0.1) 0%, rgba(26, 47, 61, 0.9) 100%);
-            border-radius: 15px;
-            padding: 20px;
-            perspective: 1000px;
-            box-shadow: 0 10px 40px rgba(0, 208, 132, 0.2);
-            border: 2px solid rgba(0, 208, 132, 0.3);
-            max-width: 100%;
+            background: #2b4450;
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            perspective: 1500px;
         }
-
+        .calendar-header {
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.15), rgba(0, 208, 132, 0.05));
+            border-bottom: 2px solid rgba(0, 208, 132, 0.3);
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .calendar-title {
+            color: #00D084;
+            font-size: 2em;
+            font-weight: 300;
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00D084;
+            color: #00D084;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: rgba(0, 208, 132, 0.2);
+            transform: translateY(-2px);
+        }
+        .flip-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #E0E0E0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
         .calendar-flip-container {
             position: relative;
-            width: 100%;
-            min-height: 350px;
-            transition: transform 1s ease;
+            min-height: 500px;
+            transition: transform 0.8s;
             transform-style: preserve-3d;
         }
-        
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .calendar-card {
-                padding: 15px;
-            }
-            
-            .calendar-flip-container {
-                min-height: 320px;
-            }
-        }
-
         .calendar-flip-container.flipped {
             transform: rotateY(180deg);
         }
-
         .calendar-front, .calendar-back {
             position: absolute;
             width: 100%;
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+            padding: 30px;
         }
-
         .calendar-back {
             transform: rotateY(180deg);
         }
-
-        /* Calendar Grid */
-        .calendar-grid {
+        .week-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-            max-width: 100%;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 0 5px;
         }
-
-        .calendar-day-header {
+        .week-day {
             text-align: center;
+            color: #00D084;
             font-weight: 600;
-            color: var(--primary);
-            padding: 8px 0;
-            font-size: 12px;
+            font-size: 0.95em;
+            padding: 10px 0;
         }
-
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            padding: 5px;
+        }
         .calendar-day {
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(13, 31, 45, 0.6);
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.3s;
+            background: rgba(13, 31, 45, 0.8);
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: 300;
+            color: #fff;
             cursor: pointer;
-            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
-        
-        /* Mobile responsive for calendar */
-        @media (max-width: 768px) {
-            .calendar-grid {
-                gap: 5px;
-                margin-top: 10px;
-            }
-            
-            .calendar-day-header {
-                font-size: 11px;
-                padding: 5px 0;
-            }
-            
-            .calendar-day {
-                font-size: 12px;
-                border-radius: 4px;
-            }
-        }
-
         .calendar-day:hover {
-            background: rgba(0, 208, 132, 0.2);
-            transform: scale(1.05);
+            background: rgba(0, 208, 132, 0.15);
+            transform: scale(1.08);
+            border-color: rgba(0, 208, 132, 0.5);
         }
-
+        .calendar-day.other-month {
+            opacity: 0.25;
+        }
         .calendar-day.today {
-            background: var(--primary);
+            background: #00D084;
             color: #0D1F2D;
             font-weight: 700;
-            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+            box-shadow: 0 0 30px rgba(0, 208, 132, 0.8);
         }
-
-        .calendar-day.other-month {
-            opacity: 0.3;
+        .sectors-panel {
+            background: #2b4450;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(0, 208, 132, 0.3);
         }
-
-        /* Sector Status */
+        .sectors-panel h3 {
+            color: #00D084;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
         .sector-item {
-            background: rgba(13, 31, 45, 0.6);
-            padding: 15px;
-            border-radius: 8px;
+            background: rgba(13, 31, 45, 0.7);
+            border-radius: 12px;
+            padding: 18px 20px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid transparent;
             transition: all 0.3s;
+            border-left: 4px solid transparent;
         }
-
-        .sector-item.active {
-            border-left-color: var(--primary);
+        .sector-item:hover {
             background: rgba(0, 208, 132, 0.1);
+            transform: translateX(8px);
         }
-
         .sector-item.hot {
             border-left-color: #FF6B6B;
-            background: rgba(255, 107, 107, 0.1);
             animation: pulse 2s infinite;
         }
-
+        .sector-item.active {
+            border-left-color: #00D084;
+        }
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
-            50% { box-shadow: 0 0 20px 10px rgba(255, 107, 107, 0); }
+            50% { box-shadow: 0 0 25px 5px rgba(255, 107, 107, 0); }
         }
-
+        .sector-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .sector-icon {
+            font-size: 1.6em;
+            color: #00D084;
+        }
+        .sector-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sector-trend {
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .sector-trend.positive { color: #00D084; background: rgba(0, 208, 132, 0.15); }
+        .sector-trend.negative { color: #FF6B6B; background: rgba(255, 107, 107, 0.15); }
         .sector-badge {
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 0.85em;
             font-weight: 600;
         }
-
-        .sector-badge.hot {
-            background: rgba(255, 107, 107, 0.3);
+        .sector-badge.hot { background: rgba(255, 107, 107, 0.25); color: #FF6B6B; }
+        .sector-badge.active { background: rgba(0, 208, 132, 0.25); color: #00D084; }
+        .sector-badge.neutral { background: rgba(255, 255, 255, 0.1); color: #888; }
+        .hot-sector-highlight {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(0, 208, 132, 0.1));
+            border: 2px solid #FF6B6B;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .hot-sector-highlight i {
+            font-size: 3.5em;
             color: #FF6B6B;
+            margin-bottom: 20px;
         }
-
-        .sector-badge.active {
-            background: rgba(0, 208, 132, 0.3);
-            color: var(--primary);
+        .hot-sector-highlight h4 {
+            color: #fff;
+            font-size: 2em;
+            margin-bottom: 15px;
         }
-
-        .sector-badge.neutral {
-            background: rgba(255, 255, 255, 0.1);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .stat-card {
+            background: #2b4450;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 208, 132, 0.2);
+        }
+        .stat-card h3 {
+            color: #00D084;
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .stat-card p {
             color: #B0B0B0;
+            font-size: 1.2em;
         }
-
-        /* Footer */
-        .footer {
-            background: var(--dark);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 40px 0 20px 0;
-        }
-
-        .copyright {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px 0;
-        }
-
-        .footer .btn-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            display: block;
-            padding: 5px 0;
-        }
-
-        .footer .btn-link:hover {
-            color: var(--primary);
-        }
-
-        .back-to-top {
-            position: fixed;
-            display: none;
-            right: 30px;
-            bottom: 30px;
-            z-index: 99;
+        @media (max-width: 1200px) {
+            .main-layout { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-
 <body>
-    <!-- Topbar -->
-    <div class="container-fluid topbar px-5 d-none d-lg-block">
-        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
-            <div class="col-lg-8 text-center text-lg-start">
-                <span class="small me-4" style="color: #B0B0B0;">
-                    <i class="fas fa-chart-line text-primary me-2"></i>
-                    <span data-lang="professionalTool">Professionell Trading Kalkylator</span>
-                </span>
-                <span class="small" style="color: #B0B0B0;">
-                    <i class="fas fa-shield-alt text-primary me-2"></i>
-                    <span data-lang="freeTool">100% Gratis Verktyg</span>
-                </span>
+    <nav class="smt-navbar">
+        <div class="smt-navbar-container">
+            <a href="index.html" class="smt-logo">SetMyTrade</a>
+            <div class="smt-nav-links">
+                <a href="index.html" class="smt-nav-link">Hem</a>
+                <a href="fundamentals.html" class="smt-nav-link">Fundamental</a>
+                <a href="search.html" class="smt-nav-link">Sök</a>
+                <a href="calculator.html" class="smt-nav-link">Kalkylator</a>
+                <a href="calendar.html" class="smt-nav-link active">Kalender</a>
+                <a href="finviz.html" class="smt-nav-link">Finviz</a>
+                <a href="strategies.html" class="smt-nav-link">Strategier</a>
+                <a href="guides.html" class="smt-nav-link">Guider</a>
+                <button class="smt-lang-toggle" onclick="changeLanguage()">
+                    <span id="langBtn">🇬🇧 EN</span>
+                </button>
             </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center gap-2">
-                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
-                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
-        <a href="index.html" class="navbar-brand p-0">
-            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
-                <a href="search.html" class="nav-item nav-link" data-lang="navSearch">Sök Aktier</a>
-                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
-                <a href="calendar.html" class="nav-item nav-link active" data-lang="navCalendar">Sektor Kalender</a>
-                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
-                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
-                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
-            </div>
-            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="container">
-            <h1 class="display-5 text-white mb-3" data-lang="calendarTitle">Sektor Kalender - Live Status</h1>
-            <p class="text-white-50" data-lang="calendarDesc">Se vilka sektorer som är i play just nu. Uppdateras automatiskt baserat på marknadsstatus.</p>
+    <div class="container">
+        <div class="header">
+            <h1>Sektor Kalender</h1>
+            <p>Live tracking av heta sektorer och marknadsrörelser</p>
         </div>
-    </div>
 
-    <!-- Calendar Section -->
-    <div class="container-fluid py-5" style="background: rgba(13, 31, 45, 0.3);">
-        <div class="container py-5">
-            <div class="row g-4">
-                <!-- Calendar Card -->
-                <div class="col-lg-6">
-                    <div class="calendar-card">
-                        <div class="text-center mb-3">
-                            <h4 class="text-white mb-2">
-                                <i class="fas fa-calendar-alt text-primary me-2"></i>
-                                <span data-lang="calendarMonth" id="calendarMonth">Januari 2026</span>
-                            </h4>
-                            <button class="btn btn-sm btn-outline-light" onclick="flipCalendar()">
-                                <i class="fas fa-sync-alt me-2"></i><span data-lang="viewSectors">Visa Sektorer</span>
-                            </button>
-                        </div>
-
-                        <div class="calendar-flip-container" id="calendarFlip">
-                            <!-- Front: Calendar -->
-                            <div class="calendar-front">
-                                <div class="calendar-grid">
-                                    <div class="calendar-day-header">Mån</div>
-                                    <div class="calendar-day-header">Tis</div>
-                                    <div class="calendar-day-header">Ons</div>
-                                    <div class="calendar-day-header">Tor</div>
-                                    <div class="calendar-day-header">Fre</div>
-                                    <div class="calendar-day-header">Lör</div>
-                                    <div class="calendar-day-header">Sön</div>
-                                    
-                                    <div id="calendarDays"></div>
-                                </div>
-                            </div>
-
-                            <!-- Back: Sector Status -->
-                            <div class="calendar-back">
-                                <h5 class="text-white mb-3">
-                                    <i class="fas fa-fire text-danger me-2"></i>
-                                    <span data-lang="sectorStatus">Sektor Status</span>
-                                </h5>
-                                <div id="sectorList"></div>
-                            </div>
-                        </div>
+        <div class="main-layout">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title" id="calendarMonth">Loading...</h2>
+                    <div class="calendar-nav">
+                        <button class="nav-btn" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i> Föregående
+                        </button>
+                        <button class="flip-btn" onclick="flipCalendar()">
+                            <i class="fas fa-sync-alt"></i> Flip
+                        </button>
+                        <button class="nav-btn" onclick="nextMonth()">
+                            Nästa <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Live Sector Info -->
-                <div class="col-lg-6">
-                    <div style="background: rgba(26, 47, 61, 0.8); border-radius: 15px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                        <h4 class="text-white mb-4">
-                            <i class="fas fa-bolt text-warning me-2"></i>
-                            <span data-lang="hotSectorTitle">Varm Sektor Just Nu</span>
-                        </h4>
-                        <div id="hotSectorDisplay"></div>
-
-                        <div class="mt-4 p-3" style="background: rgba(0, 208, 132, 0.1); border-radius: 8px; border-left: 4px solid var(--primary);">
-                            <h6 class="text-primary mb-2">
-                                <i class="fas fa-lightbulb me-2"></i>
-                                <span data-lang="howToUse">Hur Använder Du Detta?</span>
-                            </h6>
-                            <ol class="text-muted small mb-0">
-                                <li data-lang="step1">Kolla vilken sektor som är HOT (markerad med 🔥)</li>
-                                <li data-lang="step2">Gå till Finviz Filter och välj filter för den sektorn</li>
-                                <li data-lang="step3">Hitta aktier över 200 EMA med RSI översåld</li>
-                                <li data-lang="step4">Använd kalkylatorn för att beräkna stop loss/take profit</li>
-                            </ol>
+                <div class="calendar-flip-container" id="calendarFlip">
+                    <div class="calendar-front">
+                        <div class="week-days">
+                            <div class="week-day">MÅN</div>
+                            <div class="week-day">TIS</div>
+                            <div class="week-day">ONS</div>
+                            <div class="week-day">TOR</div>
+                            <div class="week-day">FRE</div>
+                            <div class="week-day">LÖR</div>
+                            <div class="week-day">SÖN</div>
                         </div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                    </div>
 
-                        <div class="text-center mt-4">
-                            <a href="finviz.html" class="btn btn-primary w-100 py-3">
-                                <i class="fas fa-filter me-2"></i>
-                                <span data-lang="goToFinviz">Gå Till Finviz Filter</span>
-                            </a>
-                        </div>
+                    <div class="calendar-back">
+                        <h3 style="color: #00D084; font-size: 1.8em; margin-bottom: 25px;">
+                            <i class="fas fa-fire"></i> Sektor Status
+                        </h3>
+                        <div id="sectorListBack"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Auto-Update Info -->
-            <div class="text-center mt-5">
-                <div class="p-4" style="background: rgba(13, 31, 45, 0.6); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                    <i class="fas fa-sync-alt text-primary fa-2x mb-3"></i>
-                    <h5 class="text-white mb-2" data-lang="autoUpdate">Auto-Uppdatering Aktiv</h5>
-                    <p class="text-muted mb-0" data-lang="autoUpdateDesc">Sektor status uppdateras automatiskt baserat på marknadsprestanda och aktuella trender.</p>
-                    <p class="text-muted small mt-2 mb-0">
-                        <span data-lang="lastUpdate">Senaste uppdatering:</span> <span id="lastUpdateTime">--:--</span>
-                    </p>
-                </div>
+            <div class="sectors-panel">
+                <h3>Aktiva Sektorer</h3>
+                <div id="sectorsList"></div>
+                <div class="hot-sector-highlight" id="hotSectorHighlight"></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="hotSectorsCount">0</h3>
+                <p>Heta Sektorer</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeSectorsCount">0</h3>
+                <p>Aktiva Sektorer</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="lastUpdate">--:--</h3>
+                <p>Senast Uppdaterad</p>
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <div class="container-fluid footer py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
-                    <p class="text-white-50">Professional Stop Loss & Take Profit calculator for serious traders. 100% free tool.</p>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
-                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
-                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
-                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
-                    <a href="calendar.html" class="btn btn-link" data-lang="navCalendar">Sektor Kalender</a>
-                    <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
-                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
-                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
-                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool2">100% Gratis</span></p>
-                    <p class="text-white-50"><i class="fas fa-calculator text-primary me-2"></i><span data-lang="exactCalc">Exakta Beräkningar</span></p>
-                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="provenStrategies">Proven Strategier</span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="container-fluid copyright py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <span class="text-body">SetMyTrade 2026. All rights reserved.</span>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <span class="text-body">Built for traders worldwide</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
-
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         let currentLanguage = 'sv';
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
         let isFlipped = false;
 
-        const translations = {
-            sv: {
-                professionalTool: "Professionell Trading Kalkylator",
-                freeTool: "100% Gratis Verktyg",
-                navHome: "Hem",
-                navSearch: "Sök Aktier",
-                navCalculator: "Kalkylator",
-                navCalendar: "Sektor Kalender",
-                navFinviz: "Finviz Filter",
-                navStrategies: "Strategier",
-                navGuides: "Guider",
-                btnGetStarted: "Kom Igång",
-                calendarTitle: "Sektor Kalender - Live Status",
-                calendarDesc: "Se vilka sektorer som är i play just nu. Uppdateras automatiskt baserat på marknadsstatus.",
-                viewSectors: "Visa Sektorer",
-                viewCalendar: "Visa Kalender",
-                sectorStatus: "Sektor Status",
-                hotSectorTitle: "Varm Sektor Just Nu",
-                howToUse: "Hur Använder Du Detta?",
-                step1: "Kolla vilken sektor som är HOT (markerad med 🔥)",
-                step2: "Gå till Finviz Filter och välj filter för den sektorn",
-                step3: "Hitta aktier över 200 EMA med RSI översåld",
-                step4: "Använd kalkylatorn för att beräkna stop loss/take profit",
-                goToFinviz: "Gå Till Finviz Filter",
-                autoUpdate: "Auto-Uppdatering Aktiv",
-                autoUpdateDesc: "Sektor status uppdateras automatiskt baserat på marknadsprestanda och aktuella trender.",
-                lastUpdate: "Senaste uppdatering:",
-                quickLinks: "Snabblänkar",
-                information: "Information",
-                freeTool2: "100% Gratis",
-                exactCalc: "Exakta Beräkningar",
-                provenStrategies: "Proven Strategier"
-            },
-            en: {
-                professionalTool: "Professional Trading Calculator",
-                freeTool: "100% Free Tool",
-                navHome: "Home",
-                navSearch: "Search Stocks",
-                navCalculator: "Calculator",
-                navCalendar: "Sector Calendar",
-                navFinviz: "Finviz Filters",
-                navCalendar: "Sector Calendar",
-                navStrategies: "Strategies",
-                navGuides: "Guides",
-                btnGetStarted: "Get Started",
-                calendarTitle: "Sector Calendar - Live Status",
-                calendarDesc: "See which sectors are in play right now. Updates automatically based on market status.",
-                viewSectors: "View Sectors",
-                viewCalendar: "View Calendar",
-                sectorStatus: "Sector Status",
-                hotSectorTitle: "Hot Sector Right Now",
-                howToUse: "How To Use This?",
-                step1: "Check which sector is HOT (marked with 🔥)",
-                step2: "Go to Finviz Filter and select filter for that sector",
-                step3: "Find stocks above 200 EMA with RSI oversold",
-                step4: "Use calculator to calculate stop loss/take profit",
-                goToFinviz: "Go To Finviz Filters",
-                autoUpdate: "Auto-Update Active",
-                autoUpdateDesc: "Sector status updates automatically based on market performance and current trends.",
-                lastUpdate: "Last update:",
-                quickLinks: "Quick Links",
-                information: "Information",
-                freeTool2: "100% Free",
-                exactCalc: "Exact Calculations",
-                provenStrategies: "Proven Strategies"
-            }
-        };
-
-        const sectors = [
-            { name: "Technology", icon: "microchip", status: "hot" },
-            { name: "Energy", icon: "bolt", status: "active" },
-            { name: "Healthcare", icon: "heartbeat", status: "active" },
-            { name: "Finance", icon: "university", status: "neutral" },
-            { name: "Consumer", icon: "shopping-cart", status: "active" },
-            { name: "Industrials", icon: "industry", status: "neutral" }
+        let sectors = [
+            { name: "Technology", icon: "microchip", status: "hot", trend: "+5.2%" },
+            { name: "Energy", icon: "bolt", status: "active", trend: "+2.1%" },
+            { name: "Healthcare", icon: "heartbeat", status: "active", trend: "+1.8%" },
+            { name: "Finance", icon: "university", status: "neutral", trend: "+0.3%" },
+            { name: "Consumer", icon: "shopping-cart", status: "active", trend: "+1.5%" },
+            { name: "Industrials", icon: "industry", status: "neutral", trend: "-0.2%" }
         ];
 
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-            
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if ((lang === 'sv' && btn.textContent.includes('🇸🇪')) || 
-                    (lang === 'en' && btn.textContent.includes('🇬🇧'))) {
-                    btn.classList.add('active');
-                }
-            });
-
-            generateCalendar();
-            displaySectors();
-            displayHotSector();
-        }
-
         function generateCalendar() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const today = now.getDate();
-
-            const monthNames = currentLanguage === 'sv' 
-                ? ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December']
-                : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-            document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const prevMonthDays = new Date(year, month, 0).getDate();
-
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
+            const monthNames = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+            
+            document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
             const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
-
             let html = '';
 
             for (let i = adjustedFirstDay - 1; i >= 0; i--) {
                 html += `<div class="calendar-day other-month">${prevMonthDays - i}</div>`;
             }
 
+            const today = new Date();
             for (let day = 1; day <= daysInMonth; day++) {
-                const isToday = day === today;
+                const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
                 html += `<div class="calendar-day ${isToday ? 'today' : ''}">${day}</div>`;
             }
 
-            const remainingDays = 42 - (adjustedFirstDay + daysInMonth);
+            const totalCells = adjustedFirstDay + daysInMonth;
+            const remainingDays = totalCells <= 35 ? 35 - totalCells : 42 - totalCells;
             for (let day = 1; day <= remainingDays; day++) {
                 html += `<div class="calendar-day other-month">${day}</div>`;
             }
@@ -640,91 +453,96 @@
             document.getElementById('calendarDays').innerHTML = html;
         }
 
-        function displaySectors() {
-            let html = '';
-            sectors.forEach(sector => {
-                const badgeClass = sector.status === 'hot' ? 'hot' : (sector.status === 'active' ? 'active' : 'neutral');
-                const statusText = sector.status === 'hot' ? '🔥 HOT' : (sector.status === 'active' ? '✅ Active' : '○ Neutral');
-                
-                html += `
-                    <div class="sector-item ${sector.status}">
-                        <div>
-                            <i class="fas fa-${sector.icon} text-primary me-2"></i>
-                            <span class="text-white">${sector.name}</span>
-                        </div>
-                        <span class="sector-badge ${badgeClass}">${statusText}</span>
-                    </div>
-                `;
-            });
-            document.getElementById('sectorList').innerHTML = html;
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            generateCalendar();
         }
 
-        function displayHotSector() {
-            const hotSector = sectors.find(s => s.status === 'hot');
-            if (hotSector) {
-                const html = `
-                    <div class="p-4" style="background: rgba(255, 107, 107, 0.1); border-radius: 10px; border: 2px solid #FF6B6B;">
-                        <div class="text-center">
-                            <i class="fas fa-${hotSector.icon} fa-3x text-danger mb-3"></i>
-                            <h3 class="text-white mb-2">${hotSector.name}</h3>
-                            <span class="sector-badge hot" style="font-size: 16px; padding: 8px 20px;">🔥 HOT SECTOR</span>
-                            <p class="text-muted mt-3 mb-0">
-                                ${currentLanguage === 'sv' 
-                                    ? 'Detta är den varmaste sektorn just nu. Använd Finviz filter för att hitta köpvärda aktier i denna sektor.' 
-                                    : 'This is the hottest sector right now. Use Finviz filters to find buyable stocks in this sector.'}
-                            </p>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('hotSectorDisplay').innerHTML = html;
-            }
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            generateCalendar();
         }
 
         function flipCalendar() {
             isFlipped = !isFlipped;
             document.getElementById('calendarFlip').classList.toggle('flipped');
-            
-            const btn = event.target.closest('button');
-            if (btn) {
-                const text = btn.querySelector('[data-lang]');
-                if (text) {
-                    text.setAttribute('data-lang', isFlipped ? 'viewCalendar' : 'viewSectors');
-                    text.textContent = isFlipped 
-                        ? (currentLanguage === 'sv' ? 'Visa Kalender' : 'View Calendar')
-                        : (currentLanguage === 'sv' ? 'Visa Sektorer' : 'View Sectors');
-                }
+        }
+
+        function displaySectors() {
+            let html = '';
+            sectors.forEach(sector => {
+                const badgeClass = sector.status === 'hot' ? 'hot' : (sector.status === 'active' ? 'active' : 'neutral');
+                const statusText = sector.status === 'hot' ? '🔥 HOT' : (sector.status === 'active' ? '✓ Active' : '○ Neutral');
+                const trendClass = sector.trend.includes('-') ? 'negative' : 'positive';
+                
+                html += `
+                    <div class="sector-item ${sector.status}">
+                        <div class="sector-info">
+                            <i class="fas fa-${sector.icon} sector-icon"></i>
+                            <span>${sector.name}</span>
+                        </div>
+                        <div class="sector-details">
+                            <span class="sector-trend ${trendClass}">${sector.trend}</span>
+                            <span class="sector-badge ${badgeClass}">${statusText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('sectorsList').innerHTML = html;
+            document.getElementById('sectorListBack').innerHTML = html;
+        }
+
+        function displayHotSector() {
+            const hotSector = sectors.find(s => s.status === 'hot');
+            if (hotSector) {
+                document.getElementById('hotSectorHighlight').innerHTML = `
+                    <i class="fas fa-${hotSector.icon}"></i>
+                    <h4>${hotSector.name}</h4>
+                    <span class="sector-badge hot" style="font-size: 1.1em; padding: 10px 24px;">🔥 HOT SECTOR</span>
+                    <p style="color: #B0B0B0; margin-top: 15px;">Detta är den hetaste sektorn just nu med stark momentum.</p>
+                `;
             }
         }
 
-        function updateLastUpdateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString(currentLanguage === 'sv' ? 'sv-SE' : 'en-US', {
-                hour: '2-digit',
-                minute: '2-digit'
+        function updateSectors() {
+            sectors.forEach(sector => {
+                const random = Math.random();
+                if (random > 0.8) sector.status = 'hot';
+                else if (random > 0.4) sector.status = 'active';
+                else sector.status = 'neutral';
+                sector.trend = (Math.random() * 6 - 1).toFixed(1) + '%';
             });
-            document.getElementById('lastUpdateTime').textContent = timeString;
+            displaySectors();
+            displayHotSector();
+            updateStats();
         }
 
-        window.addEventListener('load', function() {
+        function updateStats() {
+            const hotCount = sectors.filter(s => s.status === 'hot').length;
+            const activeCount = sectors.filter(s => s.status === 'active').length;
+            document.getElementById('hotSectorsCount').textContent = hotCount;
+            document.getElementById('activeSectorsCount').textContent = activeCount;
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('sv-SE', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function changeLanguage() {
+            currentLanguage = currentLanguage === 'sv' ? 'en' : 'sv';
+            document.getElementById('langBtn').textContent = currentLanguage === 'sv' ? '🇬🇧 EN' : '🇸🇪 SV';
+        }
+
+        window.addEventListener('load', () => {
             generateCalendar();
             displaySectors();
             displayHotSector();
-            updateLastUpdateTime();
-            
-            setInterval(updateLastUpdateTime, 60000);
-        });
-
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
-                $('.back-to-top').fadeIn('slow');
-            } else {
-                $('.back-to-top').fadeOut('slow');
-            }
-        });
-        
-        $('.back-to-top').click(function () {
-            $('html, body').animate({scrollTop: 0}, 1500);
-            return false;
+            updateStats();
+            setInterval(updateSectors, 300000);
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('sv-SE', {hour: '2-digit', minute: '2-digit'});
+            }, 60000);
         });
     </script>
 </body>
