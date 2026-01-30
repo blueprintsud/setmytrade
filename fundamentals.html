@@ -480,7 +480,15 @@
 
         <div class="search-section">
             <div class="search-box">
-                <input type="text" id="tickerInput" placeholder="Ange aktiesymbol (t.ex. AAPL) eller flera (
+                <input type="text" id="tickerInput" placeholder="Ange aktiesymbol (t.ex. AAPL, MSFT, TSLA)">
+                <button onclick="searchStock()" id="searchBtn">Sök</button>
+                <button class="manual-input-btn" onclick="showManualInput()" id="manualBtn">Fyll i Manuellt</button>
+            </div>
+
+            <div class="data-source">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="dataSource">Väntar på sökning...</span>
+            </div>
 
             <div class="horizon-selector">
                 <label id="horizonLabel">Investeringshorisont:</label>
@@ -885,7 +893,7 @@
                     margin: finData?.profitMargins?.raw ? finData.profitMargins.raw * 100 : null,
                     debt: finData?.debtToEquity?.raw || financials?.debtToEquity?.raw,
                     marketCap: data.price?.marketCap?.raw || summary?.marketCap?.raw,
-                    dataSource: 'Yahoo Finance (RapidAPI)'
+                    dataSource: 'Yahoo Finance'
                 };
             } catch (e) {
                 console.log('Yahoo Finance failed:', e);
