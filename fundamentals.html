@@ -467,6 +467,75 @@
     </style>
 </head>
 <body>
+    <!-- GLOBAL NAVBAR - ADDED FOR GOOGLE ADS COMPLIANCE -->
+    <style>
+        .smt-global-navbar { background: rgba(13, 31, 45, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10000; border-bottom: 3px solid #00D084; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+        .smt-nav-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; min-height: 70px; }
+        .smt-nav-logo { font-size: 1.8em; font-weight: 700; color: #00D084; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .smt-nav-logo:hover { color: #00ff9d; }
+        .smt-nav-links { display: flex; list-style: none; margin: 0; padding: 0; gap: 5px; }
+        .smt-nav-links a { color: #E0E0E0; text-decoration: none; padding: 25px 20px; display: block; font-size: 1.05em; font-weight: 500; transition: all 0.3s; border-bottom: 3px solid transparent; }
+        .smt-nav-links a:hover { color: #00D084; background: rgba(0, 208, 132, 0.1); }
+        .smt-nav-links a.active { color: #00D084; border-bottom-color: #00D084; background: rgba(0, 208, 132, 0.15); }
+        .smt-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+        .smt-hamburger span { width: 30px; height: 3px; background: #00D084; border-radius: 3px; transition: all 0.3s; }
+        .smt-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .smt-hamburger.active span:nth-child(2) { opacity: 0; }
+        .smt-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        @media (max-width: 968px) {
+            .smt-nav-links { position: absolute; top: 70px; left: 0; right: 0; background: rgba(13, 31, 45, 0.98); flex-direction: column; gap: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; border-bottom: 3px solid #00D084; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+            .smt-nav-links.mobile-open { max-height: 500px; }
+            .smt-nav-links a { padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid transparent; }
+            .smt-nav-links a.active { border-bottom-color: rgba(255, 255, 255, 0.1); border-left-color: #00D084; }
+            .smt-hamburger { display: flex; }
+        }
+    </style>
+    
+    <nav class="smt-global-navbar">
+        <div class="smt-nav-container">
+            <a href="index.html" class="smt-nav-logo"><span>📊</span> SetMyTrade</a>
+            <ul class="smt-nav-links" id="smtNavLinks">
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="calculator.html">Trading Kalkylator</a></li>
+                <li><a href="search.html">Aktie Screener</a></li>
+                <li><a href="fundamentals.html" class="active">Fundamental Analys</a></li>
+                <li><a href="legal.html">Disclaimer</a></li>
+            </ul>
+            <div class="smt-hamburger" id="smtHamburger" onclick="smtToggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- DISCLAIMER BANNER - ADDED FOR GOOGLE ADS COMPLIANCE -->
+    <div style="background: linear-gradient(135deg, #FF4545 0%, #C62828 100%); color: white; padding: 20px; text-align: center; border-bottom: 4px solid #8B0000; box-shadow: 0 4px 20px rgba(255, 69, 69, 0.5);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="font-size: 1.4em; font-weight: 700; margin-bottom: 10px;">
+                ⚠️ VIKTIG INFORMATION - INTE FINANSIELL RÅDGIVNING ⚠️
+            </div>
+            <div style="font-size: 1.05em; line-height: 1.6;">
+                <strong>SetMyTrade är INTE finansiell rådgivning.</strong> All information är allmän och utbildande. 
+                Inga rekommendationer att köpa, sälja eller hålla värdepapper. Använd egen research och konsultera 
+                auktoriserad rådgivare. Historisk avkastning garanterar inte framtida resultat. Risk för kapitalförlust. 
+                Vi är inte registrerade hos Finansinspektionen (FI).
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-HEADER - ADDED FOR GOOGLE ADS COMPLIANCE -->
+    <div style="background: rgba(26, 47, 61, 0.8); border-bottom: 1px solid rgba(0, 208, 132, 0.2); padding: 25px 20px;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="color: #00D084; font-size: 2em; margin-bottom: 10px; font-weight: 600;">
+                Fundamental Analys – Utbildande Värderingsverktyg
+            </h2>
+            <p style="color: #B0B0B0; font-size: 1.15em; line-height: 1.6;">
+                Välj värderingsmodell och analysera aktier med DCF, PEG, Graham Number, DDM och Kvantitativ Scoring. 
+                <strong style="color: #E0E0E0;">Endast för utbildning</strong> – inte investeringsråd.
+            </p>
+        </div>
+    </div>
+
+    <!-- ORIGINAL CONTENT STARTS HERE -->
     <div class="language-toggle">
         <button class="lang-btn active" onclick="setLanguage('sv')">🇸🇪 SV</button>
         <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 EN</button>
@@ -668,11 +737,11 @@
                     }
                 },
                 recommendations: {
-                    strongBuy: "STARK KÖP",
-                    buy: "KÖP",
-                    hold: "HÅLL",
-                    sell: "SÄLJ",
-                    strongSell: "STARK SÄLJ"
+                    strongBuy: "Hög Poäng - Potentiell Undervärdering",
+                    buy: "God Poäng - Modellen Indikerar Värde",
+                    hold: "Neutral Poäng - Balanserad Värdering",
+                    sell: "Låg Poäng - Potentiell Övervärdering",
+                    strongSell: "Mycket Låg Poäng - Modellen Indikerar Risk"
                 }
             },
             en: {
@@ -747,11 +816,11 @@
                     }
                 },
                 recommendations: {
-                    strongBuy: "STRONG BUY",
-                    buy: "BUY",
-                    hold: "HOLD",
-                    sell: "SELL",
-                    strongSell: "STRONG SELL"
+                    strongBuy: "High Score - Potential Undervaluation",
+                    buy: "Good Score - Model Indicates Value",
+                    hold: "Neutral Score - Balanced Valuation",
+                    sell: "Low Score - Potential Overvaluation",
+                    strongSell: "Very Low Score - Model Indicates Risk"
                 }
             }
         };
@@ -902,49 +971,7 @@
         }
 
         async function fetchWithFallback(ticker) {
-            // Level 1: Try FREE Yahoo Finance API (direct)
-            try {
-                const yahooUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=defaultKeyStatistics,financialData,summaryDetail,quoteType`;
-                
-                let response = await fetch(yahooUrl, { signal: AbortSignal.timeout(5000) });
-                
-                // If CORS blocked, try with proxy
-                if (!response.ok) {
-                    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl);
-                    response = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
-                }
-                
-                if (response.ok) {
-                    const json = await response.json();
-                    const qs = json.quoteSummary.result[0];
-                    const finData = qs.financialData;
-                    const summary = qs.summaryDetail;
-                    const keyStats = qs.defaultKeyStatistics;
-                    
-                    const yahooData = {
-                        ticker: ticker,
-                        company: qs.quoteType.longName || ticker,
-                        price: summary.regularMarketPrice?.raw,
-                        pe: keyStats.trailingPE?.raw || summary.trailingPE?.raw,
-                        pb: keyStats.priceToBook?.raw,
-                        roe: finData.returnOnEquity?.raw ? finData.returnOnEquity.raw * 100 : null,
-                        dividend: summary.dividendYield?.raw ? summary.dividendYield.raw * 100 : null,
-                        eps: keyStats.trailingEps?.raw,
-                        epsGrowth: finData.earningsQuarterlyGrowth?.raw ? finData.earningsQuarterlyGrowth.raw * 100 : 
-                                   (finData.earningsGrowth?.raw ? finData.earningsGrowth.raw * 100 : null),
-                        margin: finData.profitMargins?.raw ? finData.profitMargins.raw * 100 : null,
-                        debt: finData.debtToEquity?.raw || keyStats.debtToEquity?.raw,
-                        marketCap: summary.marketCap?.raw,
-                        dataSource: 'Yahoo Finance (Free API)'
-                    };
-                    
-                    if (yahooData.price) return yahooData;
-                }
-            } catch (e) {
-                console.log('Free Yahoo API failed:', e.message);
-            }
-            
-            // Level 2: Try Render API
+            // Level 1: Try Render API
             try {
                 const renderResp = await fetch(`https://setmytrade-api.onrender.com/api/finviz?ticker=${ticker}`, {
                     signal: AbortSignal.timeout(5000)
@@ -960,17 +987,17 @@
                 console.log('Render API failed:', e.message);
             }
             
-            // Level 3: Try Yahoo Finance (RapidAPI - backup)
+            // Level 2: Try Yahoo Finance (RapidAPI)
             try {
                 const yahooData = await fetchYahooFinance(ticker);
                 if (yahooData && yahooData.price) {
                     return yahooData;
                 }
             } catch (e) {
-                console.log('Yahoo RapidAPI failed:', e.message);
+                console.log('Yahoo Finance failed:', e.message);
             }
             
-            // Level 4: CORS Proxy + Finviz scraping
+            // Level 3: CORS Proxy + Finviz scraping
             const proxies = [
                 'https://api.allorigins.win/raw?url=',
                 'https://corsproxy.io/?'
@@ -1000,7 +1027,7 @@
                 }
             }
             
-            // Level 5: Manual input
+            // Level 3: Manual input
             return null;
         }
 
@@ -1672,6 +1699,71 @@
             
             currentChart = new Chart(ctx, config);
         }
+    </script>
+    
+    <!-- FOOTER DISCLAIMER - ADDED FOR GOOGLE ADS COMPLIANCE -->
+    <div style="background: rgba(13, 31, 45, 0.95); border-top: 3px solid #FF4545; padding: 40px 20px; margin-top: 60px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="background: rgba(255, 69, 69, 0.15); border: 2px solid #FF4545; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
+                <h3 style="color: #FF6B6B; font-size: 1.8em; margin-bottom: 15px; text-align: center;">
+                    ⚠️ ANSVARSFRISKRIVNING ⚠️
+                </h3>
+                <p style="color: #E0E0E0; font-size: 1.1em; line-height: 1.8; text-align: center; margin-bottom: 15px;">
+                    <strong style="color: #FF6B6B;">SetMyTrade är INTE finansiell rådgivning.</strong> Vi är inte registrerade hos 
+                    <a href="https://www.fi.se" target="_blank" style="color: #00D084;">Finansinspektionen (FI)</a> 
+                    och ger INGA investeringsrekommendationer. All information är allmän och utbildande.
+                </p>
+                <p style="color: #B0B0B0; font-size: 1em; line-height: 1.6; text-align: center;">
+                    Inga rekommendationer att köpa, sälja eller hålla värdepapper. Använd egen research och konsultera 
+                    auktoriserad rådgivare. Historisk avkastning garanterar inte framtida resultat. Risk för kapitalförlust. 
+                    Värderingsmodellerna är simulerade och utbildande - inte exakta förutsägelser.
+                </p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="legal.html" style="color: #00D084; font-weight: 700; font-size: 1.1em; text-decoration: underline;">
+                        Läs fullständig juridisk information och ansvarsfriskrivning →
+                    </a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; color: #888; font-size: 0.9em; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p>SetMyTrade © 2026 | Endast utbildande verktyg | Inte finansiell rådgivning</p>
+                <p style="margin-top: 10px;">
+                    <a href="legal.html" style="color: #00D084; margin: 0 15px;">Juridisk Info</a> |
+                    <a href="privacy.html" style="color: #00D084; margin: 0 15px;">Privacy Policy</a> |
+                    <a href="terms.html" style="color: #00D084; margin: 0 15px;">Användarvillkor</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR MOBILE MENU SCRIPT - ADDED FOR NAVBAR FUNCTIONALITY -->
+    <script>
+        function smtToggleMenu() {
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            navLinks.classList.toggle('mobile-open');
+            hamburger.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.smt-global-navbar');
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            
+            if (!navbar.contains(event.target) && navLinks.classList.contains('mobile-open')) {
+                navLinks.classList.remove('mobile-open');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        document.querySelectorAll('.smt-nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 968) {
+                    document.getElementById('smtNavLinks').classList.remove('mobile-open');
+                    document.getElementById('smtHamburger').classList.remove('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
