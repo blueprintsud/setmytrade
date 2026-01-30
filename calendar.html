@@ -318,6 +318,160 @@
         @media (max-width: 1200px) {
             .main-layout { grid-template-columns: 1fr; }
         }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .header p { font-size: 1em; }
+            
+            .smt-navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .smt-nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .smt-nav-link {
+                font-size: 0.9em;
+                padding: 6px 12px;
+            }
+            
+            .calendar-header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .calendar-title {
+                font-size: 1.5em;
+                text-align: center;
+            }
+            
+            .calendar-nav {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            
+            .nav-btn, .flip-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 0.95em;
+            }
+            
+            .calendar-flip-container {
+                min-height: 400px;
+            }
+            
+            .calendar-front, .calendar-back {
+                padding: 15px;
+            }
+            
+            .week-day {
+                font-size: 0.75em;
+                padding: 5px 0;
+            }
+            
+            .calendar-days {
+                gap: 6px;
+                padding: 0;
+            }
+            
+            .calendar-day {
+                font-size: 1em;
+                border-radius: 8px;
+            }
+            
+            .sectors-panel {
+                padding: 20px;
+            }
+            
+            .sectors-panel h3 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            
+            .sector-item {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .sector-info {
+                width: 100%;
+            }
+            
+            .sector-details {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .hot-sector-highlight {
+                padding: 20px;
+                margin-top: 20px;
+            }
+            
+            .hot-sector-highlight i {
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+            
+            .hot-sector-highlight h4 {
+                font-size: 1.5em;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 25px;
+            }
+            
+            .stat-card h3 {
+                font-size: 2.5em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .smt-logo {
+                font-size: 1.5em;
+            }
+            
+            .calendar-title {
+                font-size: 1.2em;
+            }
+            
+            .calendar-day {
+                font-size: 0.9em;
+            }
+            
+            .sector-icon {
+                font-size: 1.3em;
+            }
+            
+            .sector-trend {
+                font-size: 0.8em;
+            }
+            
+            .sector-badge {
+                font-size: 0.75em;
+                padding: 4px 10px;
+            }
+        }
     </style>
 </head>
 <body>
