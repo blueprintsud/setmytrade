@@ -971,7 +971,52 @@
         }
 
         async function fetchWithFallback(ticker) {
-            // Level 1: Try Render API
+            // LEVEL 1: Try FREE Yahoo Finance API (direct) - NO API KEY NEEDED!
+            try {
+                const yahooUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=defaultKeyStatistics,financialData,summaryDetail,quoteType`;
+                
+                let response = await fetch(yahooUrl, { signal: AbortSignal.timeout(5000) });
+                
+                // If CORS blocked, try with proxy
+                if (!response.ok) {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl);
+                    response = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+                }
+                
+                if (response.ok) {
+                    const json = await response.json();
+                    const qs = json.quoteSummary.result[0];
+                    const finData = qs.financialData;
+                    const summary = qs.summaryDetail;
+                    const keyStats = qs.defaultKeyStatistics;
+                    
+                    const yahooData = {
+                        ticker: ticker,
+                        company: qs.quoteType.longName || ticker,
+                        price: summary.regularMarketPrice?.raw,
+                        pe: keyStats.trailingPE?.raw || summary.trailingPE?.raw,
+                        pb: keyStats.priceToBook?.raw,
+                        roe: finData.returnOnEquity?.raw ? finData.returnOnEquity.raw * 100 : null,
+                        dividend: summary.dividendYield?.raw ? summary.dividendYield.raw * 100 : null,
+                        eps: keyStats.trailingEps?.raw,
+                        epsGrowth: finData.earningsQuarterlyGrowth?.raw ? finData.earningsQuarterlyGrowth.raw * 100 : 
+                                   (finData.earningsGrowth?.raw ? finData.earningsGrowth.raw * 100 : null),
+                        margin: finData.profitMargins?.raw ? finData.profitMargins.raw * 100 : null,
+                        debt: finData.debtToEquity?.raw || keyStats.debtToEquity?.raw,
+                        marketCap: summary.marketCap?.raw,
+                        dataSource: 'Yahoo Finance (Free API)'
+                    };
+                    
+                    if (yahooData.price) {
+                        console.log('✅ Yahoo Free API success:', ticker);
+                        return yahooData;
+                    }
+                }
+            } catch (e) {
+                console.log('Yahoo Free API failed:', e.message);
+            }
+            
+            // LEVEL 2: Try Render API
             try {
                 const renderResp = await fetch(`https://setmytrade-api.onrender.com/api/finviz?ticker=${ticker}`, {
                     signal: AbortSignal.timeout(5000)
@@ -980,6 +1025,7 @@
                     const data = await renderResp.json();
                     if (data.price) {
                         data.dataSource = 'Render API';
+                        console.log('✅ Render API success:', ticker);
                         return data;
                     }
                 }
@@ -987,17 +1033,18 @@
                 console.log('Render API failed:', e.message);
             }
             
-            // Level 2: Try Yahoo Finance (RapidAPI)
+            // LEVEL 3: Try Yahoo Finance (RapidAPI - backup)
             try {
                 const yahooData = await fetchYahooFinance(ticker);
                 if (yahooData && yahooData.price) {
+                    console.log('✅ Yahoo RapidAPI success:', ticker);
                     return yahooData;
                 }
             } catch (e) {
-                console.log('Yahoo Finance failed:', e.message);
+                console.log('Yahoo RapidAPI failed:', e.message);
             }
             
-            // Level 3: CORS Proxy + Finviz scraping
+            // LEVEL 4: CORS Proxy + Finviz scraping (LAST RESORT)
             const proxies = [
                 'https://api.allorigins.win/raw?url=',
                 'https://corsproxy.io/?'
@@ -1012,30 +1059,64 @@
                         
                         // Validate HTML (not error page)
                         if (!html.includes('snapshot-table') || html.length < 5000) {
-                            console.log('Invalid HTML from proxy');
+                            console.log('Invalid HTML from Finviz proxy');
                             continue;
                         }
                         
                         const parsed = parseFinvizHTML(html, ticker);
                         if (parsed && parsed.price) {
                             parsed.dataSource = 'Finviz (CORS Proxy)';
+                            console.log('✅ Finviz scraping success:', ticker);
                             return parsed;
                         }
                     }
                 } catch (e) {
-                    console.log(`Proxy ${proxy} failed:`, e.message);
+                    console.log(`Finviz proxy ${proxy} failed:`, e.message);
                 }
             }
             
-            // Level 3: Manual input
+            // LEVEL 5: Manual input
+            console.log('❌ All sources failed for:', ticker);
             return null;
         }
 
         function parseFinvizHTML(html, ticker) {
             try {
-                // Extract company name from title
-                const titleMatch = html.match(/<title>([^|]+)/);
-                const company = titleMatch ? titleMatch[1].trim() : ticker;
+                // STRICT VALIDATION: Reject if this looks like HTML metadata or error page
+                const badPatterns = [
+                    'window.notificationsArray',
+                    'window.renderScriptNotLoaded',
+                    '<script async=true>',
+                    'dist-legacy/redesign',
+                    'fonts/lato-v17',
+                    'fonts/finviz-sans',
+                    'onerror="window.handleScriptNotLoaded'
+                ];
+                
+                for (const pattern of badPatterns) {
+                    if (html.includes(pattern)) {
+                        console.log('❌ Finviz returned HTML metadata/scripts, not stock data');
+                        return null;
+                    }
+                }
+                
+                // Check if actual stock table exists
+                if (!html.includes('snapshot-table2') && !html.includes('snapshot-td2')) {
+                    console.log('❌ Finviz HTML missing stock data table');
+                    return null;
+                }
+                
+                // Extract company name from title (but validate it's not just the HTML head)
+                const titleMatch = html.match(/<title>([^<]+?)<\/title>/);
+                if (!titleMatch) {
+                    console.log('❌ Finviz HTML has no title tag');
+                    return null;
+                }
+                
+                let company = titleMatch[1].trim();
+                // Remove " Stock Price and Quote" suffix if present
+                company = company.replace(/\s*-\s*Stock Price and Quote.*$/i, '').trim();
+                company = company.replace(ticker + ' - ', '').trim();
                 
                 // Parse table data
                 const data = {};
@@ -1062,7 +1143,7 @@
                     return isNaN(num) ? null : num * mult;
                 };
                 
-                return {
+                const result = {
                     ticker: ticker,
                     company: company,
                     price: parseNum(data['Price']),
@@ -1076,6 +1157,21 @@
                     debt: parseNum(data['Debt/Eq']),
                     marketCap: parseNum(data['Market Cap'])
                 };
+                
+                // VALIDATE: Must have at least price to be valid
+                if (!result.price || result.price <= 0) {
+                    console.log('❌ Finviz data has no valid price');
+                    return null;
+                }
+                
+                // VALIDATE: Company name shouldn't be HTML or empty
+                if (!result.company || result.company.includes('<') || result.company.includes('window.')) {
+                    console.log('❌ Finviz company name is invalid');
+                    return null;
+                }
+                
+                return result;
+                
             } catch (e) {
                 console.error('Parse error:', e);
                 return null;
