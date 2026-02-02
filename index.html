@@ -19,10 +19,55 @@
             line-height: 1.6;
         }
 
+        /* NAVBAR STYLES */
+        .smt-global-navbar { background: rgba(13, 31, 45, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10000; border-bottom: 3px solid #00D084; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+        .smt-nav-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; min-height: 70px; }
+        .smt-nav-logo { font-size: 1.8em; font-weight: 700; color: #00D084; text-decoration: none; }
+        .smt-nav-logo:hover { color: #00ff9d; }
+        .smt-nav-links { display: flex; list-style: none; margin: 0; padding: 0; gap: 5px; }
+        .smt-nav-links a { color: #E0E0E0; text-decoration: none; padding: 25px 20px; font-size: 1.05em; font-weight: 500; transition: all 0.3s; border-bottom: 3px solid transparent; }
+        .smt-nav-links a:hover { color: #00D084; background: rgba(0, 208, 132, 0.1); }
+        .smt-nav-links a.active { color: #00D084; border-bottom-color: #00D084; background: rgba(0, 208, 132, 0.15); }
+        .smt-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+        .smt-hamburger span { width: 30px; height: 3px; background: #00D084; border-radius: 3px; transition: all 0.3s; }
+        .smt-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .smt-hamburger.active span:nth-child(2) { opacity: 0; }
+        .smt-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        @media (max-width: 968px) {
+            .smt-nav-links { position: absolute; top: 70px; left: 0; right: 0; background: rgba(13, 31, 45, 0.98); flex-direction: column; gap: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; border-bottom: 3px solid #00D084; }
+            .smt-nav-links.mobile-open { max-height: 500px; }
+            .smt-nav-links a { padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid transparent; }
+            .smt-nav-links a.active { border-left-color: #00D084; }
+            .smt-hamburger { display: flex; }
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            background: rgba(0, 208, 132, 0.2);
+            border: 2px solid #00D084;
+            color: #00D084;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: #00D084;
+            color: #0D1F2D;
         }
 
         header {
@@ -191,55 +236,83 @@
 
         .step h3 {
             color: #00D084;
-            margin-bottom: 15px;
             font-size: 1.5em;
+            margin-bottom: 15px;
         }
 
-        .testimonial {
+        .step p {
+            color: #B0B0B0;
+            font-size: 1.1em;
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .model-card {
             background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
+            padding: 35px;
             border-radius: 15px;
-            border-left: 4px solid #00D084;
-            margin: 20px 0;
+            border: 2px solid rgba(0, 208, 132, 0.2);
+            transition: all 0.3s;
         }
 
-        .testimonial-text {
-            font-size: 1.2em;
-            font-style: italic;
-            margin-bottom: 20px;
+        .model-card:hover {
+            border-color: #00D084;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.3);
         }
 
-        .testimonial-author {
-            color: #00D084;
+        .model-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #00D084;
+            color: #0D1F2D;
+            border-radius: 20px;
+            font-size: 0.8em;
             font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .model-card h3 {
+            color: #00D084;
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .model-card p {
+            color: #B0B0B0;
+            font-size: 1em;
+            line-height: 1.6;
         }
 
         footer {
             text-align: center;
             padding: 60px 0;
-            border-top: 1px solid rgba(0, 208, 132, 0.2);
+            border-top: 2px solid rgba(0, 208, 132, 0.2);
             margin-top: 80px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
             flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
         .footer-links a {
-            color: #B0B0B0;
+            color: #00D084;
             text-decoration: none;
             transition: color 0.3s;
         }
 
         .footer-links a:hover {
-            color: #00D084;
+            color: #00ff9d;
         }
-
-      
 
         @media (max-width: 768px) {
             h1 {
@@ -250,199 +323,47 @@
                 font-size: 1.2em;
             }
 
-            .cta-buttons {
-                flex-direction: column;
+            .feature-card, .model-card {
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
-<style>
-.smt-navbar {
-    background: rgba(13, 31, 45, 0.98);
-    backdrop-filter: blur(10px);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-    border-bottom: 2px solid rgba(0, 208, 132, 0.3);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.smt-navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.smt-logo {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #00D084;
-    text-decoration: none;
-    text-shadow: 0 0 10px rgba(0, 208, 132, 0.3);
-}
-
-.smt-nav-links {
-    display: flex;
-    gap: 25px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.smt-nav-link {
-    color: #E0E0E0;
-    text-decoration: none;
-    font-size: 1.05em;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    white-space: nowrap;
-}
-
-.smt-nav-link:hover {
-    background: rgba(0, 208, 132, 0.15);
-    color: #00D084;
-}
-
-.smt-nav-link.active {
-    background: rgba(0, 208, 132, 0.2);
-    color: #00D084;
-    font-weight: bold;
-}
-
-.smt-lang-toggle {
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #00D084;
-    color: #E0E0E0;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-
-.smt-lang-toggle:hover {
-    background: rgba(0, 208, 132, 0.2);
-}
-
-@media (max-width: 1200px) {
-    .smt-nav-links {
-        gap: 15px;
-    }
-    
-    .smt-nav-link {
-        font-size: 0.95em;
-        padding: 6px 12px;
-    }
-}
-
-@media (max-width: 768px) {
-    .smt-navbar-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .smt-nav-links {
-        justify-content: center;
-        gap: 10px;
-    }
-}
-</style>
-
-<nav class="smt-navbar">
-    <div class="smt-navbar-container">
-        <a href="index.html" class="smt-logo">SetMyTrade</a>
-        
-        <div class="smt-nav-links">
-            <a href="index.html" class="smt-nav-link" data-lang="navHome">Hem</a>
-            <a href="fundamentals.html" class="smt-nav-link" data-lang="navFundamental">Fundamental</a>
-            <a href="search.html" class="smt-nav-link" data-lang="navSearch">Sök</a>
-            <a href="calculator.html" class="smt-nav-link" data-lang="navCalculator">Kalkylator</a>
-            <a href="calendar.html" class="smt-nav-link" data-lang="navCalendar">Kalender</a>
-            <a href="finviz.html" class="smt-nav-link" data-lang="navFinviz">Finviz</a>
-            <a href="strategies.html" class="smt-nav-link" data-lang="navStrategies">Strategier</a>
-            <a href="guides.html" class="smt-nav-link" data-lang="navGuides">Guider</a>
-            
-            <button class="smt-lang-toggle" onclick="toggleNavLang()">
-                <span id="navLangBtn">🇬🇧 EN</span>
-            </button>
+    <!-- NAVBAR -->
+    <nav class="smt-global-navbar">
+        <div class="smt-nav-container">
+            <a href="index.html" class="smt-nav-logo">📊 SetMyTrade</a>
+            <ul class="smt-nav-links" id="smtNavLinks">
+                <li><a href="index.html" class="active">Hem</a></li>
+                <li><a href="calculator.html">Trading Kalkylator</a></li>
+                <li><a href="search.html">Aktie Screener</a></li>
+                <li><a href="fundamentals.html">Fundamental Analys</a></li>
+                <li><a href="ai-chat.html">🤖 Fråga AI</a></li>
+                <li><a href="legal.html">Disclaimer</a></li>
+            </ul>
+            <div class="smt-hamburger" id="smtHamburger" onclick="smtToggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
         </div>
+    </nav>
+
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🇬🇧 EN</button>
     </div>
-</nav>
-
-<script>
-let navLang = 'sv';
-const navTranslations = {
-    sv: {
-        navHome: 'Hem',
-        navFundamental: 'Fundamental',
-        navSearch: 'Sök',
-        navCalculator: 'Kalkylator',
-        navCalendar: 'Kalender',
-        navFinviz: 'Finviz',
-        navStrategies: 'Strategier',
-        navGuides: 'Guider',
-        navLangBtn: '🇬🇧 EN'
-    },
-    en: {
-        navHome: 'Home',
-        navFundamental: 'Fundamental',
-        navSearch: 'Search',
-        navCalculator: 'Calculator',
-        navCalendar: 'Calendar',
-        navFinviz: 'Finviz',
-        navStrategies: 'Strategies',
-        navGuides: 'Guides',
-        navLangBtn: '🇸🇪 SV'
-    }
-};
-
-function toggleNavLang() {
-    navLang = navLang === 'sv' ? 'en' : 'sv';
-    const t = navTranslations[navLang];
-    
-    Object.keys(t).forEach(key => {
-        const elements = document.querySelectorAll(`[data-lang="${key}"]`);
-        elements.forEach(el => {
-            el.textContent = t[key];
-        });
-    });
-    
-    document.getElementById('navLangBtn').textContent = t.navLangBtn;
-    
-    if (typeof changeLanguage === 'function') {
-        changeLanguage(navLang);
-    }
-}
-
-// Highlight active page
-document.addEventListener('DOMContentLoaded', () => {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.smt-nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        }
-    });
-});
-</script>
-
 
     <div class="container">
         <header>
             <h1 id="title">SetMyTrade</h1>
             <p class="tagline" id="tagline">Professionell aktieanalys för smarta investerare</p>
-            <p id="description" style="font-size: 1.2em; color: #C0C0C0; max-width: 800px; margin: 0 auto;">
+            <p id="description" style="font-size: 1.2em; color: #B0B0B0; max-width: 800px; margin: 0 auto 40px;">
                 Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number, PEG Ratio och mer. Helt gratis, ingen registrering krävs.
             </p>
             <div class="cta-buttons">
                 <a href="fundamentals.html" class="btn btn-primary" id="ctaPrimary">Starta Analys →</a>
-                <a href="#how-it-works" class="btn btn-secondary" id="ctaSecondary">Hur det fungerar</a>
+                <a href="ai-chat.html" class="btn btn-secondary">🤖 Fråga AI</a>
+                <a href="how-it-works.html" class="btn btn-secondary" id="ctaSecondary">Hur det fungerar</a>
             </div>
         </header>
 
@@ -463,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
 
-        <section id="features">
+        <section>
             <h2 id="featuresTitle">Kraftfulla Analysverktyg</h2>
             <div class="features-grid">
                 <div class="feature-card">
@@ -485,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
+                    <div class="feature-icon">🔄</div>
                     <h3 id="feature4Title">Automatisk Datahämtning</h3>
                     <p id="feature4Desc">Multi-source fallback system som hämtar aktiedata från Yahoo Finance, Finviz och andra källor automatiskt.</p>
                 </div>
@@ -504,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </section>
 
-        <section id="how-it-works" class="how-it-works">
+        <section class="how-it-works">
             <h2 id="howTitle">Så här fungerar det</h2>
             <div class="steps">
                 <div class="step">
@@ -535,30 +456,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <section>
             <h2 id="modelsTitle">Våra Värderingsmodeller</h2>
-            
-            <div class="testimonial">
-                <h3 style="color: #00D084; margin-bottom: 15px;">📊 Kvantitativ Scoring (0-100)</h3>
-                <p>Poängbaserat system som värderar lönsamhet (ROE), värdering (P/E), tillväxt, finansiell hälsa och utdelning. Perfekt för snabb översikt.</p>
-            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <span class="model-badge">REKOMMENDERAD</span>
+                    <h3>Kvantitativ Scoring</h3>
+                    <p>Poängbaserad värdering (0-100) som analyserar lönsamhet (ROE), värdering (P/E), tillväxt, finansiell hälsa och utdelning.</p>
+                </div>
 
-            <div class="testimonial">
-                <h3 style="color: #00D084; margin-bottom: 15px;">💰 DCF (Discounted Cash Flow)</h3>
-                <p>Professionell DCF-analys som beräknar nuvärdet av framtida kassaflöden. Används av institutionella investerare och analytiker.</p>
-            </div>
+                <div class="model-card">
+                    <span class="model-badge">AVANCERAD</span>
+                    <h3>DCF Analys</h3>
+                    <p>Discounted Cash Flow värdering med framtida kassaflöden, terminal värde och 10% diskonteringsränta över 1-20 år.</p>
+                </div>
 
-            <div class="testimonial">
-                <h3 style="color: #00D084; margin-bottom: 15px;">💵 Dividend Discount Model (Gordon Growth)</h3>
-                <p>Värdering baserad på framtida utdelningar. Idealisk för inkomstinvesterare som fokuserar på utdelningsaktier.</p>
-            </div>
+                <div class="model-card">
+                    <span class="model-badge">UTDELNING</span>
+                    <h3>Utdelningsmodell</h3>
+                    <p>Gordon Growth Model för utdelningsaktier med 5% tillväxt och 10% avkastningskrav. Beräknar total utdelning och Yield on Cost.</p>
+                </div>
 
-            <div class="testimonial">
-                <h3 style="color: #00D084; margin-bottom: 15px;">🚀 PEG Ratio (Price/Earnings to Growth)</h3>
-                <p>Tillväxtjusterad värdering som jämför P/E-tal mot vinsttillväxt. Perfekt för tillväxtaktier.</p>
-            </div>
+                <div class="model-card">
+                    <span class="model-badge">TILLVÄXT</span>
+                    <h3>PEG Ratio</h3>
+                    <p>Tillväxtjusterad värdering där P/E delas med tillväxttakt. Under 1.0 = Undervärderad, 1.0-2.0 = Rimlig, Över 2.0 = Övervärderad.</p>
+                </div>
 
-            <div class="testimonial">
-                <h3 style="color: #00D084; margin-bottom: 15px;">📘 Graham Number (Ben Graham)</h3>
-                <p>Value investing-modell från Benjamin Graham, Warren Buffetts mentor. Beräknar säkerhetsmarginal.</p>
+                <div class="model-card">
+                    <span class="model-badge">VALUE</span>
+                    <h3>Graham Number</h3>
+                    <p>Ben Graham's värdeinvestering-formel: √(22.5 × EPS × Bokfört värde). Konservativ värdering med säkerhetsmarginal.</p>
+                </div>
             </div>
         </section>
 
@@ -602,9 +529,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <p id="ctaText" style="font-size: 1.3em; color: #B0B0B0; margin: 30px 0;">
                 Använd professionella analysverktyg helt gratis. Ingen registrering krävs.
             </p>
-            <a href="fundamentals.html" class="btn btn-primary" style="font-size: 1.3em; padding: 20px 50px;">
-                <span id="ctaButton">Starta din första analys →</span>
-            </a>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="fundamentals.html" class="btn btn-primary" style="font-size: 1.3em; padding: 20px 50px;">
+                    <span id="ctaButton">Starta din första analys →</span>
+                </a>
+                <a href="ai-chat.html" class="btn btn-secondary" style="font-size: 1.3em; padding: 20px 50px;">
+                    🤖 Fråga AI
+                </a>
+            </div>
         </section>
 
         <footer>
@@ -612,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <a href="about.html" id="footerAbout">Om SetMyTrade</a>
                 <a href="how-it-works.html" id="footerHow">Hur det fungerar</a>
                 <a href="blog.html" id="footerBlog">Blogg</a>
+                <a href="legal.html">Disclaimer</a>
                 <a href="privacy.html" id="footerPrivacy">Integritetspolicy</a>
                 <a href="terms.html" id="footerTerms">Användarvillkor</a>
             </div>
@@ -742,6 +675,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+
+        // Navbar mobile toggle
+        function smtToggleMenu() {
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            navLinks.classList.toggle('mobile-open');
+            hamburger.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.smt-global-navbar');
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            
+            if (navbar && !navbar.contains(event.target) && navLinks.classList.contains('mobile-open')) {
+                navLinks.classList.remove('mobile-open');
+                hamburger.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
