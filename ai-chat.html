@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fråga AI - SetMyTrade</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Marked.js för Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Navbar styles */
+        .smt-global-navbar { background: rgba(13, 31, 45, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10000; border-bottom: 3px solid #00D084; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+        .smt-nav-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; min-height: 70px; }
+        .smt-nav-logo { font-size: 1.8em; font-weight: 700; color: #00D084; text-decoration: none; }
+        .smt-nav-logo:hover { color: #00ff9d; }
+        .smt-nav-links { display: flex; list-style: none; margin: 0; padding: 0; gap: 5px; }
+        .smt-nav-links a { color: #E0E0E0; text-decoration: none; padding: 25px 20px; font-size: 1.05em; font-weight: 500; transition: all 0.3s; border-bottom: 3px solid transparent; }
+        .smt-nav-links a:hover { color: #00D084; background: rgba(0, 208, 132, 0.1); }
+        .smt-nav-links a.active { color: #00D084; border-bottom-color: #00D084; background: rgba(0, 208, 132, 0.15); }
+        .smt-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+        .smt-hamburger span { width: 30px; height: 3px; background: #00D084; border-radius: 3px; transition: all 0.3s; }
+        .smt-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .smt-hamburger.active span:nth-child(2) { opacity: 0; }
+        .smt-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        @media (max-width: 968px) {
+            .smt-nav-links { position: absolute; top: 70px; left: 0; right: 0; background: rgba(13, 31, 45, 0.98); flex-direction: column; gap: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; border-bottom: 3px solid #00D084; }
+            .smt-nav-links.mobile-open { max-height: 500px; }
+            .smt-nav-links a { padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid transparent; }
+            .smt-nav-links a.active { border-left-color: #00D084; }
+            .smt-hamburger { display: flex; }
+        }
+        
+        /* Chat animations */
+        .chat-message { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #00D084;
+            margin: 0 2px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        .prose { max-width: none; }
+        .prose h2 { font-size: 1.5rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .prose h3 { font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .prose ul { list-style-type: disc; margin-left: 1.5rem; margin-top: 0.5rem; }
+        .prose strong { font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- NAVBAR -->
+    <nav class="smt-global-navbar">
+        <div class="smt-nav-container">
+            <a href="index.html" class="smt-nav-logo">📊 SetMyTrade</a>
+            <ul class="smt-nav-links" id="smtNavLinks">
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="calculator.html">Trading Kalkylator</a></li>
+                <li><a href="search.html">Aktie Screener</a></li>
+                <li><a href="fundamentals.html">Fundamental Analys</a></li>
+                <li><a href="ai-chat.html" class="active">Fråga AI</a></li>
+                <li><a href="legal.html">Disclaimer</a></li>
+            </ul>
+            <div class="smt-hamburger" id="smtHamburger" onclick="smtToggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- DISCLAIMER BANNER -->
+    <div style="background: linear-gradient(135deg, #FF4545 0%, #C62828 100%); color: white; padding: 15px; text-align: center; border-bottom: 3px solid #8B0000;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="font-size: 1.1em; font-weight: 700;">⚠️ INTE FINANSIELL RÅDGIVNING ⚠️</div>
+            <div style="font-size: 0.9em; margin-top: 5px;">AI-assistenten ger endast utbildande information. Risk för kapitalförlust. Konsultera auktoriserad rådgivare.</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 py-8 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- SIDEBAR - Exempel frågor -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">💡 Exempel Frågor</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-600 mb-2">Aktier & Crypto</h3>
+                            <div class="space-y-2">
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Varför dippar Tesla idag?
+                                </button>
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Fundamental analys Bitcoin
+                                </button>
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Vad säger analytiker om Apple?
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-600 mb-2">Teknisk Analys</h3>
+                            <div class="space-y-2">
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    RSI indikatorn för Ethereum
+                                </button>
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Support och resistance S&P500
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-600 mb-2">Trading Strategi</h3>
+                            <div class="space-y-2">
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Bästa DCA strategi för långsiktigt sparande
+                                </button>
+                                <button class="example-btn w-full text-left text-sm p-2 rounded hover:bg-green-50 transition border border-transparent hover:border-green-200">
+                                    Hur ska jag hantera FOMO?
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p class="text-xs text-yellow-800">
+                            ⚠️ <strong>OBS:</strong> Detta är en demo. För full funktionalitet krävs backend med Claude API.
+                        </p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CHAT AREA -->
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-lg shadow-md">
+                    <!-- Chat Header -->
+                    <div class="border-b border-gray-200 p-4 bg-gradient-to-r from-green-50 to-blue-50">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-800">🤖 Fråga AI</h1>
+                                <p class="text-sm text-gray-600">Powered by Claude - Din AI Trading Assistent</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="clearChat" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition text-sm font-medium">
+                                    🗑️ Rensa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div id="chatMessages" class="h-[500px] overflow-y-auto p-6 space-y-4 bg-gray-50">
+                        <!-- Welcome Message -->
+                        <div class="chat-message bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                        🤖
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <h3 class="font-semibold text-gray-800 mb-2">Välkommen till SetMyTrade AI!</h3>
+                                    <p class="text-gray-700 mb-3">
+                                        Jag är din AI trading-assistent powered by Claude. Ställ vilka frågor som helst om:
+                                    </p>
+                                    <ul class="list-disc ml-5 space-y-1 text-gray-700">
+                                        <li>Aktieanalys och fundamentals</li>
+                                        <li>Cryptocurrency (Bitcoin, Ethereum, etc.)</li>
+                                        <li>Teknisk analys och indikatorer</li>
+                                        <li>Trading strategier och psykologi</li>
+                                        <li>Marknadsnyheter och sentiment</li>
+                                    </ul>
+                                    <div class="mt-4 p-3 bg-white rounded border border-green-200">
+                                        <p class="text-sm text-gray-600">
+                                            <strong>OBS:</strong> Detta är en demo-version. För full funktionalitet med live websökning och djupanalys behövs en backend-server med Claude API.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="border-t border-gray-200 p-4 bg-white">
+                        <div class="mb-3 flex items-center gap-4 text-sm">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="includeWebSearch" checked class="rounded text-green-600">
+                                <span class="text-gray-700">🌐 Inkludera websökning</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="deepAnalysis" class="rounded text-green-600">
+                                <span class="text-gray-700">🔍 Djupanalys (långsammare)</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <input 
+                                type="text" 
+                                id="userInput" 
+                                placeholder="Ställ en fråga om aktier, crypto, trading..." 
+                                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            >
+                            <button 
+                                id="sendBtn" 
+                                class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                                📨 Skicka
+                            </button>
+                        </div>
+                        
+                        <div id="status" class="mt-2 text-sm text-gray-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div style="background: rgba(13, 31, 45, 0.95); border-top: 3px solid #00D084; padding: 40px 20px; margin-top: 60px;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h3 style="color: #00D084; font-size: 1.5em; margin-bottom: 15px;">⚠️ Ansvarsfriskrivning</h3>
+            <p style="color: #E0E0E0; font-size: 1em; margin-bottom: 15px;">
+                <strong style="color: #00D084;">SetMyTrade AI är INTE finansiell rådgivning.</strong> All information är utbildande.
+            </p>
+            <p style="color: #B0B0B0; font-size: 0.9em;">
+                <a href="legal.html" style="color: #00D084; text-decoration: underline;">Läs fullständig juridisk information →</a>
+            </p>
+            <p style="margin-top: 20px; color: #888; font-size: 0.9em;">
+                SetMyTrade © 2026 | <a href="legal.html" style="color: #00D084;">Juridisk Info</a> | <a href="privacy.html" style="color: #00D084;">Privacy</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:8000'; // Change to your backend URL
+        
+        // Elements
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const clearChatBtn = document.getElementById('clearChat');
+        const statusEl = document.getElementById('status');
+        const includeWebSearch = document.getElementById('includeWebSearch');
+        const deepAnalysis = document.getElementById('deepAnalysis');
+        const exampleBtns = document.querySelectorAll('.example-btn');
+        
+        let conversationHistory = [];
+        
+        // Event Listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        clearChatBtn.addEventListener('click', clearChat);
+        
+        exampleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                userInput.value = btn.textContent.trim();
+                sendMessage();
+            });
+        });
+        
+        // Navbar toggle
+        function smtToggleMenu() {
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            navLinks.classList.toggle('mobile-open');
+            hamburger.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.smt-global-navbar');
+            const navLinks = document.getElementById('smtNavLinks');
+            const hamburger = document.getElementById('smtHamburger');
+            
+            if (!navbar.contains(event.target) && navLinks.classList.contains('mobile-open')) {
+                navLinks.classList.remove('mobile-open');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        // Main Functions
+        async function sendMessage() {
+            const question = userInput.value.trim();
+            if (!question) return;
+            
+            // Disable input
+            sendBtn.disabled = true;
+            userInput.disabled = true;
+            statusEl.textContent = '🔄 Analyserar...';
+            
+            // Add user message
+            addMessage(question, 'user');
+            userInput.value = '';
+            
+            // Show typing indicator
+            const typingId = addTypingIndicator();
+            
+            // DEMO MODE - Since no backend
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                
+                const demoResponse = getDemoResponse(question);
+                addMessage(demoResponse, 'ai');
+                
+                conversationHistory.push(
+                    { role: 'user', content: question },
+                    { role: 'assistant', content: demoResponse }
+                );
+                
+                statusEl.textContent = '✅ Klar! (Demo-svar)';
+                sendBtn.disabled = false;
+                userInput.disabled = false;
+                userInput.focus();
+            }, 2000);
+            
+            /* UNCOMMENT THIS WHEN BACKEND IS READY:
+            try {
+                const endpoint = deepAnalysis.checked ? '/api/ask/deep' : '/api/ask';
+                
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        include_web_search: includeWebSearch.checked,
+                        include_reddit: true
+                    })
+                });
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+                addMessage(data.answer, 'ai', data.sources);
+                
+                conversationHistory.push(
+                    { role: 'user', content: question },
+                    { role: 'assistant', content: data.answer }
+                );
+                
+                statusEl.textContent = '✅ Klar!';
+                
+            } catch (error) {
+                removeTypingIndicator(typingId);
+                addMessage(
+                    `❌ Fel: ${error.message}\n\nBackend-servern är inte tillgänglig. Detta är en demo-version.`,
+                    'error'
+                );
+                statusEl.textContent = '❌ Fel - Demo mode';
+            }
+            
+            sendBtn.disabled = false;
+            userInput.disabled = false;
+            userInput.focus();
+            */
+        }
+        
+        function getDemoResponse(question) {
+            const q = question.toLowerCase();
+            
+            if (q.includes('tesla') || q.includes('tsla')) {
+                return `## Tesla (TSLA) - Aktuell Analys
+
+**Fundamental Översikt:**
+- Tesla är världens största elbilstillverkare
+- Stark tillväxt inom energilagring och AI
+- P/E ratio: ~65 (högt värderad jämfört med traditionella biltillverkare)
+
+**Senaste Utveckling:**
+- Cybertruck-leveranser ökar stadigt
+- FSD (Full Self-Driving) visar framsteg
+- Konkurrens från kinesiska tillverkare ökar
+
+**Teknisk Analys:**
+- Stöd: $230-240
+- Motstånd: $270-280
+- RSI: Neutral nivå
+
+**Rekommendation:**
+Detta är **utbildande information** - INTE rådgivning. Gör egen analys innan investeringsbeslut.
+
+*Notera: Detta är ett demo-svar. För live-data krävs backend med Claude API.*`;
+            }
+            
+            if (q.includes('bitcoin') || q.includes('btc') || q.includes('crypto')) {
+                return `## Bitcoin & Cryptocurrency - Översikt
+
+**Bitcoin Fundamentals:**
+- Decentraliserad digital valuta
+- Begränsat utbud: 21 miljoner BTC
+- "Digital guld" narrativ växer
+
+**Marknadsläge:**
+- Institutionellt intresse ökar
+- Bitcoin ETF:er godkända i USA
+- Halvering inträffade 2024
+
+**Risker:**
+- Hög volatilitet
+- Regulatorisk osäkerhet
+- Konkurrens från andra kryptor
+
+**Trading Tips:**
+- DCA (Dollar Cost Averaging) rekommenderas för långsiktigt
+- Risk management är kritiskt
+- Aldrig investera mer än du har råd att förlora
+
+*Detta är utbildande information - INTE finansiell rådgivning.*`;
+            }
+            
+            if (q.includes('strategi') || q.includes('trading') || q.includes('dca')) {
+                return `## Trading Strategier - Utbildning
+
+**Dollar Cost Averaging (DCA):**
+- Investera fast belopp med jämna intervall
+- Minskar timing-risk
+- Perfekt för långsiktigt sparande
+
+**Teknisk Analys:**
+- Använd RSI för överköp/översålt
+- Support/Resistance viktiga nivåer
+- Volym bekräftar trender
+
+**Risk Management:**
+1. **Aldrig** riskera mer än 1-2% per trade
+2. Använd stop loss
+3. Diversifiera portföljen
+4. Ha en plan innan varje trade
+
+**Psykologi:**
+- FOMO (Fear Of Missing Out) - Vänta på bra ingångar
+- Håll fast vid din strategi
+- Lär av misstag
+
+**Kom ihåg:** Detta är utbildning, inte rådgivning. Öva med demokonto först!`;
+            }
+            
+            // Generic response
+            return `## Svar på din fråga: "${question}"
+
+Tack för din fråga! Detta är en **demo-version** av SetMyTrade AI.
+
+**För att få fullständiga svar behöver du:**
+1. Backend-server med Claude API
+2. Websökning integration
+3. Live marknadsdata
+
+**Vad AI:n kan hjälpa till med (när backend är aktiv):**
+- ✅ Realtidsanalys av aktier och crypto
+- ✅ Teknisk och fundamental analys
+- ✅ Sentiment från Reddit och Twitter
+- ✅ Trading strategier och psykologi
+- ✅ Marknadsnyheter och trender
+
+**Exempel på fullständiga svar:**
+AI:n skulle söka på webben, analysera Reddit-diskussioner, kolla tekniska indikatorer och ge dig ett omfattande svar baserat på live-data.
+
+**Vill du se en fungerande version?**
+Kontakta för att få backend-koden och deployment-instruktioner!
+
+*Kom ihåg: All information är utbildande - INTE finansiell rådgivning.*`;
+        }
+        
+        function addMessage(content, type, sources = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start justify-end">
+                        <div class="bg-green-600 text-white rounded-lg p-4 max-w-2xl shadow-md">
+                            <p class="whitespace-pre-wrap">${escapeHtml(content)}</p>
+                        </div>
+                        <div class="flex-shrink-0 ml-3">
+                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                👤
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'ai') {
+                const htmlContent = marked.parse(content);
+                
+                let sourcesHtml = '';
+                if (sources && sources.length > 0) {
+                    sourcesHtml = `
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <p class="text-xs font-semibold text-gray-600 mb-2">📚 Källor:</p>
+                            <div class="text-xs text-gray-500 space-y-1">
+                                ${sources.map((s, i) => `<div>• ${s.query}</div>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                🤖
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-1 bg-white border border-gray-200 rounded-lg p-4 max-w-4xl shadow-sm">
+                            <div class="prose prose-sm">${htmlContent}</div>
+                            ${sourcesHtml}
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'error') {
+                messageDiv.innerHTML = `
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                        <p class="text-red-700 whitespace-pre-wrap">${escapeHtml(content)}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function addTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'chat-message';
+            div.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            🤖
+                        </div>
+                    </div>
+                    <div class="ml-4 bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                        <div class="typing-indicator flex gap-1">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+        
+        function removeTypingIndicator(id) {
+            const element = document.getElementById(id);
+            if (element) element.remove();
+        }
+        
+        function clearChat() {
+            const messages = chatMessages.querySelectorAll('.chat-message');
+            messages.forEach((msg, index) => {
+                if (index > 0) msg.remove();
+            });
+            conversationHistory = [];
+            statusEl.textContent = '';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        console.log('SetMyTrade AI Chat initialized (Demo mode)');
+        console.log('Backend URL:', API_URL);
+    </script>
+</body>
+</html>
