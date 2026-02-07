@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SetMyTrade | Aktiesök & Analys - Smart Marknadssökning</title>
-    <meta name="description" content="Sök och analysera aktier med realtidsdata. Smart sökning med fundamental analys, nyckeltal och värdering.">
+    <title>SetMyTrade | Aktiesök & Analys</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- TradingView -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     
     <style>
-        /* [CSS VARIABLES - Same as before] */
         :root {
             --bg-primary: #0a0f1c;
             --bg-secondary: #151b2e;
@@ -32,10 +25,8 @@
             --text-muted: #64748b;
             --border: rgba(255, 255, 255, 0.1);
             --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.15);
             --radius-md: 12px;
             --radius-lg: 20px;
-            --radius-xl: 30px;
         }
         
         [data-theme="light"] {
@@ -60,7 +51,6 @@
             min-height: 100vh;
         }
         
-        /* Ambient Background */
         .ambient-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -84,7 +74,7 @@
             66% { transform: translate(-1%, 1%); }
         }
         
-        /* Navigation */
+        /* NAVIGATION */
         .navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -210,6 +200,58 @@
             transform: rotate(180deg);
         }
         
+        .mobile-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        /* MOBILE NAV */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 999;
+            padding: 2rem;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-nav.active {
+            display: flex;
+        }
+        
+        .mobile-nav a {
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .mobile-nav a i {
+            color: var(--accent-primary);
+            width: 24px;
+        }
+        
         .btn {
             display: inline-flex;
             align-items: center;
@@ -221,7 +263,6 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1rem;
         }
         
         .btn-primary {
@@ -250,7 +291,7 @@
             font-size: 1.1rem;
         }
         
-        /* Main Content */
+        /* MAIN CONTENT */
         .main-content {
             padding-top: 100px;
             min-height: 100vh;
@@ -262,7 +303,7 @@
             padding: 2rem;
         }
         
-        /* Search Section */
+        /* SEARCH HERO */
         .search-hero {
             text-align: center;
             padding: 4rem 0 3rem;
@@ -287,7 +328,7 @@
             margin: 0 auto 2rem;
         }
         
-        /* Search Box */
+        /* SEARCH BOX */
         .search-container {
             max-width: 800px;
             margin: 0 auto 3rem;
@@ -325,10 +366,6 @@
             box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.1);
         }
         
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-        
         .search-icon {
             position: absolute;
             left: 1.25rem;
@@ -351,10 +388,6 @@
             margin-bottom: 1.5rem;
         }
         
-        .search-tips i {
-            color: var(--accent-primary);
-        }
-        
         .search-buttons {
             display: flex;
             gap: 1rem;
@@ -362,11 +395,11 @@
         
         .search-buttons .btn {
             flex: 1;
-            padding: 1rem;
             justify-content: center;
+            padding: 1rem;
         }
         
-        /* Popular Stocks */
+        /* POPULAR STOCKS */
         .popular-section {
             margin-bottom: 3rem;
         }
@@ -403,22 +436,15 @@
         .popular-card:hover {
             transform: translateY(-3px);
             border-color: var(--accent-primary);
-            box-shadow: var(--shadow-glow);
         }
         
         .popular-ticker {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent-primary);
-            margin-bottom: 0.25rem;
         }
         
-        .popular-name {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Loading State */
+        /* LOADING */
         .loading-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -443,10 +469,10 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Stock Result */
+        /* STOCK RESULT */
         .stock-result {
-            margin-top: 2rem;
             display: none;
+            margin-top: 2rem;
         }
         
         .stock-result.active {
@@ -488,7 +514,6 @@
         .stock-info h2 {
             font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
         }
         
         .stock-info p {
@@ -502,7 +527,6 @@
         .price-current {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--text-primary);
         }
         
         .price-change {
@@ -522,16 +546,16 @@
             color: var(--accent-danger);
         }
         
-        /* Chart Container */
+        /* CHART CONTAINER - TALLER */
         .chart-container {
             background: var(--bg-primary);
             border-radius: 16px;
             padding: 1rem;
             margin-bottom: 1.5rem;
-            height: 500px;
+            height: 600px; /* INCREASED HEIGHT */
+            min-height: 500px;
         }
         
-        /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 1rem;
@@ -545,7 +569,7 @@
             padding: 1rem 1.5rem;
         }
         
-        /* Footer */
+        /* FOOTER */
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
@@ -580,14 +604,15 @@
             color: var(--accent-primary);
         }
         
-        .footer-copyright {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-        
-        /* Mobile Responsive */
+        /* MOBILE RESPONSIVE */
         @media (max-width: 1024px) {
-            .nav-links { display: none; }
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
             
             .stock-header {
                 grid-template-columns: 1fr;
@@ -609,6 +634,11 @@
             .action-buttons .btn {
                 min-width: 100%;
             }
+            
+            .chart-container {
+                height: 400px; /* Taller on mobile too */
+                min-height: 350px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -622,6 +652,7 @@
             
             .chart-container {
                 height: 350px;
+                padding: 0.5rem;
             }
             
             .footer-content {
@@ -629,29 +660,9 @@
                 text-align: center;
             }
         }
-        
-        .mobile-menu-toggle {
-            display: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        @media (max-width: 1024px) {
-            .mobile-menu-toggle {
-                display: flex;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Ambient Background -->
     <div class="ambient-bg"></div>
     
     <!-- Navigation -->
@@ -673,273 +684,169 @@
             
             <div class="nav-actions">
                 <div class="lang-switch">
-                    <button class="lang-btn-nav active" onclick="changeLanguage('sv')" data-lang="sv">SV</button>
-                    <button class="lang-btn-nav" onclick="changeLanguage('en')" data-lang="en">EN</button>
+                    <button class="lang-btn-nav active" onclick="setLanguage('sv')">SV</button>
+                    <button class="lang-btn-nav" onclick="setLanguage('en')">EN</button>
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <button class="theme-toggle" onclick="toggleTheme()">
                     <i class="fas fa-sun" id="themeIcon"></i>
                 </button>
                 <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-bars" id="menuIcon"></i>
                 </button>
             </div>
         </div>
     </nav>
     
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="search.html"><i class="fas fa-search"></i> Analysis</a>
+        <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
+        <a href="sector-calendar.html"><i class="fas fa-calendar"></i> Sector Calendar</a>
+        <a href="finviz-filter.html"><i class="fas fa-filter"></i> Finviz Filter</a>
+        <a href="strategies.html"><i class="fas fa-chess"></i> Strategies</a>
+        <a href="guides.html"><i class="fas fa-book"></i> Guides</a>
+    </div>
+    
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Search Hero -->
             <div class="search-hero">
                 <h1><span class="gradient">Sök Aktier</span> & Analysera</h1>
-                <p>Ange ticker-symbol för att få realtidsdata och teknisk analys. Fungerar bäst med US-aktier.</p>
+                <p>Ange ticker-symbol för att få realtidsdata och teknisk analys.</p>
             </div>
             
-            <!-- Search Box -->
             <div class="search-container">
                 <div class="search-box">
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input 
-                            type="text" 
-                            class="search-input" 
-                            id="searchInput"
-                            placeholder="Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT)..."
-                            autocomplete="off"
-                            onkeypress="if(event.key === 'Enter') searchStock()"
-                        >
+                        <input type="text" class="search-input" id="searchInput" placeholder="Ange ticker-symbol..." onkeypress="if(event.key === 'Enter') searchStock()">
                     </div>
-                    
                     <div class="search-tips">
                         <i class="fas fa-lightbulb"></i>
-                        <span data-lang="apiTips">Tips: Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)</span>
+                        <span>Tips: Sök efter AAPL, TSLA, MSFT, GOOGL, AMZN</span>
                     </div>
-                    
                     <div class="search-buttons">
                         <button class="btn btn-primary btn-large" onclick="searchStock()">
-                            <i class="fas fa-search"></i>
-                            <span data-lang="btnSearch">Sök Aktie</span>
+                            <i class="fas fa-search"></i> Sök Aktie
                         </button>
                         <button class="btn btn-secondary btn-large" onclick="clearSearch()">
-                            <i class="fas fa-times"></i>
-                            <span data-lang="btnClear">Rensa</span>
+                            <i class="fas fa-times"></i> Rensa
                         </button>
                     </div>
                 </div>
             </div>
             
-            <!-- Popular Stocks -->
             <div class="popular-section">
                 <h2 class="section-title"><i class="fas fa-fire"></i> Populära Aktier</h2>
                 <div class="popular-grid">
-                    <div class="popular-card" onclick="quickSearch('AAPL')">
-                        <div class="popular-ticker">AAPL</div>
-                        <div class="popular-name">Apple Inc.</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('TSLA')">
-                        <div class="popular-ticker">TSLA</div>
-                        <div class="popular-name">Tesla Inc.</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('MSFT')">
-                        <div class="popular-ticker">MSFT</div>
-                        <div class="popular-name">Microsoft</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('GOOGL')">
-                        <div class="popular-ticker">GOOGL</div>
-                        <div class="popular-name">Alphabet Inc.</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('AMZN')">
-                        <div class="popular-ticker">AMZN</div>
-                        <div class="popular-name">Amazon.com</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('NVDA')">
-                        <div class="popular-ticker">NVDA</div>
-                        <div class="popular-name">NVIDIA Corp</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('META')">
-                        <div class="popular-ticker">META</div>
-                        <div class="popular-name">Meta Platforms</div>
-                    </div>
-                    <div class="popular-card" onclick="quickSearch('NFLX')">
-                        <div class="popular-ticker">NFLX</div>
-                        <div class="popular-name">Netflix Inc.</div>
-                    </div>
+                    <div class="popular-card" onclick="quickSearch('AAPL')"><div class="popular-ticker">AAPL</div><div>Apple</div></div>
+                    <div class="popular-card" onclick="quickSearch('TSLA')"><div class="popular-ticker">TSLA</div><div>Tesla</div></div>
+                    <div class="popular-card" onclick="quickSearch('MSFT')"><div class="popular-ticker">MSFT</div><div>Microsoft</div></div>
+                    <div class="popular-card" onclick="quickSearch('GOOGL')"><div class="popular-ticker">GOOGL</div><div>Alphabet</div></div>
+                    <div class="popular-card" onclick="quickSearch('AMZN')"><div class="popular-ticker">AMZN</div><div>Amazon</div></div>
+                    <div class="popular-card" onclick="quickSearch('NVDA')"><div class="popular-ticker">NVDA</div><div>NVIDIA</div></div>
+                    <div class="popular-card" onclick="quickSearch('META')"><div class="popular-ticker">META</div><div>Meta</div></div>
+                    <div class="popular-card" onclick="quickSearch('NFLX')"><div class="popular-ticker">NFLX</div><div>Netflix</div></div>
                 </div>
             </div>
             
-            <!-- Loading State -->
             <div class="loading-state" id="loadingState">
                 <div class="spinner"></div>
-                <p data-lang="searching">Söker...</p>
+                <p>Hämtar data...</p>
             </div>
             
-            <!-- Stock Result -->
             <div class="stock-result" id="stockResult"></div>
         </div>
     </main>
     
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <ul class="footer-links">
-                <li><a href="index.html" data-lang="navHome">Hem</a></li>
-                <li><a href="search.html" data-lang="navSearch">Aktiesök</a></li>
-                <li><a href="fundamentals.html" data-lang="navFundamentals">Fundamental Analys</a></li>
-                <li><a href="calculator.html" data-lang="navCalculator">Kalkylator</a></li>
-                <li><a href="legal.html" data-lang="navDisclaimer">Ansvarsfriskrivning</a></li>
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="search.html">Aktiesök</a></li>
+                <li><a href="fundamentals.html">Fundamental Analys</a></li>
+                <li><a href="calculator.html">Kalkylator</a></li>
             </ul>
-            <div class="footer-copyright" data-lang="copyright">
-                © 2026 SetMyTrade. Alla rättigheter förbehållna.
-            </div>
+            <div>© 2026 SetMyTrade</div>
         </div>
     </footer>
     
     <script>
-        // ═══════════════════════════════════════════════════════════════
-        // GLOBAL VARIABLES
-        // ═══════════════════════════════════════════════════════════════
         let currentLanguage = 'sv';
+        let mobileMenuOpen = false;
         let currentStock = null;
 
-        // ═══════════════════════════════════════════════════════════════
-        // TRANSLATIONS (Same as your original)
-        // ═══════════════════════════════════════════════════════════════
-        const translations = {
-            sv: {
-                navHome: "Hem",
-                navSearch: "Aktiesök",
-                navFundamentals: "Fundamental Analys",
-                navCalculator: "Kalkylator",
-                navDisclaimer: "Ansvarsfriskrivning",
-                apiTips: "Tips: Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)",
-                btnSearch: "Sök Aktie",
-                btnClear: "Rensa",
-                searching: "Söker...",
-                tickerNotFound: "Ange en ticker-symbol först",
-                errorOccurred: "Ett fel uppstod",
-                tryAgain: "Försök igen",
-                technicalAnalysis: "Teknisk Analys - TradingView Chart",
-                useCalculator: "Använd Kalkylator",
-                copyright: "© 2026 SetMyTrade. Alla rättigheter förbehållna."
-            },
-            en: {
-                navHome: "Home",
-                navSearch: "Stock Search",
-                navFundamentals: "Fundamental Analysis",
-                navCalculator: "Calculator",
-                navDisclaimer: "Disclaimer",
-                apiTips: "Tips: Automatically searches for stocks. Works best with US stocks (AAPL, TSLA, MSFT, etc.)",
-                btnSearch: "Search Stock",
-                btnClear: "Clear",
-                searching: "Searching...",
-                tickerNotFound: "Please enter a ticker symbol",
-                errorOccurred: "An error occurred",
-                tryAgain: "Try again",
-                technicalAnalysis: "Technical Analysis - TradingView Chart",
-                useCalculator: "Use Calculator",
-                copyright: "© 2026 SetMyTrade. All rights reserved."
-            }
-        };
-
-        // ═══════════════════════════════════════════════════════════════
-        // LANGUAGE FUNCTIONS
-        // ═══════════════════════════════════════════════════════════════
-        function changeLanguage(lang) {
+        function setLanguage(lang) {
             currentLanguage = lang;
-            
-            // Update buttons
             document.querySelectorAll('.lang-btn-nav').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
-                }
+                if (btn.textContent.toLowerCase() === lang) btn.classList.add('active');
             });
-            
-            // Update all text elements
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-            
-            // Update HTML lang
-            document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
         }
 
-        // Load saved language
-        const savedLanguage = localStorage.getItem('language') || 'sv';
-        if (savedLanguage !== 'sv') {
-            changeLanguage(savedLanguage);
-        }
-        
-        // ═══════════════════════════════════════════════════════════════
-        // THEME TOGGLE
-        // ═══════════════════════════════════════════════════════════════
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.setItem('theme', newTheme);
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', next);
         }
-        
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        
-        // ═══════════════════════════════════════════════════════════════
-        // SEARCH FUNCTIONS (YOUR ORIGINAL LOGIC - FIXED)
-        // ═══════════════════════════════════════════════════════════════
-        
+
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const menuIcon = document.getElementById('menuIcon');
+            mobileMenuOpen = !mobileMenuOpen;
+            
+            if (mobileMenuOpen) {
+                mobileNav.classList.add('active');
+                menuIcon.className = 'fas fa-times';
+            } else {
+                mobileNav.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const mobileNav = document.getElementById('mobileNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            if (mobileMenuOpen && !mobileNav.contains(e.target) && !toggle.contains(e.target)) {
+                toggleMobileMenu();
+            }
+        });
+
         function quickSearch(ticker) {
             document.getElementById('searchInput').value = ticker;
             searchStock();
         }
-        
+
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            document.getElementById('searchInput').focus();
             document.getElementById('stockResult').classList.remove('active');
-            document.getElementById('stockResult').innerHTML = '';
         }
-        
+
         async function searchStock() {
             const ticker = document.getElementById('searchInput').value.trim().toUpperCase();
             const loadingState = document.getElementById('loadingState');
             const stockResult = document.getElementById('stockResult');
             
-            // Validation
             if (!ticker) {
-                alert(translations[currentLanguage].tickerNotFound);
                 document.getElementById('searchInput').focus();
                 return;
             }
             
-            // Show loading
             stockResult.classList.remove('active');
             loadingState.classList.add('active');
             
             try {
-                // YOUR ORIGINAL API CALL (working code)
                 const corsProxy = 'https://api.allorigins.win/raw?url=';
                 const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
                 
-                console.log('Fetching:', corsProxy + encodeURIComponent(yahooUrl));
-                
                 const response = await fetch(corsProxy + encodeURIComponent(yahooUrl));
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
                 const data = await response.json();
-                console.log('API Response:', data);
                 
                 if (data.chart && data.chart.result && data.chart.result[0]) {
                     const result = data.chart.result[0];
@@ -958,14 +865,12 @@
                         changePercent: changePercent
                     };
                     
-                    displayStockResult();
+                    displayResult();
                 } else {
-                    throw new Error('No data in response');
+                    throw new Error('No data');
                 }
-                
             } catch (error) {
-                console.error('Search error:', error);
-                // Show TradingView only as fallback
+                console.error('Error:', error);
                 currentStock = {
                     ticker: ticker,
                     price: 0,
@@ -973,20 +878,20 @@
                     changePercent: 0,
                     tradingViewOnly: true
                 };
-                displayStockResult();
+                displayResult();
             } finally {
                 loadingState.classList.remove('active');
             }
         }
-        
-        function displayStockResult() {
+
+        function displayResult() {
             const s = currentStock;
             const stockResult = document.getElementById('stockResult');
             
             let priceHtml = '';
             
             if (!s.tradingViewOnly && s.price > 0) {
-                const changeColor = s.change >= 0 ? 'positive' : 'negative';
+                const changeClass = s.change >= 0 ? 'positive' : 'negative';
                 const changeIcon = s.change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
                 const changeSign = s.change >= 0 ? '+' : '';
                 
@@ -999,7 +904,7 @@
                         </div>
                         <div class="stock-price-box">
                             <div class="price-current">$${s.price.toFixed(2)}</div>
-                            <div class="price-change ${changeColor}">
+                            <div class="price-change ${changeClass}">
                                 <i class="fas ${changeIcon}"></i>
                                 ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
                             </div>
@@ -1012,11 +917,11 @@
                         <div class="stock-logo">${s.ticker[0]}</div>
                         <div class="stock-info">
                             <h2>${s.ticker}</h2>
-                            <p>Visar TradingView chart</p>
+                            <p>TradingView Chart</p>
                         </div>
                         <div class="stock-price-box">
                             <div class="price-current">--</div>
-                            <div class="price-change">Prisdata otillgänglig</div>
+                            <div class="price-change">Live Chart</div>
                         </div>
                     </div>
                 `;
@@ -1025,19 +930,15 @@
             stockResult.innerHTML = `
                 <div class="stock-card">
                     ${priceHtml}
-                    
                     <div class="chart-container">
-                        <div id="tradingview_chart" style="height: 100%;"></div>
+                        <div id="tradingview_chart" style="height: 100%; width: 100%;"></div>
                     </div>
-                    
                     <div class="action-buttons">
                         <a href="fundamentals.html?ticker=${s.ticker}" class="btn btn-primary btn-large">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Fundamental Analys</span>
+                            <i class="fas fa-chart-bar"></i> Fundamental Analys
                         </a>
                         <a href="calculator.html?ticker=${s.ticker}" class="btn btn-secondary btn-large">
-                            <i class="fas fa-calculator"></i>
-                            <span>Kalkylator</span>
+                            <i class="fas fa-calculator"></i> Kalkylator
                         </a>
                     </div>
                 </div>
@@ -1045,7 +946,7 @@
             
             stockResult.classList.add('active');
             
-            // Initialize TradingView Chart
+            // Initialize TradingView with proper dimensions
             setTimeout(() => {
                 if (typeof TradingView !== 'undefined') {
                     new TradingView.widget({
@@ -1061,19 +962,17 @@
                         "enable_publishing": false,
                         "hide_side_toolbar": false,
                         "allow_symbol_change": false,
-                        "studies": [
-                            "MASimple@tv-basicstudies",
-                            "RSI@tv-basicstudies"
-                        ],
+                        "studies": ["MASimple@tv-basicstudies", "RSI@tv-basicstudies"],
                         "container_id": "tradingview_chart"
                     });
                 }
             }, 100);
         }
-        
-        function toggleMobileMenu() {
-            alert(currentLanguage === 'sv' ? 'Mobil meny kommer snart!' : 'Mobile menu coming soon!');
-        }
+
+        // Init
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     </script>
 </body>
 </html>
