@@ -1,657 +1,1249 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" data-theme="dark">
 <head>
-    <meta charset="utf-8">
-    <title>Sök Aktier - SetMyTrade | Smart Market Search</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Sök efter aktier globalt med smart dataaggregering" name="description">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetMyTrade | Aktiesök & Analys - Smart Marknadssökning</title>
+    <meta name="description" content="Sök och analysera aktier med realtidsdata. Smart sökning med fundamental analys, nyckeltal och värdering.">
     
-    <!-- Google Web Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- TradingView Widget -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- TradingView -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-
+    
     <style>
+        /* [CSS VARIABLES - Same as index.html] */
         :root {
-            --primary: #00D084;
-            --dark: #0D2735;
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #151b2e;
+            --surface: rgba(21, 27, 46, 0.7);
+            --accent-primary: #00d4aa;
+            --accent-secondary: #3b82f6;
+            --accent-danger: #ef4444;
+            --accent-success: #10b981;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.15);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
         }
-
+        
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --surface: rgba(255, 255, 255, 0.9);
+            --accent-primary: #059669;
+            --accent-secondary: #2563eb;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
         body {
             font-family: 'Inter', sans-serif;
-            color: #E0E0E0;
-            background: #0D1F2D;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            color: #FFFFFF;
+        
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
-
-        .text-primary {
-            color: var(--primary) !important;
+        
+        .ambient-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+            animation: ambientMove 20s ease-in-out infinite;
         }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: #FFFFFF;
+        
+        @keyframes ambientMove {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(2%, 2%); }
+            66% { transform: translate(-1%, 1%); }
         }
-
-        .btn-primary:hover {
-            background-color: #00B871;
-            border-color: #00B871;
-        }
-
-        /* Topbar */
-        .topbar {
-            background: rgba(26, 47, 61, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Navbar */
+        
+        /* Navigation */
         .navbar {
-            background: rgba(26, 47, 61, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 15, 28, 0.8);
+            border-bottom: 1px solid var(--border);
         }
-
-        .navbar .navbar-brand h1 {
-            margin: 0;
-            font-size: 32px;
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .navbar .nav-link {
-            color: #E0E0E0 !important;
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .logo-text {
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
             font-weight: 500;
-            transition: .3s;
-            padding: 25px 15px;
+            transition: color 0.3s;
+            position: relative;
         }
-
-        .navbar .nav-link:hover,
-        .navbar .nav-link.active {
-            color: var(--primary) !important;
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent-primary);
+            transition: width 0.3s;
         }
-
-        /* Language Selector */
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 20px;
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-primary);
+        }
+        
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .lang-switch {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+        }
+        
+        .lang-btn-nav {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        
+        .lang-btn-nav.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .theme-toggle {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: rotate(180deg);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
             cursor: pointer;
             transition: all 0.3s;
-            line-height: 1;
         }
-
-        .lang-btn:hover {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.25);
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
         }
-
-        .lang-btn.active {
-            border-color: var(--primary);
-            background: rgba(0, 208, 132, 0.3);
-            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 170, 0.4);
         }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
-            padding: 60px 0 40px 0;
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
         }
-
-        /* Stock Search Card */
-        .stock-search-card {
-            background: rgba(26, 47, 61, 0.8);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
         }
-
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Search Section */
+        .search-hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+        
+        .search-hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .search-hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .search-hero p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Search Box */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .search-box {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
         .search-input {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(0, 208, 132, 0.3);
-            color: #E0E0E0;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 500;
             transition: all 0.3s;
         }
-
+        
         .search-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 208, 132, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-            color: #FFFFFF;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.1);
         }
-
-        /* Stock Result */
-        .stock-result {
-            margin-top: 30px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(0, 208, 132, 0.05), rgba(26, 47, 61, 0.3));
-            border-radius: 15px;
-            border: 2px solid rgba(0, 208, 132, 0.2);
+        
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.25rem;
+        }
+        
+        .search-tips {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-tips i {
+            color: var(--accent-primary);
+        }
+        
+        .search-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .search-buttons .btn {
+            flex: 1;
+            padding: 1rem;
+            justify-content: center;
+        }
+        
+        /* Popular Stocks */
+        .popular-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-title i {
+            color: var(--accent-primary);
+        }
+        
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+        
+        .popular-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .popular-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .popular-ticker {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .popular-name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Results Section */
+        .results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Stock Result Card */
+        .stock-result-card {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stock-header {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stock-logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .stock-info h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stock-info p {
+            color: var(--text-secondary);
+        }
+        
+        .stock-price-box {
+            text-align: right;
+        }
+        
+        .price-current {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .price-change {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+        
+        .price-change.positive {
+            color: var(--accent-success);
+        }
+        
+        .price-change.negative {
+            color: var(--accent-danger);
+        }
+        
+        /* Stock Meta Grid */
+        .stock-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            height: 500px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+        }
+        
+        /* Loading State */
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
             display: none;
         }
-
-        .stock-ticker {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
+        
+        .loading-state.active {
+            display: block;
         }
-
-        .stock-price {
-            font-size: 36px;
-            font-weight: 900;
-            color: #FFFFFF;
-        }
-
-        .stock-change {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .stock-change.positive {
-            color: #00FF88;
-        }
-
-        .stock-change.negative {
-            color: #FF6B6B;
-        }
-
-        /* Loading */
-        .loading-spinner {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
+        
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(0, 208, 132, 0.2);
-            border-top-color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 1.5rem;
         }
-
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+        
+        .error-state.active {
+            display: block;
+        }
+        
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--accent-danger);
+        }
+        
         /* Footer */
         .footer {
-            background: var(--dark);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 40px 0 20px 0;
-            margin-top: 60px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
         }
-
-        .footer .btn-link {
-            color: rgba(255, 255, 255, 0.7);
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
             text-decoration: none;
-            display: block;
-            padding: 5px 0;
+            font-size: 0.875rem;
+            transition: color 0.3s;
         }
-
-        .footer .btn-link:hover {
-            color: var(--primary);
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
         }
-
-        .copyright {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px 0;
+        
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.875rem;
         }
-
-        .back-to-top {
-            position: fixed;
-            display: none;
-            right: 30px;
-            bottom: 30px;
-            z-index: 99;
+        
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            
+            .stock-header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .stock-logo {
+                margin: 0 auto;
+            }
+            
+            .stock-price-box {
+                text-align: center;
+            }
+            
+            .price-change {
+                justify-content: center;
+            }
+            
+            .action-buttons .btn {
+                min-width: 100%;
+            }
         }
-
+        
         @media (max-width: 768px) {
-            .stock-ticker { font-size: 22px; }
-            .stock-price { font-size: 28px; }
-            .stock-change { font-size: 16px; }
+            .search-buttons {
+                flex-direction: column;
+            }
+            
+            .popular-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .chart-container {
+                height: 350px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 1024px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
         }
     </style>
 </head>
-
 <body>
-    <!-- Topbar -->
-    <div class="container-fluid topbar px-5 d-none d-lg-block">
-        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
-            <div class="col-lg-8 text-center text-lg-start">
-                <span class="small me-4" style="color: #B0B0B0;">
-                    <i class="fas fa-search text-primary me-2"></i>
-                    <span data-lang="professionalSearch">Professionell Aktiesökning</span>
-                </span>
-                <span class="small" style="color: #B0B0B0;">
-                    <i class="fas fa-brain text-primary me-2"></i>
-                    <span data-lang="smartEngine">Smart Data Engine</span>
-                </span>
-            </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center gap-2">
-                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
-                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+    <!-- Ambient Background -->
+    <div class="ambient-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+                <span class="logo-text">SetMyTrade</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="search.html" class="active">Analysis</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="sector-calendar.html">Sector Calendar</a></li>
+                <li><a href="finviz-filter.html">Finviz Filter</a></li>
+                <li><a href="strategies.html">Strategies</a></li>
+                <li><a href="guides.html">Guides</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn-nav active" onclick="setLanguage('sv')" data-lang="sv">SV</button>
+                    <button class="lang-btn-nav" onclick="setLanguage('en')" data-lang="en">EN</button>
                 </div>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <i class="fas fa-sun" id="themeIcon"></i>
+                </button>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
-        <a href="index.html" class="navbar-brand p-0">
-            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
-                <a href="search.html" class="nav-item nav-link active" data-lang="navSearch">Sök Aktier</a>
-                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
-                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
-                <a href="fundamentals.html" class="nav-item nav-link" data-lang="navFundamentals">Fundamental Analys</a>
-                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
-                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
-                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
-            </div>
-            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
         </div>
     </nav>
-
-    <!-- Page Header -->
-    <div class="page-header">
+    
+    <!-- Main Content -->
+    <main class="main-content">
         <div class="container">
-            <h1 class="display-5 text-white mb-3" data-lang="searchTitle">Smart Aktiesökning</h1>
-            <p class="text-white-50" data-lang="searchDesc">Sök efter aktier globalt med intelligent dataaggregering</p>
-        </div>
-    </div>
-
-    <!-- Stock Search Section -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card stock-search-card p-4">
-                        <div class="text-center mb-4">
-                            <h5 class="text-primary text-uppercase" data-lang="searchStocks">Sök Aktier</h5>
-                            <h3 class="mb-3" data-lang="searchHeading">Ange Ticker Symbol</h3>
-                        </div>
-
-                        <div class="row g-3">
-                            <div class="col-lg-8 col-md-7">
-                                <input 
-                                    type="text" 
-                                    id="searchInput" 
-                                    class="form-control search-input" 
-                                    placeholder="Ange ticker (t.ex. AAPL, TSLA, MSFT...)"
-                                    data-lang-placeholder="searchPlaceholder"
-                                    style="text-transform: uppercase;"
-                                    onkeypress="if(event.key === 'Enter') searchStock()"
-                                >
-                            </div>
-                            <div class="col-lg-4 col-md-5">
-                                <button class="btn btn-primary w-100 py-3" onclick="searchStock()">
-                                    <i class="fas fa-search me-2"></i><span data-lang="btnSearch">Sök Aktie</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-info mt-3 mb-0" style="background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.3); color: #E0E0E0;">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <strong data-lang="tipsTitle">Tips:</strong> <span data-lang="apiTips">Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)</span>
-                        </div>
-
-                        <!-- Stock Result -->
-                        <div id="stockResult" class="stock-result"></div>
+            <!-- Search Hero -->
+            <div class="search-hero">
+                <h1><span class="gradient">Sök Aktier</span> & Analysera</h1>
+                <p>Ange ticker-symbol för att få realtidsdata och teknisk analys. Fungerar bäst med US-aktier.</p>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="searchInput"
+                            placeholder="Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT)..."
+                            autocomplete="off"
+                        >
+                    </div>
+                    
+                    <div class="search-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>💡 Tips: Sök efter ticker-symboler som AAPL, TSLA, MSFT, GOOGL, AMZN. Vi hämtar data från Yahoo Finance.</span>
+                    </div>
+                    
+                    <div class="search-buttons">
+                        <button class="btn btn-primary btn-large" onclick="searchStock()">
+                            <i class="fas fa-search"></i>
+                            <span>Sök Aktie</span>
+                        </button>
+                        <button class="btn btn-secondary btn-large" onclick="clearSearch()">
+                            <i class="fas fa-times"></i>
+                            <span>Rensa</span>
+                        </button>
                     </div>
                 </div>
             </div>
+            
+            <!-- Popular Stocks -->
+            <div class="popular-section">
+                <h2 class="section-title"><i class="fas fa-fire"></i> Populära Aktier</h2>
+                <div class="popular-grid">
+                    <div class="popular-card" onclick="quickSearch('AAPL')">
+                        <div class="popular-ticker">AAPL</div>
+                        <div class="popular-name">Apple Inc.</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('TSLA')">
+                        <div class="popular-ticker">TSLA</div>
+                        <div class="popular-name">Tesla Inc.</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('MSFT')">
+                        <div class="popular-ticker">MSFT</div>
+                        <div class="popular-name">Microsoft</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('GOOGL')">
+                        <div class="popular-ticker">GOOGL</div>
+                        <div class="popular-name">Alphabet Inc.</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('AMZN')">
+                        <div class="popular-ticker">AMZN</div>
+                        <div class="popular-name">Amazon.com</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('NVDA')">
+                        <div class="popular-ticker">NVDA</div>
+                        <div class="popular-name">NVIDIA Corp</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('META')">
+                        <div class="popular-ticker">META</div>
+                        <div class="popular-name">Meta Platforms</div>
+                    </div>
+                    <div class="popular-card" onclick="quickSearch('NFLX')">
+                        <div class="popular-ticker">NFLX</div>
+                        <div class="popular-name">Netflix Inc.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="spinner"></div>
+                <p>Hämtar data från Yahoo Finance...</p>
+            </div>
+            
+            <!-- Error State -->
+            <div class="error-state" id="errorState">
+                <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>Kunde inte hämta data</h3>
+                <p>Försök igen eller kontrollera ticker-symbolen</p>
+                <button class="btn btn-primary" onclick="retrySearch()" style="margin-top: 1rem;">
+                    <i class="fas fa-redo"></i> Försök igen
+                </button>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <!-- Results will be inserted here -->
+            </div>
         </div>
-    </div>
-
+    </main>
+    
     <!-- Footer -->
-    <div class="container-fluid footer py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
-                    <p class="text-white-50" data-lang="footerDesc">Professionell aktiesökning med smart dataaggregering</p>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
-                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
-                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
-                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
-                    <a href="calendar.html" class="btn btn-link" data-lang="navCalendar">Sektor Kalender</a>
-                    <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
-                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
-                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
-                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool">100% Gratis</span></p>
-                    <p class="text-white-50"><i class="fas fa-globe text-primary me-2"></i><span data-lang="globalMarkets">Globala Marknader</span></p>
-                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="realtimeData">Realtidsdata</span></p>
-                </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="search.html">Aktiesök</a></li>
+                <li><a href="fundamentals.html">Fundamental Analys</a></li>
+                <li><a href="calculator.html">Kalkylator</a></li>
+                <li><a href="legal.html">Ansvarsfriskrivning</a></li>
+            </ul>
+            <div class="footer-copyright">
+                © 2026 SetMyTrade. Alla rättigheter förbehållna.
             </div>
         </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="container-fluid copyright py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <span class="text-body" data-lang="copyright">SetMyTrade 2026. All rights reserved.</span>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <span class="text-body" data-lang="poweredBy">Powered by Smart Data Engine</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
-
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    </footer>
+    
     <script>
-        let currentLanguage = 'sv';
-        let currentStock = null;
-
+        // ═══════════════════════════════════════════════════════════════
+        // API CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════
+        
+        // CORS Proxy for Yahoo Finance
+        // Note: These are free public proxies. For production, use your own proxy or backend
+        const CORS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://api.codetabs.com/v1/proxy?quest=',
+            'https://corsproxy.io/?'
+        ];
+        
+        // Yahoo Finance API endpoint
+        function getYahooUrl(ticker) {
+            return `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // TRANSLATION SYSTEM
+        // ═══════════════════════════════════════════════════════════════
         const translations = {
             sv: {
-                professionalSearch: "Professionell Aktiesökning",
-                smartEngine: "Smart Data Engine",
-                navHome: "Hem",
-                navSearch: "Sök Aktier",
-                navCalculator: "Kalkylator",
-                navCalendar: "Sektor Kalender",
-                navFundamentals: "Fundamental Analys",
-                navFinviz: "Finviz Filter",
-                navStrategies: "Strategier",
-                navGuides: "Guider",
-                btnGetStarted: "Kom Igång",
-                searchTitle: "Smart Aktiesökning",
-                searchDesc: "Sök efter aktier globalt med intelligent dataaggregering",
-                searchStocks: "Sök Aktier",
-                searchHeading: "Ange Ticker Symbol",
-                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT...)",
-                btnSearch: "Sök Aktie",
-                tipsTitle: "Tips:",
-                apiTips: "Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)",
-                footerDesc: "Professionell aktiesökning med smart dataaggregering",
-                quickLinks: "Snabblänkar",
-                information: "Information",
-                freeTool: "100% Gratis",
-                globalMarkets: "Globala Marknader",
-                realtimeData: "Realtidsdata",
-                poweredBy: "Powered by Smart Data Engine",
-                copyright: "SetMyTrade 2026. All rights reserved.",
-                searching: "Söker...",
-                tickerNotFound: "Ticker hittades inte",
-                noData: "Ingen data tillgänglig",
-                errorOccurred: "Ett fel uppstod",
-                tryAgain: "Försök igen",
-                technicalAnalysis: "Teknisk Analys - TradingView Chart",
-                useCalculator: "Använd Kalkylator"
+                searchTitle: "Sök Aktier",
+                searchSubtitle: " & Analysera",
+                searchDesc: "Ange ticker-symbol för att få realtidsdata och teknisk analys. Fungerar bäst med US-aktier.",
+                searchPlaceholder: "Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT)...",
+                searchTip: "💡 Tips: Sök efter ticker-symboler som AAPL, TSLA, MSFT, GOOGL, AMZN. Vi hämtar data från Yahoo Finance.",
+                searchBtn: "Sök Aktie",
+                clearBtn: "Rensa",
+                popularTitle: "Populära Aktier",
+                loading: "Hämtar data från Yahoo Finance...",
+                errorTitle: "Kunde inte hämta data",
+                errorDesc: "Försök igen eller kontrollera ticker-symbolen",
+                retryBtn: "Försök igen",
+                resultsTitle: "Sökresultat",
+                currentPrice: "Aktuellt Pris",
+                dayChange: "Dagsförändring",
+                marketCap: "Marknadsvärde",
+                peRatio: "P/E-tal",
+                weekRange: "52v Range",
+                analyze: "Gå till Analys",
+                calculator: "Kalkylator",
+                fundamentals: "Fundamental Analys",
+                technical: "Teknisk Analys",
+                home: "Hem",
+                stockSearch: "Aktiesök",
+                disclaimer: "Ansvarsfriskrivning",
+                copyright: "© 2026 SetMyTrade. Alla rättigheter förbehållna."
             },
             en: {
-                professionalSearch: "Professional Stock Search",
-                smartEngine: "Smart Data Engine",
-                navHome: "Home",
-                navSearch: "Search Stocks",
-                navCalculator: "Calculator",
-                navCalendar: "Sector Calendar",
-                navFundamentals: "Fundamental Analysis",
-                navFinviz: "Finviz Filter",
-                navStrategies: "Strategies",
-                navGuides: "Guides",
-                btnGetStarted: "Get Started",
-                searchTitle: "Smart Stock Search",
-                searchDesc: "Search for stocks globally with intelligent data aggregation",
-                searchStocks: "Search Stocks",
-                searchHeading: "Enter Ticker Symbol",
-                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT...)",
-                btnSearch: "Search Stock",
-                tipsTitle: "Tips:",
-                apiTips: "Automatically searches for stocks. Works best with US stocks (AAPL, TSLA, MSFT, etc.)",
-                footerDesc: "Professional stock search with smart data aggregation",
-                quickLinks: "Quick Links",
-                information: "Information",
-                freeTool: "100% Free",
-                globalMarkets: "Global Markets",
-                realtimeData: "Real-time Data",
-                poweredBy: "Powered by Smart Data Engine",
-                copyright: "SetMyTrade 2026. All rights reserved.",
-                searching: "Searching...",
-                tickerNotFound: "Ticker not found",
-                noData: "No data available",
-                errorOccurred: "An error occurred",
-                tryAgain: "Try again",
-                technicalAnalysis: "Technical Analysis - TradingView Chart",
-                useCalculator: "Use Calculator"
+                searchTitle: "Search Stocks",
+                searchSubtitle: " & Analyze",
+                searchDesc: "Enter ticker symbol to get real-time data and technical analysis. Works best with US stocks.",
+                searchPlaceholder: "Enter ticker symbol (e.g. AAPL, TSLA, MSFT)...",
+                searchTip: "💡 Tip: Search for ticker symbols like AAPL, TSLA, MSFT, GOOGL, AMZN. We fetch data from Yahoo Finance.",
+                searchBtn: "Search Stock",
+                clearBtn: "Clear",
+                popularTitle: "Popular Stocks",
+                loading: "Fetching data from Yahoo Finance...",
+                errorTitle: "Could not fetch data",
+                errorDesc: "Try again or check the ticker symbol",
+                retryBtn: "Try Again",
+                resultsTitle: "Search Results",
+                currentPrice: "Current Price",
+                dayChange: "Day Change",
+                marketCap: "Market Cap",
+                peRatio: "P/E Ratio",
+                weekRange: "52w Range",
+                analyze: "Go to Analysis",
+                calculator: "Calculator",
+                fundamentals: "Fundamental Analysis",
+                technical: "Technical Analysis",
+                home: "Home",
+                stockSearch: "Stock Search",
+                disclaimer: "Disclaimer",
+                copyright: "© 2026 SetMyTrade. All rights reserved."
             }
         };
 
-        function changeLanguage(lang) {
+        let currentLanguage = 'sv';
+        let currentStock = null;
+        let currentProxyIndex = 0;
+
+        function setLanguage(lang) {
             currentLanguage = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
             
-            // Apply translations
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
+            document.querySelectorAll('.lang-btn-nav').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
                 }
             });
             
-            // Update placeholder
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput && searchInput.hasAttribute('data-lang-placeholder')) {
-                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
-                if (translations[lang][placeholderKey]) {
-                    searchInput.placeholder = translations[lang][placeholderKey];
-                }
-            }
+            const t = translations[lang];
+            
+            // Update text content
+            document.querySelector('.search-hero h1').innerHTML = 
+                `<span class="gradient">${t.searchTitle}</span>${t.searchSubtitle}`;
+            document.querySelector('.search-hero p').textContent = t.searchDesc;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.querySelector('.search-tips span').textContent = t.searchTip;
+            document.querySelector('.search-buttons .btn-primary span').textContent = t.searchBtn;
+            document.querySelector('.search-buttons .btn-secondary span').textContent = t.clearBtn;
+            document.querySelector('.popular-section .section-title').innerHTML = 
+                `<i class="fas fa-fire"></i> ${t.popularTitle}`;
+            document.querySelector('.loading-state p').textContent = t.loading;
+            document.querySelector('.error-state h3').textContent = t.errorTitle;
+            document.querySelector('.error-state p').textContent = t.errorDesc;
+            document.querySelector('.error-state .btn span').textContent = t.retryBtn;
+            
+            // Footer
+            document.querySelector('.footer-links li:nth-child(1) a').textContent = t.home;
+            document.querySelector('.footer-links li:nth-child(2) a').textContent = t.stockSearch;
+            document.querySelector('.footer-links li:nth-child(3) a').textContent = t.fundamentals;
+            document.querySelector('.footer-links li:nth-child(4) a').textContent = t.calculator;
+            document.querySelector('.footer-links li:nth-child(5) a').textContent = t.disclaimer;
+            document.querySelector('.footer-copyright').textContent = t.copyright;
+            
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+            
+            document.title = lang === 'en' ? 
+                "SetMyTrade | Stock Search & Analysis - Smart Market Search" : 
+                "SetMyTrade | Aktiesök & Analys - Smart Marknadssökning";
         }
 
+        // Load saved language
+        const savedLanguage = localStorage.getItem('language') || 'sv';
+        if (savedLanguage !== 'sv') {
+            setLanguage(savedLanguage);
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // THEME TOGGLE
+        // ═══════════════════════════════════════════════════════════════
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        
+        // ═══════════════════════════════════════════════════════════════
+        // SEARCH FUNCTIONALITY WITH YOUR API
+        // ═══════════════════════════════════════════════════════════════
+        const searchInput = document.getElementById('searchInput');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const resultsSection = document.getElementById('resultsSection');
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchStock();
+        });
+        
+        function quickSearch(ticker) {
+            searchInput.value = ticker;
+            searchStock();
+        }
+        
+        function clearSearch() {
+            searchInput.value = '';
+            searchInput.focus();
+            hideAllStates();
+        }
+        
+        function hideAllStates() {
+            loadingState.classList.remove('active');
+            errorState.classList.remove('active');
+            resultsSection.classList.remove('active');
+        }
+        
+        function retrySearch() {
+            errorState.classList.remove('active');
+            searchStock();
+        }
+        
         async function searchStock() {
-            const ticker = document.getElementById('searchInput').value.trim().toUpperCase();
+            const ticker = searchInput.value.trim().toUpperCase();
             
             if (!ticker) {
-                alert(translations[currentLanguage].tickerNotFound);
+                searchInput.focus();
                 return;
             }
             
-            const resultDiv = document.getElementById('stockResult');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                    <p class="text-white fw-bold">${translations[currentLanguage].searching}</p>
-                </div>
-            `;
+            hideAllStates();
+            loadingState.classList.add('active');
+            currentProxyIndex = 0; // Reset proxy index
             
             try {
-                // Try multiple methods to get stock data
+                const data = await fetchWithFallback(ticker);
                 
-                // METHOD 1: Yahoo Finance with CORS proxy
-                const corsProxy = 'https://api.allorigins.win/raw?url=';
-                const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
-                
-                let response = await fetch(corsProxy + encodeURIComponent(yahooUrl));
-                let data = await response.json();
-                
-                console.log('Yahoo API Response:', data);
-                
-                if (data.chart && data.chart.result && data.chart.result[0]) {
-                    const result = data.chart.result[0];
-                    const meta = result.meta;
-                    const quote = result.indicators.quote[0];
-                    
-                    const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
-                    const previousClose = meta.chartPreviousClose || meta.previousClose;
-                    const change = currentPrice - previousClose;
-                    const changePercent = (change / previousClose) * 100;
-                    
-                    currentStock = {
-                        ticker: meta.symbol || ticker,
-                        price: currentPrice,
-                        change: change,
-                        changePercent: changePercent
-                    };
-                    
-                    displayStockResult();
+                if (data && data.chart && data.chart.result && data.chart.result[0]) {
+                    currentStock = parseYahooData(data, ticker);
+                    displayResults(currentStock);
                 } else {
-                    // METHOD 2: Fallback - show mock data with TradingView
-                    console.log('Using TradingView only mode');
-                    currentStock = {
-                        ticker: ticker,
-                        price: 0,
-                        change: 0,
-                        changePercent: 0,
-                        tradingViewOnly: true
-                    };
-                    displayStockResult();
+                    throw new Error('No data');
                 }
                 
             } catch (error) {
-                console.error('Search error:', error);
-                
-                // FALLBACK: Show TradingView chart anyway
-                currentStock = {
-                    ticker: ticker,
-                    price: 0,
-                    change: 0,
-                    changePercent: 0,
-                    tradingViewOnly: true
-                };
-                displayStockResult();
+                console.error('Search failed:', error);
+                loadingState.classList.remove('active');
+                errorState.classList.add('active');
             }
         }
-
-        function displayStockResult() {
-            const s = currentStock;
+        
+        // Try multiple CORS proxies if one fails
+        async function fetchWithFallback(ticker) {
+            for (let i = 0; i < CORS_PROXIES.length; i++) {
+                try {
+                    const proxy = CORS_PROXIES[i];
+                    const url = proxy + encodeURIComponent(getYahooUrl(ticker));
+                    
+                    console.log(`Trying proxy ${i + 1}: ${proxy}`);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    
+                    const data = await response.json();
+                    
+                    if (data.chart && data.chart.result) {
+                        console.log('Success with proxy', i + 1);
+                        return data;
+                    }
+                    
+                } catch (error) {
+                    console.warn(`Proxy ${i + 1} failed:`, error.message);
+                    continue;
+                }
+            }
             
-            let priceHtml = '';
+            throw new Error('All proxies failed');
+        }
+        
+        function parseYahooData(data, ticker) {
+            const result = data.chart.result[0];
+            const meta = result.meta;
+            const quote = result.indicators.quote[0];
             
-            if (s.tradingViewOnly) {
-                // Show only TradingView chart if price data not available
-                priceHtml = `
-                    <div class="text-center mb-4">
-                        <div class="stock-ticker">${s.ticker}</div>
-                        <p class="text-muted">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Visar TradingView chart med live data
-                        </p>
-                    </div>
-                `;
-            } else {
-                const changeColor = s.change >= 0 ? 'positive' : 'negative';
-                const changeSign = s.change >= 0 ? '+' : '';
-                
-                priceHtml = `
-                    <div class="row align-items-center mb-4">
-                        <div class="col-md-4 text-center text-md-start">
-                            <div class="stock-ticker">${s.ticker}</div>
+            const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
+            const previousClose = meta.chartPreviousClose || meta.previousClose || currentPrice;
+            const change = currentPrice - previousClose;
+            const changePercent = previousClose ? (change / previousClose) * 100 : 0;
+            
+            return {
+                ticker: meta.symbol || ticker,
+                name: meta.shortName || meta.longName || ticker,
+                price: currentPrice,
+                previousClose: previousClose,
+                change: change,
+                changePercent: changePercent,
+                currency: meta.currency || 'USD',
+                marketCap: formatMarketCap(meta.marketCap),
+                peRatio: meta.trailingPE || meta.forwardPE || 'N/A',
+                weekHigh: meta.fiftyTwoWeekHigh || 'N/A',
+                weekLow: meta.fiftyTwoWeekLow || 'N/A',
+                exchange: meta.exchangeName || meta.exchange || 'NASDAQ'
+            };
+        }
+        
+        function formatMarketCap(cap) {
+            if (!cap || cap === 'N/A') return 'N/A';
+            if (cap >= 1e12) return (cap / 1e12).toFixed(2) + 'T';
+            if (cap >= 1e9) return (cap / 1e9).toFixed(2) + 'B';
+            if (cap >= 1e6) return (cap / 1e6).toFixed(2) + 'M';
+            return cap.toString();
+        }
+        
+        function displayResults(stock) {
+            const t = translations[currentLanguage];
+            const changeClass = stock.change >= 0 ? 'positive' : 'negative';
+            const changeIcon = stock.change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+            const changeSign = stock.change >= 0 ? '+' : '';
+            
+            loadingState.classList.remove('active');
+            
+            resultsSection.innerHTML = `
+                <div class="stock-result-card">
+                    <div class="stock-header">
+                        <div class="stock-logo">${stock.ticker[0]}</div>
+                        <div class="stock-info">
+                            <h2>${stock.ticker} - ${stock.name}</h2>
+                            <p>${stock.exchange} • ${stock.currency}</p>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <div class="stock-price">$${s.price.toFixed(2)}</div>
-                        </div>
-                        <div class="col-md-4 text-center text-md-end">
-                            <div class="stock-change ${changeColor}">
-                                ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
+                        <div class="stock-price-box">
+                            <div class="price-current">$${stock.price.toFixed(2)}</div>
+                            <div class="price-change ${changeClass}">
+                                <i class="fas ${changeIcon}"></i>
+                                ${changeSign}${stock.change.toFixed(2)} (${changeSign}${stock.changePercent.toFixed(2)}%)
                             </div>
                         </div>
                     </div>
-                `;
-            }
-            
-            const html = `
-                ${priceHtml}
-                
-                <!-- TradingView Chart -->
-                <div class="mb-4">
-                    <h6 class="text-white mb-3">
-                        <i class="fas fa-chart-area text-primary me-2"></i>
-                        <span data-lang="technicalAnalysis">${translations[currentLanguage].technicalAnalysis}</span>
-                    </h6>
-                    <div id="tradingview_chart" style="height: 500px; border-radius: 10px; overflow: hidden;"></div>
+                    
+                    <div class="stock-meta-grid">
+                        <div class="meta-item">
+                            <div class="meta-label">${t.marketCap}</div>
+                            <div class="meta-value">${stock.marketCap}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">${t.peRatio}</div>
+                            <div class="meta-value">${stock.peRatio}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">${t.weekRange}</div>
+                            <div class="meta-value">$${stock.weekLow} - $${stock.weekHigh}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">${t.dayChange}</div>
+                            <div class="meta-value" style="color: ${stock.change >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)'}">
+                                ${changeSign}${stock.change.toFixed(2)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div id="tradingview_chart" style="height: 100%;"></div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="fundamentals.html?ticker=${stock.ticker}" class="btn btn-primary btn-large">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>${t.fundamentals}</span>
+                        </a>
+                        <a href="calculator.html?ticker=${stock.ticker}" class="btn btn-secondary btn-large">
+                            <i class="fas fa-calculator"></i>
+                            <span>${t.calculator}</span>
+                        </a>
+                    </div>
                 </div>
-                
-                <a href="calculator.html" class="btn btn-primary w-100 mt-3">
-                    <i class="fas fa-calculator me-2"></i>
-                    <span data-lang="useCalculator">${translations[currentLanguage].useCalculator}</span>
-                </a>
             `;
             
-            document.getElementById('stockResult').innerHTML = html;
+            resultsSection.classList.add('active');
             
             // Initialize TradingView Chart
-            if (typeof TradingView !== 'undefined') {
-                new TradingView.widget({
-                    "width": "100%",
-                    "height": 500,
-                    "symbol": s.ticker,
-                    "interval": "D",
-                    "timezone": "Europe/Stockholm",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
-                    "toolbar_bg": "#0D1F2D",
-                    "enable_publishing": false,
-                    "hide_side_toolbar": false,
-                    "allow_symbol_change": true,
-                    "studies": [
-                        "MASimple@tv-basicstudies",
-                        "RSI@tv-basicstudies"
-                    ],
-                    "container_id": "tradingview_chart"
-                });
-            }
+            setTimeout(() => {
+                if (typeof TradingView !== 'undefined') {
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": "100%",
+                        "symbol": stock.ticker,
+                        "interval": "D",
+                        "timezone": "Europe/Stockholm",
+                        "theme": document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
+                        "style": "1",
+                        "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
+                        "toolbar_bg": document.documentElement.getAttribute('data-theme') === 'light' ? '#f8fafc' : '#0a0f1c',
+                        "enable_publishing": false,
+                        "hide_side_toolbar": false,
+                        "allow_symbol_change": false,
+                        "studies": [
+                            "MASimple@tv-basicstudies",
+                            "RSI@tv-basicstudies",
+                            "MACD@tv-basicstudies"
+                        ],
+                        "container_id": "tradingview_chart"
+                    });
+                }
+            }, 100);
         }
-
-        // Scroll to top functionality
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
-                $('.back-to-top').fadeIn('slow');
-            } else {
-                $('.back-to-top').fadeOut('slow');
-            }
-        });
         
-        $('.back-to-top').click(function () {
-            $('html, body').animate({scrollTop: 0}, 1500);
-            return false;
-        });
+        function toggleMobileMenu() {
+            alert(currentLanguage === 'sv' ? 'Mobil meny kommer snart!' : 'Mobile menu coming soon!');
+        }
     </script>
 </body>
 </html>
