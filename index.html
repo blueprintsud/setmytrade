@@ -4,196 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SetMyTrade | Professionell Aktieanalys & Trading Verktyg - 100% Gratis</title>
-    <meta name="description" content="Gratis professionell aktieanalys med 5 värderingsmodeller: DCF, Graham Number, PEG Ratio. Realtidsdata, ingen registrering. Analysera Tesla, Apple, Microsoft.">
-    <meta name="keywords" content="aktieanalys, DCF kalkylator, fundamental analys, aktievärdering, trading verktyg">
-    <meta name="author" content="SetMyTrade">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Gratis professionell aktieanalys med 5 värderingsmodeller: DCF, Graham Number, PEG Ratio. Realtidsdata, ingen registrering.">
     
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.setmytrade.xyz">
-    <meta property="og:title" content="SetMyTrade | Professionell Aktieanalys - 100% Gratis">
-    <meta property="og:description" content="Analysera aktier med 5 professionella värderingsmodeller. Ingen registrering.">
-    <meta property="og:locale" content="sv_SE">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.setmytrade.xyz">
-    <meta property="twitter:title" content="SetMyTrade | Professionell Aktieanalys">
-    <meta property="twitter:description" content="Gratis aktieanalys med DCF, Graham Number, PEG Ratio.">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ═══════════════════════════════════════════════════════════════
-           CSS VARIABLES & THEME SYSTEM
-           ═══════════════════════════════════════════════════════════════ */
         :root {
-            /* Dark Mode (Default) */
             --bg-primary: #0a0f1c;
             --bg-secondary: #151b2e;
-            --bg-tertiary: #1e293b;
             --surface: rgba(21, 27, 46, 0.7);
-            --surface-hover: rgba(30, 41, 59, 0.8);
-            
             --accent-primary: #00d4aa;
             --accent-secondary: #3b82f6;
-            --accent-tertiary: #f59e0b;
-            --accent-danger: #ef4444;
-            --accent-success: #10b981;
-            
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            
             --border: rgba(255, 255, 255, 0.1);
-            --border-hover: rgba(0, 212, 170, 0.3);
-            --border-glow: rgba(0, 212, 170, 0.2);
-            
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
             --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.15);
-            --shadow-accent: 0 4px 20px rgba(0, 212, 170, 0.3);
-            
-            --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 20px;
-            --radius-xl: 30px;
-            
-            --transition-fast: 0.15s ease;
-            --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
-            
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
         }
         
         [data-theme="light"] {
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
-            --bg-tertiary: #f1f5f9;
             --surface: rgba(255, 255, 255, 0.9);
-            --surface-hover: rgba(241, 245, 249, 0.95);
-            
             --accent-primary: #059669;
             --accent-secondary: #2563eb;
-            
             --text-primary: #0f172a;
             --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            
             --border: rgba(0, 0, 0, 0.1);
-            --border-hover: rgba(5, 150, 105, 0.3);
-            --border-glow: rgba(5, 150, 105, 0.15);
-            
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 40px rgba(5, 150, 105, 0.1);
-            --shadow-accent: 0 4px 20px rgba(5, 150, 105, 0.2);
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         
         body {
-            font-family: var(--font-sans);
+            font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: background var(--transition-normal), color var(--transition-normal);
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           AMBIENT BACKGROUND EFFECTS
-           ═══════════════════════════════════════════════════════════════ */
         .ambient-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            overflow: hidden;
             pointer-events: none;
         }
         
         .ambient-bg::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.03) 0%, transparent 70%);
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
             animation: ambientMove 20s ease-in-out infinite;
         }
         
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
-        }
-        
         @keyframes ambientMove {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(2%, 2%) rotate(1deg); }
-            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(2%, 2%); }
+            66% { transform: translate(-1%, 1%); }
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           NAVIGATION
-           ═══════════════════════════════════════════════════════════════ */
+        /* NAVIGATION */
         .navbar {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
             padding: 1rem 0;
             backdrop-filter: blur(20px);
             background: rgba(10, 15, 28, 0.8);
             border-bottom: 1px solid var(--border);
-            transition: all var(--transition-normal);
+            transition: all 0.3s;
         }
         
         .navbar.scrolled {
             padding: 0.75rem 0;
             background: rgba(10, 15, 28, 0.95);
-            box-shadow: var(--shadow-md);
         }
         
         [data-theme="light"] .navbar {
             background: rgba(248, 250, 252, 0.8);
-        }
-        
-        [data-theme="light"] .navbar.scrolled {
-            background: rgba(248, 250, 252, 0.95);
         }
         
         .nav-container {
@@ -216,34 +113,26 @@
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
-            transition: transform var(--transition-normal);
-        }
-        
-        .logo:hover .logo-icon {
-            transform: rotate(10deg) scale(1.1);
         }
         
         .logo-text {
             background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
+        /* DESKTOP NAV */
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
         
@@ -252,26 +141,24 @@
             color: var(--text-secondary);
             font-weight: 500;
             font-size: 0.95rem;
-            transition: color var(--transition-fast);
+            transition: color 0.3s;
             position: relative;
         }
         
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
             background: var(--accent-primary);
-            transition: width var(--transition-normal);
+            transition: width 0.3s;
         }
         
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: var(--accent-primary);
         }
         
-        .nav-links a:hover::after {
+        .nav-links a:hover::after, .nav-links a.active::after {
             width: 100%;
         }
         
@@ -299,7 +186,6 @@
             font-weight: 500;
             cursor: pointer;
             border-radius: 50px;
-            transition: all var(--transition-fast);
         }
         
         .lang-btn-nav.active {
@@ -307,13 +193,8 @@
             color: white;
         }
         
-        .lang-btn-nav:hover:not(.active) {
-            color: var(--text-primary);
-        }
-        
         .theme-toggle {
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             border-radius: 50%;
             border: 1px solid var(--border);
             background: var(--surface);
@@ -322,7 +203,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all var(--transition-fast);
         }
         
         .theme-toggle:hover {
@@ -331,26 +211,76 @@
             transform: rotate(180deg);
         }
         
+        /* MOBILE MENU TOGGLE */
+        .mobile-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        /* MOBILE NAV OVERLAY */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 999;
+            padding: 2rem;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-nav.active {
+            display: flex;
+        }
+        
+        .mobile-nav a {
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .mobile-nav a i {
+            color: var(--accent-primary);
+            width: 24px;
+        }
+        
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             font-weight: 600;
             font-size: 0.95rem;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
+            transition: all 0.3s;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
-            box-shadow: var(--shadow-accent);
         }
         
         .btn-primary:hover {
@@ -367,7 +297,6 @@
         .btn-secondary:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            background: rgba(0, 212, 170, 0.05);
         }
         
         .btn-large {
@@ -375,16 +304,12 @@
             font-size: 1.1rem;
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           HERO SECTION
-           ═══════════════════════════════════════════════════════════════ */
+        /* HERO */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
         }
         
         .hero-container {
@@ -408,16 +333,6 @@
             color: var(--accent-primary);
             font-weight: 600;
             margin-bottom: 1.5rem;
-            animation: fadeInUp 0.6s ease;
-        }
-        
-        .hero-badge i {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
         
         .hero-title {
@@ -425,14 +340,12 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            animation: fadeInUp 0.6s ease 0.1s both;
         }
         
         .hero-title .gradient {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .hero-subtitle {
@@ -440,20 +353,19 @@
             color: var(--text-secondary);
             margin-bottom: 2rem;
             max-width: 540px;
-            animation: fadeInUp 0.6s ease 0.2s both;
         }
         
         .hero-actions {
             display: flex;
             gap: 1rem;
             margin-bottom: 3rem;
-            animation: fadeInUp 0.6s ease 0.3s both;
+            flex-wrap: wrap;
         }
         
         .trust-indicators {
             display: flex;
             gap: 2rem;
-            animation: fadeInUp 0.6s ease 0.4s both;
+            flex-wrap: wrap;
         }
         
         .trust-item {
@@ -463,54 +375,39 @@
         }
         
         .trust-icon {
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent-primary);
             font-size: 1.25rem;
-            transition: all var(--transition-fast);
-        }
-        
-        .trust-item:hover .trust-icon {
-            border-color: var(--accent-primary);
-            transform: scale(1.1);
-        }
-        
-        .trust-text {
-            font-size: 0.875rem;
         }
         
         .trust-text strong {
             display: block;
             color: var(--text-primary);
             font-size: 1rem;
-            font-weight: 600;
         }
         
-        /* Hero Visual - Dashboard Preview */
+        .trust-text span {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
         .hero-visual {
             position: relative;
-            animation: fadeIn 1s ease 0.5s both;
         }
         
         .dashboard-preview {
             background: var(--surface);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-            transition: transform var(--transition-slow);
-        }
-        
-        .dashboard-preview:hover {
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+            box-shadow: var(--shadow-lg);
         }
         
         .preview-header {
@@ -520,14 +417,6 @@
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
-        }
-        
-        .preview-title {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
         }
         
         .preview-badge {
@@ -542,24 +431,8 @@
         .chart-placeholder {
             height: 200px;
             background: linear-gradient(180deg, rgba(0, 212, 170, 0.1) 0%, transparent 100%);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            opacity: 0.3;
-            clip-path: polygon(
-                0% 80%, 10% 70%, 20% 75%, 30% 60%, 40% 65%, 
-                50% 45%, 60% 50%, 70% 35%, 80% 40%, 90% 25%, 100% 30%,
-                100% 100%, 0% 100%
-            );
         }
         
         .stats-row {
@@ -572,15 +445,9 @@
         .stat-card-mini {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             padding: 1rem;
             text-align: center;
-            transition: all var(--transition-fast);
-        }
-        
-        .stat-card-mini:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
         }
         
         .stat-value-mini {
@@ -592,32 +459,21 @@
         .stat-label-mini {
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 0.25rem;
         }
         
-        /* Floating Cards */
         .floating-card {
             position: absolute;
             background: var(--surface);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             padding: 1rem;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
             animation: float 6s ease-in-out infinite;
         }
         
         .floating-card.positive {
             top: -20px;
             right: -30px;
-            animation-delay: 0s;
-            border-color: rgba(0, 212, 170, 0.3);
-        }
-        
-        .floating-card.model {
-            bottom: 40px;
-            left: -40px;
-            animation-delay: 2s;
         }
         
         @keyframes float {
@@ -625,28 +481,9 @@
             50% { transform: translateY(-10px); }
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════
-           SECTIONS COMMON STYLES
-           ═══════════════════════════════════════════════════════════════ */
+        /* SECTIONS */
         .section {
             padding: 6rem 2rem;
-            position: relative;
         }
         
         .section-header {
@@ -666,7 +503,6 @@
             font-weight: 600;
             margin-bottom: 1rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
         
         .section-title {
@@ -680,9 +516,7 @@
             color: var(--text-secondary);
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           STATS SECTION
-           ═══════════════════════════════════════════════════════════════ */
+        /* STATS */
         .stats-section {
             background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(59, 130, 246, 0.05));
             border-top: 1px solid var(--border);
@@ -698,30 +532,15 @@
             text-align: center;
         }
         
-        .stat-item {
-            padding: 1.5rem;
-        }
-        
         .stat-number {
             font-size: 3.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 0.5rem;
         }
         
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════
-           FEATURES SECTION
-           ═══════════════════════════════════════════════════════════════ */
+        /* FEATURES */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -734,53 +553,27 @@
             background: var(--surface);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: 20px;
             padding: 2rem;
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transform: scaleX(0);
-            transition: transform var(--transition-normal);
+            transition: all 0.3s;
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: var(--border-hover);
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-        }
-        
-        .feature-card:hover::before {
-            transform: scaleX(1);
+            border-color: var(--accent-primary);
         }
         
         .feature-icon {
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(59, 130, 246, 0.1));
             border: 1px solid rgba(0, 212, 170, 0.2);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             color: var(--accent-primary);
             margin-bottom: 1.5rem;
-            transition: all var(--transition-fast);
-        }
-        
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
-            border-color: var(--accent-primary);
         }
         
         .feature-title {
@@ -792,12 +585,9 @@
         .feature-desc {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.6;
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           MODELS SECTION
-           ═══════════════════════════════════════════════════════════════ */
+        /* MODELS */
         .models-section {
             background: var(--bg-secondary);
         }
@@ -813,16 +603,15 @@
         .model-card {
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: 20px;
             padding: 2rem;
             position: relative;
-            transition: all var(--transition-normal);
+            transition: all 0.3s;
         }
         
         .model-card:hover {
             border-color: var(--accent-primary);
             transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
         }
         
         .model-badge {
@@ -836,20 +625,18 @@
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 600;
-            text-transform: uppercase;
         }
         
         .model-badge.recommended {
             background: rgba(245, 158, 11, 0.1);
-            color: var(--accent-tertiary);
+            color: #f59e0b;
             border-color: rgba(245, 158, 11, 0.2);
         }
         
         .model-icon {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             background: var(--surface);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -889,9 +676,7 @@
             font-weight: 700;
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           HOW IT WORKS
-           ═══════════════════════════════════════════════════════════════ */
+        /* STEPS */
         .steps-container {
             max-width: 800px;
             margin: 0 auto;
@@ -926,7 +711,6 @@
             font-weight: 700;
             color: white;
             flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
         }
         
         .step-content h3 {
@@ -938,13 +722,7 @@
             color: var(--text-secondary);
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           CTA SECTION
-           ═══════════════════════════════════════════════════════════════ */
-        .cta-section {
-            text-align: center;
-        }
-        
+        /* CTA */
         .cta-box {
             max-width: 800px;
             margin: 0 auto;
@@ -952,31 +730,9 @@
             background: var(--surface);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
+            border-radius: 30px;
             box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .cta-content {
-            position: relative;
-            z-index: 1;
+            text-align: center;
         }
         
         .cta-title {
@@ -997,9 +753,7 @@
             flex-wrap: wrap;
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           FOOTER
-           ═══════════════════════════════════════════════════════════════ */
+        /* FOOTER */
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
@@ -1017,15 +771,12 @@
         .footer-brand p {
             color: var(--text-secondary);
             margin-top: 1rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
         }
         
         .footer-links h4 {
             font-size: 1rem;
             margin-bottom: 1rem;
             color: var(--text-primary);
-            font-weight: 600;
         }
         
         .footer-links ul {
@@ -1038,7 +789,7 @@
             text-decoration: none;
             padding: 0.375rem 0;
             font-size: 0.9rem;
-            transition: color var(--transition-fast);
+            transition: color 0.3s;
         }
         
         .footer-links a:hover {
@@ -1075,33 +826,24 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
-            transition: all var(--transition-fast);
+            transition: all 0.3s;
         }
         
         .social-links a:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            transform: translateY(-3px);
         }
         
-        /* ═══════════════════════════════════════════════════════════════
-           SCROLL REVEAL ANIMATION
-           ═══════════════════════════════════════════════════════════════ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════
-           MOBILE RESPONSIVE
-           ═══════════════════════════════════════════════════════════════ */
+        /* MOBILE RESPONSIVE */
         @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
             .hero-container {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -1122,12 +864,6 @@
             
             .hero-visual {
                 order: -1;
-                max-width: 600px;
-                margin: 0 auto;
-            }
-            
-            .dashboard-preview {
-                transform: none;
             }
             
             .floating-card {
@@ -1136,10 +872,6 @@
             
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
-            }
-            
-            .nav-links {
-                display: none;
             }
         }
         
@@ -1154,11 +886,12 @@
             
             .hero-actions .btn {
                 width: 100%;
+                justify-content: center;
             }
             
             .trust-indicators {
                 flex-direction: column;
-                gap: 1rem;
+                align-items: center;
             }
             
             .features-grid,
@@ -1201,62 +934,27 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .mobile-menu-toggle {
-                display: flex;
-            }
-        }
-        
-        .hidden-mobile {
-            display: inline-flex;
-        }
-        
-        @media (max-width: 768px) {
-            .hidden-mobile {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
     <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="grid-overlay"></div>
-    </div>
+    <div class="ambient-bg"></div>
     
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
+                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
                 <span class="logo-text">SetMyTrade</span>
             </a>
             
             <ul class="nav-links">
-                <li><a href="search.html" data-i18n="navAnalysis">Analys</a></li>  <!-- Changed from fundamentals.html to search.html -->
-                <li><a href="calculator.html" data-i18n="navCalculator">Kalkylator</a></li>
-                <li><a href="sector-calendar.html" data-i18n="navCalendar">Sektorkalender</a></li>  <!-- Add this if you have it -->
-                <li><a href="finviz-filter.html" data-i18n="navFinviz">Finviz Filter</a></li>  <!-- Add this if you have it -->
-                <li><a href="strategies.html" data-i18n="navStrategies">Strategier</a></li>
-                <li><a href="guides.html" data-i18n="navGuides">Guider</a></li>
+                <li><a href="search.html">Analysis</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="sector-calendar.html">Sector Calendar</a></li>
+                <li><a href="finviz-filter.html">Finviz Filter</a></li>
+                <li><a href="strategies.html">Strategies</a></li>
+                <li><a href="guides.html">Guides</a></li>
             </ul>
             
             <div class="nav-actions">
@@ -1268,12 +966,21 @@
                     <i class="fas fa-sun" id="themeIcon"></i>
                 </button>
                 <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
-                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-bars" id="menuIcon"></i>
                 </button>
-                <a href="fundamentals.html" class="btn btn-primary hidden-mobile" data-i18n="navCta">Börja Analysera</a>
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="search.html"><i class="fas fa-search"></i> Analysis</a>
+        <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
+        <a href="sector-calendar.html"><i class="fas fa-calendar"></i> Sector Calendar</a>
+        <a href="finviz-filter.html"><i class="fas fa-filter"></i> Finviz Filter</a>
+        <a href="strategies.html"><i class="fas fa-chess"></i> Strategies</a>
+        <a href="guides.html"><i class="fas fa-book"></i> Guides</a>
+    </div>
     
     <!-- Hero Section -->
     <section class="hero">
@@ -1293,7 +1000,7 @@
                 </p>
                 
                 <div class="hero-actions">
-                    <a href="fundamentals.html" class="btn btn-primary btn-large">
+                    <a href="search.html" class="btn btn-primary btn-large">
                         <span data-i18n="heroCtaPrimary">Starta Analys</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -1302,18 +1009,14 @@
                 
                 <div class="trust-indicators">
                     <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
+                        <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
                         <div class="trust-text">
                             <strong data-i18n="trust1Title">Säker & Transparent</strong>
                             <span data-i18n="trust1Desc">Ingen data lagras</span>
                         </div>
                     </div>
                     <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
+                        <div class="trust-icon"><i class="fas fa-bolt"></i></div>
                         <div class="trust-text">
                             <strong data-i18n="trust2Title">Realtidsdata</strong>
                             <span data-i18n="trust2Desc">Multi-source API</span>
@@ -1326,27 +1029,24 @@
                 <div class="dashboard-preview">
                     <div class="preview-header">
                         <span class="preview-title">AAPL - Apple Inc.</span>
-                        <span class="preview-badge" data-i18n="previewBadge">KÖP</span>
+                        <span class="preview-badge">KÖP</span>
                     </div>
-                    <div class="chart-placeholder">
-                        <div class="chart-line"></div>
-                    </div>
+                    <div class="chart-placeholder"></div>
                     <div class="stats-row">
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">82/100</div>
-                            <div class="stat-label-mini" data-i18n="statScore">Score</div>
+                            <div class="stat-label-mini">Score</div>
                         </div>
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">+15%</div>
-                            <div class="stat-label-mini" data-i18n="statUpside">Upside</div>
+                            <div class="stat-label-mini">Upside</div>
                         </div>
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">A</div>
-                            <div class="stat-label-mini" data-i18n="statRating">Rating</div>
+                            <div class="stat-label-mini">Rating</div>
                         </div>
                     </div>
                 </div>
-                
                 <div class="floating-card positive">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <i class="fas fa-arrow-up" style="color: var(--accent-primary);"></i>
@@ -1356,11 +1056,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="floating-card model">
-                    <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">DCF Modell</div>
-                    <div style="font-weight: 600;">Fair Value: $185</div>
-                </div>
             </div>
         </div>
     </section>
@@ -1368,19 +1063,19 @@
     <!-- Stats Section -->
     <section class="section stats-section">
         <div class="stats-grid">
-            <div class="stat-item reveal">
+            <div class="stat-item">
                 <div class="stat-number">5</div>
                 <div class="stat-label" data-i18n="stat1">Värderingsmodeller</div>
             </div>
-            <div class="stat-item reveal">
+            <div class="stat-item">
                 <div class="stat-number">100%</div>
                 <div class="stat-label" data-i18n="stat2">Gratis</div>
             </div>
-            <div class="stat-item reveal">
+            <div class="stat-item">
                 <div class="stat-number">0</div>
                 <div class="stat-label" data-i18n="stat3">Registrering Krävs</div>
             </div>
-            <div class="stat-item reveal">
+            <div class="stat-item">
                 <div class="stat-number">∞</div>
                 <div class="stat-label" data-i18n="stat4">Obegränsade Analyser</div>
             </div>
@@ -1389,223 +1084,60 @@
     
     <!-- Features Section -->
     <section class="section">
-        <div class="section-header reveal">
+        <div class="section-header">
             <span class="section-label" data-i18n="featuresLabel">Funktioner</span>
             <h2 class="section-title" data-i18n="featuresTitle">Kraftfulla Analysverktyg</h2>
-            <p class="section-subtitle" data-i18n="featuresSubtitle">
-                Allt du behöver för professionell aktieanalys, samlat på en plattform
-            </p>
+            <p class="section-subtitle" data-i18n="featuresSubtitle">Allt du behöver för professionell aktieanalys</p>
         </div>
         
         <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-microscope"></i>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microscope"></i></div>
                 <h3 class="feature-title" data-i18n="feature1Title">Fundamental Analys</h3>
-                <p class="feature-desc" data-i18n="feature1Desc">
-                    Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.
-                </p>
+                <p class="feature-desc" data-i18n="feature1Desc">Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning.</p>
             </div>
-            
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-calculator"></i></div>
                 <h3 class="feature-title" data-i18n="feature2Title">DCF Kalkylator</h3>
-                <p class="feature-desc" data-i18n="feature2Desc">
-                    Discounted Cash Flow analys med anpassningsbar investeringshorisont (1-20 år) och realtidsberäkningar.
-                </p>
+                <p class="feature-desc" data-i18n="feature2Desc">Discounted Cash Flow analys med anpassningsbar investeringshorisont.</p>
             </div>
-            
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-layer-group"></i>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
                 <h3 class="feature-title" data-i18n="feature3Title">5 Värderingsmodeller</h3>
-                <p class="feature-desc" data-i18n="feature3Desc">
-                    Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett analys.
-                </p>
+                <p class="feature-desc" data-i18n="feature3Desc">Kvantitativ Scoring, DCF, Dividend Discount, PEG Ratio och Graham Number.</p>
             </div>
-            
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-sync"></i>
-                </div>
-                <h3 class="feature-title" data-i18n="feature4Title">Automatisk Datahämtning</h3>
-                <p class="feature-desc" data-i18n="feature4Desc">
-                    Multi-source fallback system hämtar data från Yahoo Finance, Finviz och andra källor automatiskt.
-                </p>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-sync"></i></div>
+                <h3 class="feature-title" data-i18n="feature4Title">Automatisk Data</h3>
+                <p class="feature-desc" data-i18n="feature4Desc">Multi-source system hämtar data från Yahoo Finance och Finviz.</p>
             </div>
-            
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
                 <h3 class="feature-title" data-i18n="feature5Title">Responsiv Design</h3>
-                <p class="feature-desc" data-i18n="feature5Desc">
-                    Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.
-                </p>
+                <p class="feature-desc" data-i18n="feature5Desc">Fungerar på desktop, tablet och mobil.</p>
             </div>
-            
-            <div class="feature-card reveal">
-                <div class="feature-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-globe"></i></div>
                 <h3 class="feature-title" data-i18n="feature6Title">Flerspråkig</h3>
-                <p class="feature-desc" data-i18n="feature6Desc">
-                    Fullständigt stöd för svenska och engelska med enkel växling mellan språk.
-                </p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Models Section -->
-    <section class="section models-section">
-        <div class="section-header reveal">
-            <span class="section-label" data-i18n="modelsLabel">Modeller</span>
-            <h2 class="section-title" data-i18n="modelsTitle">Våra Värderingsmodeller</h2>
-            <p class="section-subtitle" data-i18n="modelsSubtitle">
-                Välj den modell som passar din investeringsstrategi bäst
-            </p>
-        </div>
-        
-        <div class="models-grid">
-            <div class="model-card reveal">
-                <span class="model-badge recommended" data-i18n="badgeRecommended">Rekommenderad</span>
-                <div class="model-icon" style="color: var(--accent-primary);">
-                    <i class="fas fa-star"></i>
-                </div>
-                <h3 class="model-title" data-i18n="model1Title">Kvantitativ Scoring</h3>
-                <p class="model-desc" data-i18n="model1Desc">Poängbaserad värdering (0-100) som analyserar lönsamhet, värdering, tillväxt och finansiell hälsa.</p>
-                <ul class="model-features">
-                    <li data-i18n="model1F1">Lönsamhet (ROE) - 30p</li>
-                    <li data-i18n="model1F2">Värdering (P/E) - 25p</li>
-                    <li data-i18n="model1F3">Tillväxt - 20p</li>
-                </ul>
-            </div>
-            
-            <div class="model-card reveal">
-                <span class="model-badge" data-i18n="badgeAdvanced">Avancerad</span>
-                <div class="model-icon" style="color: var(--accent-secondary);">
-                    <i class="fas fa-chart-area"></i>
-                </div>
-                <h3 class="model-title" data-i18n="model2Title">DCF Analys</h3>
-                <p class="model-desc" data-i18n="model2Desc">Discounted Cash Flow värdering med framtida kassaflöden och terminal värde.</p>
-                <ul class="model-features">
-                    <li data-i18n="model2F1">10% diskonteringsränta</li>
-                    <li data-i18n="model2F2">1-20 år horisont</li>
-                    <li data-i18n="model2F3">Projektioner & grafer</li>
-                </ul>
-            </div>
-            
-            <div class="model-card reveal">
-                <span class="model-badge" data-i18n="badgeDividend">Utdelning</span>
-                <div class="model-icon" style="color: var(--accent-tertiary);">
-                    <i class="fas fa-hand-holding-usd"></i>
-                </div>
-                <h3 class="model-title" data-i18n="model3Title">Utdelningsmodell</h3>
-                <p class="model-desc" data-i18n="model3Desc">Gordon Growth Model för utdelningsaktier med tillväxt och avkastningskrav.</p>
-                <ul class="model-features">
-                    <li data-i18n="model3F1">5% utdelningstillväxt</li>
-                    <li data-i18n="model3F2">10% avkastningskrav</li>
-                    <li data-i18n="model3F3">Yield on Cost</li>
-                </ul>
-            </div>
-            
-            <div class="model-card reveal">
-                <span class="model-badge" data-i18n="badgeGrowth">Tillväxt</span>
-                <div class="model-icon" style="color: #ec4899;">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <h3 class="model-title" data-i18n="model4Title">PEG Ratio</h3>
-                <p class="model-desc" data-i18n="model4Desc">Tillväxtjusterad värdering där P/E delas med tillväxttakt. Perfekt för tillväxtaktier.</p>
-                <ul class="model-features">
-                    <li data-i18n="model4F1">Under 1.0 = Undervärderad</li>
-                    <li data-i18n="model4F2">1.0-2.0 = Rimlig</li>
-                    <li data-i18n="model4F3">Över 2.0 = Övervärderad</li>
-                </ul>
-            </div>
-            
-            <div class="model-card reveal">
-                <span class="model-badge" data-i18n="badgeValue">Value</span>
-                <div class="model-icon" style="color: #8b5cf6;">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <h3 class="model-title" data-i18n="model5Title">Graham Number</h3>
-                <p class="model-desc" data-i18n="model5Desc">Ben Graham's klassiska formel för konservativ värdering med säkerhetsmarginal.</p>
-                <ul class="model-features">
-                    <li data-i18n="model5F1">√(22.5 × EPS × Bokvärde)</li>
-                    <li data-i18n="model5F2">Säkerhetsmarginal</li>
-                    <li data-i18n="model5F3">Value investing</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <!-- How It Works -->
-    <section class="section">
-        <div class="section-header reveal">
-            <span class="section-label" data-i18n="howLabel">Process</span>
-            <h2 class="section-title" data-i18n="howTitle">Så Här Fungerar Det</h2>
-            <p class="section-subtitle" data-i18n="howSubtitle">
-                Få professionell analys på under 60 sekunder
-            </p>
-        </div>
-        
-        <div class="steps-container">
-            <div class="step-item reveal">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3 data-i18n="step1Title">Sök Aktie</h3>
-                    <p data-i18n="step1Desc">Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT). Vi hämtar automatiskt data från Yahoo Finance och Finviz.</p>
-                </div>
-            </div>
-            
-            <div class="step-item reveal">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3 data-i18n="step2Title">Välj Modell</h3>
-                    <p data-i18n="step2Desc">Välj mellan 5 professionella värderingsmodeller baserat på din strategi och preferens.</p>
-                </div>
-            </div>
-            
-            <div class="step-item reveal">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3 data-i18n="step3Title">Anpassa Parametrar</h3>
-                    <p data-i18n="step3Desc">Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.</p>
-                </div>
-            </div>
-            
-            <div class="step-item reveal">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h3 data-i18n="step4Title">Få Rekommendation</h3>
-                    <p data-i18n="step4Desc">Se tydlig KÖP/HÅLL/SÄLJ-rekommendation med detaljerad förklaring, interaktiva grafer och nyckeltal.</p>
-                </div>
+                <p class="feature-desc" data-i18n="feature6Desc">Svenska och engelska med enkel växling.</p>
             </div>
         </div>
     </section>
     
     <!-- CTA Section -->
-    <section class="section cta-section">
-        <div class="cta-box reveal">
-            <div class="cta-content">
-                <h2 class="cta-title" data-i18n="ctaTitle">Redo att Börja Analysera?</h2>
-                <p class="cta-text" data-i18n="ctaText">
-                    Använd professionella analysverktyg helt gratis. Ingen registrering krävs.
-                </p>
-                <div class="cta-buttons">
-                    <a href="fundamentals.html" class="btn btn-primary btn-large">
-                        <span data-i18n="ctaPrimary">Starta Din Första Analys</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="ai-chat.html" class="btn btn-secondary btn-large">
-                        <i class="fas fa-robot"></i>
-                        <span data-i18n="ctaSecondary">Fråga AI</span>
-                    </a>
-                </div>
+    <section class="section">
+        <div class="cta-box">
+            <h2 class="cta-title" data-i18n="ctaTitle">Redo att Börja Analysera?</h2>
+            <p class="cta-text" data-i18n="ctaText">Använd professionella analysverktyg helt gratis.</p>
+            <div class="cta-buttons">
+                <a href="search.html" class="btn btn-primary btn-large">
+                    <span data-i18n="ctaPrimary">Starta Din Första Analys</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="ai-chat.html" class="btn btn-secondary btn-large">
+                    <i class="fas fa-robot"></i>
+                    <span data-i18n="ctaSecondary">Fråga AI</span>
+                </a>
             </div>
         </div>
     </section>
@@ -1615,85 +1147,48 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="index.html" class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
+                    <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
                     <span class="logo-text">SetMyTrade</span>
                 </a>
-                <p data-i18n="footerDesc">
-                    Professionell aktieanalys för smarta investerare. Gratis, transparent och tillgänglig för alla.
-                </p>
+                <p data-i18n="footerDesc">Professionell aktieanalys för smarta investerare.</p>
             </div>
-            
             <div class="footer-links">
                 <h4 data-i18n="footerTools">Verktyg</h4>
                 <ul>
-                    <li><a href="fundamentals.html" data-i18n="footerAnalysis">Fundamental Analys</a></li>
-                    <li><a href="calculator.html" data-i18n="footerCalculator">Kalkylator</a></li>
-                    <li><a href="search.html" data-i18n="footerSearch">Aktiesök</a></li>
+                    <li><a href="search.html">Aktiesök</a></li>
+                    <li><a href="calculator.html">Kalkylator</a></li>
                     <li><a href="ai-chat.html">AI Chat</a></li>
                 </ul>
             </div>
-            
             <div class="footer-links">
                 <h4 data-i18n="footerLearn">Lär Dig</h4>
                 <ul>
-                    <li><a href="strategies.html" data-i18n="footerStrategies">Strategier</a></li>
-                    <li><a href="guides.html" data-i18n="footerGuides">Guider</a></li>
-                    <li><a href="blog.html">Blogg</a></li>
-                    <li><a href="how-it-works.html" data-i18n="footerHow">Hur Det Fungerar</a></li>
+                    <li><a href="strategies.html">Strategier</a></li>
+                    <li><a href="guides.html">Guider</a></li>
                 </ul>
             </div>
-            
             <div class="footer-links">
                 <h4 data-i18n="footerLegal">Juridik</h4>
                 <ul>
-                    <li><a href="legal.html" data-i18n="footerDisclaimer">Ansvarsfriskrivning</a></li>
-                    <li><a href="privacy.html" data-i18n="footerPrivacy">Integritetspolicy</a></li>
-                    <li><a href="terms.html" data-i18n="footerTerms">Användarvillkor</a></li>
-                    <li><a href="about.html" data-i18n="footerAbout">Om Oss</a></li>
+                    <li><a href="legal.html">Ansvarsfriskrivning</a></li>
+                    <li><a href="privacy.html">Integritetspolicy</a></li>
                 </ul>
             </div>
         </div>
-            <div class="footer-links">
-    <h4 data-i18n="footerTools">Verktyg</h4>
-    <ul>
-        <li><a href="search.html" data-i18n="navAnalysis">Aktiesök/Analys</a></li>
-        <li><a href="fundamentals.html" data-i18n="navFundamentals">Fundamental Analys</a></li>
-        <li><a href="calculator.html" data-i18n="navCalculator">Kalkylator</a></li>
-        <li><a href="sector-calendar.html" data-i18n="navCalendar">Sektorkalender</a></li>
-        <li><a href="finviz-filter.html" data-i18n="navFinviz">Finviz Filter</a></li>
-        <li><a href="ai-chat.html">AI Chat</a></li>
-    </ul>
-</div>
         <div class="footer-bottom">
-            <div data-i18n="footerCopyright">
-                © 2026 SetMyTrade. Alla rättigheter förbehållna.
-            </div>
+            <div data-i18n="footerCopyright">© 2026 SetMyTrade. Alla rättigheter förbehållna.</div>
             <div class="social-links">
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </footer>
     
     <script>
-        // ═══════════════════════════════════════════════════════════════
-        // TRANSLATION SYSTEM
-        // ═══════════════════════════════════════════════════════════════
+        // Translations
         const translations = {
             sv: {
-                // Navigation
-                navAnalysis: "Analys",
-                navCalculator: "Kalkylator",
-                navStrategies: "Strategier",
-                navGuides: "Guider",
-                navCta: "Börja Analysera",
-                navCalendar: "Sektorkalender",
-                navFundamentals: "Fundamental Analys", 
-                navFinviz: "Finviz Filter",
-                // Hero
                 heroBadge: "100% Gratis • Ingen Registrering",
                 heroTitle1: "Professionell",
                 heroTitle2: "Aktieanalys",
@@ -1701,341 +1196,151 @@
                 heroSubtitle: "Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number och PEG Ratio. Realtidsdata, intuitivt gränssnitt, helt gratis.",
                 heroCtaPrimary: "Starta Analys",
                 heroCtaSecondary: "Se Hur Det Fungerar",
-                
-                // Trust Indicators
                 trust1Title: "Säker & Transparent",
                 trust1Desc: "Ingen data lagras",
                 trust2Title: "Realtidsdata",
                 trust2Desc: "Multi-source API",
-                
-                // Preview Badge
-                previewBadge: "KÖP",
-                statScore: "Score",
-                statUpside: "Upside",
-                statRating: "Rating",
-                
-                // Stats
                 stat1: "Värderingsmodeller",
                 stat2: "Gratis",
                 stat3: "Registrering Krävs",
                 stat4: "Obegränsade Analyser",
-                
-                // Features Section
                 featuresLabel: "Funktioner",
                 featuresTitle: "Kraftfulla Analysverktyg",
-                featuresSubtitle: "Allt du behöver för professionell aktieanalys, samlat på en plattform",
+                featuresSubtitle: "Allt du behöver för professionell aktieanalys",
                 feature1Title: "Fundamental Analys",
-                feature1Desc: "Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.",
+                feature1Desc: "Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning.",
                 feature2Title: "DCF Kalkylator",
-                feature2Desc: "Discounted Cash Flow analys med anpassningsbar investeringshorisont (1-20 år) och realtidsberäkningar.",
+                feature2Desc: "Discounted Cash Flow analys med anpassningsbar investeringshorisont.",
                 feature3Title: "5 Värderingsmodeller",
-                feature3Desc: "Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett analys.",
-                feature4Title: "Automatisk Datahämtning",
-                feature4Desc: "Multi-source fallback system hämtar data från Yahoo Finance, Finviz och andra källor automatiskt.",
+                feature3Desc: "Kvantitativ Scoring, DCF, Dividend Discount, PEG Ratio och Graham Number.",
+                feature4Title: "Automatisk Data",
+                feature4Desc: "Multi-source system hämtar data från Yahoo Finance och Finviz.",
                 feature5Title: "Responsiv Design",
-                feature5Desc: "Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.",
+                feature5Desc: "Fungerar på desktop, tablet och mobil.",
                 feature6Title: "Flerspråkig",
-                feature6Desc: "Fullständigt stöd för svenska och engelska med enkel växling mellan språk.",
-                
-                // Models Section
-                modelsLabel: "Modeller",
-                modelsTitle: "Våra Värderingsmodeller",
-                modelsSubtitle: "Välj den modell som passar din investeringsstrategi bäst",
-                badgeRecommended: "Rekommenderad",
-                badgeAdvanced: "Avancerad",
-                badgeDividend: "Utdelning",
-                badgeGrowth: "Tillväxt",
-                badgeValue: "Value",
-                model1Title: "Kvantitativ Scoring",
-                model1Desc: "Poängbaserad värdering (0-100) som analyserar lönsamhet, värdering, tillväxt och finansiell hälsa.",
-                model1F1: "Lönsamhet (ROE) - 30p",
-                model1F2: "Värdering (P/E) - 25p",
-                model1F3: "Tillväxt - 20p",
-                model2Title: "DCF Analys",
-                model2Desc: "Discounted Cash Flow värdering med framtida kassaflöden och terminal värde.",
-                model2F1: "10% diskonteringsränta",
-                model2F2: "1-20 år horisont",
-                model2F3: "Projektioner & grafer",
-                model3Title: "Utdelningsmodell",
-                model3Desc: "Gordon Growth Model för utdelningsaktier med tillväxt och avkastningskrav.",
-                model3F1: "5% utdelningstillväxt",
-                model3F2: "10% avkastningskrav",
-                model3F3: "Yield on Cost",
-                model4Title: "PEG Ratio",
-                model4Desc: "Tillväxtjusterad värdering där P/E delas med tillväxttakt. Perfekt för tillväxtaktier.",
-                model4F1: "Under 1.0 = Undervärderad",
-                model4F2: "1.0-2.0 = Rimlig",
-                model4F3: "Över 2.0 = Övervärderad",
-                model5Title: "Graham Number",
-                model5Desc: "Ben Graham's klassiska formel för konservativ värdering med säkerhetsmarginal.",
-                model5F1: "√(22.5 × EPS × Bokvärde)",
-                model5F2: "Säkerhetsmarginal",
-                model5F3: "Value investing",
-                
-                // How It Works
-                howLabel: "Process",
-                howTitle: "Så Här Fungerar Det",
-                howSubtitle: "Få professionell analys på under 60 sekunder",
-                step1Title: "Sök Aktie",
-                step1Desc: "Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT). Vi hämtar automatiskt data från Yahoo Finance och Finviz.",
-                step2Title: "Välj Modell",
-                step2Desc: "Välj mellan 5 professionella värderingsmodeller baserat på din strategi och preferens.",
-                step3Title: "Anpassa Parametrar",
-                step3Desc: "Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.",
-                step4Title: "Få Rekommendation",
-                step4Desc: "Se tydlig KÖP/HÅLL/SÄLJ-rekommendation med detaljerad förklaring, interaktiva grafer och nyckeltal.",
-                
-                // CTA Section
+                feature6Desc: "Svenska och engelska med enkel växling.",
                 ctaTitle: "Redo att Börja Analysera?",
-                ctaText: "Använd professionella analysverktyg helt gratis. Ingen registrering krävs.",
+                ctaText: "Använd professionella analysverktyg helt gratis.",
                 ctaPrimary: "Starta Din Första Analys",
                 ctaSecondary: "Fråga AI",
-                
-                // Footer
-                footerDesc: "Professionell aktieanalys för smarta investerare. Gratis, transparent och tillgänglig för alla.",
+                footerDesc: "Professionell aktieanalys för smarta investerare.",
                 footerTools: "Verktyg",
-                footerAnalysis: "Fundamental Analys",
-                footerCalculator: "Kalkylator",
-                footerSearch: "Aktiesök",
                 footerLearn: "Lär Dig",
-                footerStrategies: "Strategier",
-                footerGuides: "Guider",
-                footerHow: "Hur Det Fungerar",
                 footerLegal: "Juridik",
-                footerDisclaimer: "Ansvarsfriskrivning",
-                footerPrivacy: "Integritetspolicy",
-                footerTerms: "Användarvillkor",
-                footerAbout: "Om Oss",
                 footerCopyright: "© 2026 SetMyTrade. Alla rättigheter förbehållna."
             },
             en: {
-                // Navigation
-                navAnalysis: "Analysis",
-                navCalculator: "Calculator",
-                navStrategies: "Strategies",
-                navGuides: "Guides",
-                navCta: "Start Analyzing",
-                navCalendar: "Sector Calendar",
-                navFundamentals: "Fundamental Analysis",
-                navFinviz: "Finviz Filter",
-                // Hero
                 heroBadge: "100% Free • No Registration",
                 heroTitle1: "Professional",
                 heroTitle2: "Stock Analysis",
                 heroTitle3: "for Everyone",
-                heroSubtitle: "Analyze stocks with 5 professional valuation models including DCF, Graham Number, and PEG Ratio. Real-time data, intuitive interface, completely free.",
+                heroSubtitle: "Analyze stocks with 5 professional valuation models including DCF, Graham Number and PEG Ratio. Real-time data, intuitive interface, completely free.",
                 heroCtaPrimary: "Start Analysis",
                 heroCtaSecondary: "See How It Works",
-                
-                // Trust Indicators
                 trust1Title: "Secure & Transparent",
                 trust1Desc: "No data stored",
                 trust2Title: "Real-time Data",
                 trust2Desc: "Multi-source API",
-                
-                // Preview Badge
-                previewBadge: "BUY",
-                statScore: "Score",
-                statUpside: "Upside",
-                statRating: "Rating",
-                
-                // Stats
                 stat1: "Valuation Models",
                 stat2: "Free",
                 stat3: "Registration Required",
                 stat4: "Unlimited Analysis",
-                
-                // Features Section
                 featuresLabel: "Features",
                 featuresTitle: "Powerful Analysis Tools",
-                featuresSubtitle: "Everything you need for professional stock analysis, all in one platform",
+                featuresSubtitle: "Everything you need for professional stock analysis",
                 feature1Title: "Fundamental Analysis",
-                feature1Desc: "In-depth analysis of financial metrics: P/E, ROE, EPS growth, debt ratios, and profit margins.",
+                feature1Desc: "In-depth analysis of financial metrics: P/E, ROE, EPS growth, debt ratios.",
                 feature2Title: "DCF Calculator",
-                feature2Desc: "Discounted Cash Flow analysis with customizable investment horizon (1-20 years) and real-time calculations.",
+                feature2Desc: "Discounted Cash Flow analysis with customizable investment horizon.",
                 feature3Title: "5 Valuation Models",
-                feature3Desc: "Quantitative Scoring, DCF, Dividend Discount Model, PEG Ratio, and Graham Number for complete analysis.",
-                feature4Title: "Automatic Data Fetching",
-                feature4Desc: "Multi-source fallback system automatically fetches data from Yahoo Finance, Finviz, and other sources.",
+                feature3Desc: "Quantitative Scoring, DCF, Dividend Discount, PEG Ratio and Graham Number.",
+                feature4Title: "Automatic Data",
+                feature4Desc: "Multi-source system fetches data from Yahoo Finance and Finviz.",
                 feature5Title: "Responsive Design",
-                feature5Desc: "Works perfectly on desktop, tablet, and mobile. Analyze stocks anytime, anywhere.",
+                feature5Desc: "Works on desktop, tablet and mobile.",
                 feature6Title: "Multilingual",
-                feature6Desc: "Full support for Swedish and English with easy switching between languages.",
-                
-                // Models Section
-                modelsLabel: "Models",
-                modelsTitle: "Our Valuation Models",
-                modelsSubtitle: "Choose the model that best fits your investment strategy",
-                badgeRecommended: "Recommended",
-                badgeAdvanced: "Advanced",
-                badgeDividend: "Dividend",
-                badgeGrowth: "Growth",
-                badgeValue: "Value",
-                model1Title: "Quantitative Scoring",
-                model1Desc: "Score-based valuation (0-100) analyzing profitability, valuation, growth, and financial health.",
-                model1F1: "Profitability (ROE) - 30p",
-                model1F2: "Valuation (P/E) - 25p",
-                model1F3: "Growth - 20p",
-                model2Title: "DCF Analysis",
-                model2Desc: "Discounted Cash Flow valuation with future cash flows and terminal value.",
-                model2F1: "10% discount rate",
-                model2F2: "1-20 year horizon",
-                model2F3: "Projections & charts",
-                model3Title: "Dividend Model",
-                model3Desc: "Gordon Growth Model for dividend stocks with growth and required return.",
-                model3F1: "5% dividend growth",
-                model3F2: "10% required return",
-                model3F3: "Yield on Cost",
-                model4Title: "PEG Ratio",
-                model4Desc: "Growth-adjusted valuation where P/E is divided by growth rate. Perfect for growth stocks.",
-                model4F1: "Under 1.0 = Undervalued",
-                model4F2: "1.0-2.0 = Fair",
-                model4F3: "Over 2.0 = Overvalued",
-                model5Title: "Graham Number",
-                model5Desc: "Ben Graham's classic formula for conservative valuation with margin of safety.",
-                model5F1: "√(22.5 × EPS × Book Value)",
-                model5F2: "Margin of safety",
-                model5F3: "Value investing",
-                
-                // How It Works
-                howLabel: "Process",
-                howTitle: "How It Works",
-                howSubtitle: "Get professional analysis in under 60 seconds",
-                step1Title: "Search Stock",
-                step1Desc: "Enter ticker symbol (e.g., AAPL, TSLA, MSFT). We automatically fetch data from Yahoo Finance and Finviz.",
-                step2Title: "Choose Model",
-                step2Desc: "Choose between 5 professional valuation models based on your strategy and preference.",
-                step3Title: "Customize Parameters",
-                step3Desc: "Adjust investment horizon (1-20 years) and other parameters to match your strategy.",
-                step4Title: "Get Recommendation",
-                step4Desc: "See clear BUY/HOLD/SELL recommendation with detailed explanation, interactive charts, and key metrics.",
-                
-                // CTA Section
+                feature6Desc: "Swedish and English with easy switching.",
                 ctaTitle: "Ready to Start Analyzing?",
-                ctaText: "Use professional analysis tools completely free. No registration required.",
+                ctaText: "Use professional analysis tools completely free.",
                 ctaPrimary: "Start Your First Analysis",
                 ctaSecondary: "Ask AI",
-                
-                // Footer
-                footerDesc: "Professional stock analysis for smart investors. Free, transparent, and accessible to everyone.",
+                footerDesc: "Professional stock analysis for smart investors.",
                 footerTools: "Tools",
-                footerAnalysis: "Fundamental Analysis",
-                footerCalculator: "Calculator",
-                footerSearch: "Stock Search",
                 footerLearn: "Learn",
-                footerStrategies: "Strategies",
-                footerGuides: "Guides",
-                footerHow: "How It Works",
                 footerLegal: "Legal",
-                footerDisclaimer: "Disclaimer",
-                footerPrivacy: "Privacy Policy",
-                footerTerms: "Terms of Use",
-                footerAbout: "About Us",
                 footerCopyright: "© 2026 SetMyTrade. All rights reserved."
             }
         };
 
         let currentLanguage = 'sv';
+        let mobileMenuOpen = false;
 
         function setLanguage(lang) {
             currentLanguage = lang;
             
-            // Update active button state
             document.querySelectorAll('.lang-btn-nav').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
-                }
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
             });
             
-            // Update all elements with data-i18n attribute
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) el.textContent = translations[lang][key];
             });
             
-            // Update HTML lang attribute
             document.documentElement.lang = lang;
-            
-            // Store preference
             localStorage.setItem('language', lang);
-            
-            // Update page title
-            if (lang === 'en') {
-                document.title = "SetMyTrade | Professional Stock Analysis & Trading Tools - 100% Free";
-            } else {
-                document.title = "SetMyTrade | Professionell Aktieanalys & Trading Verktyg - 100% Gratis";
-            }
         }
 
-        // Load saved language preference
-        const savedLanguage = localStorage.getItem('language') || 'sv';
-        if (savedLanguage !== 'sv') {
-            setLanguage(savedLanguage);
-        }
-        
-        // ═══════════════════════════════════════════════════════════════
-        // THEME TOGGLE
-        // ═══════════════════════════════════════════════════════════════
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
             
-            html.setAttribute('data-theme', newTheme);
-            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.setItem('theme', newTheme);
+            html.setAttribute('data-theme', next);
+            icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', next);
         }
+
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const menuIcon = document.getElementById('menuIcon');
+            mobileMenuOpen = !mobileMenuOpen;
+            
+            if (mobileMenuOpen) {
+                mobileNav.classList.add('active');
+                menuIcon.className = 'fas fa-times';
+            } else {
+                mobileNav.classList.remove('active');
+                menuIcon.className = 'fas fa-bars';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const mobileNav = document.getElementById('mobileNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (mobileMenuOpen && !mobileNav.contains(e.target) && !toggle.contains(e.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Init
+        const savedLang = localStorage.getItem('language') || 'sv';
+        if (savedLang !== 'sv') setLanguage(savedLang);
         
-        // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         
-        // ═══════════════════════════════════════════════════════════════
-        // NAVBAR SCROLL EFFECT
-        // ═══════════════════════════════════════════════════════════════
-        const navbar = document.getElementById('navbar');
+        // Navbar scroll
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
-        
-        // ═══════════════════════════════════════════════════════════════
-        // SCROLL REVEAL ANIMATION
-        // ═══════════════════════════════════════════════════════════════
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('active');
-                    }, index * 100);
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        revealElements.forEach(el => revealObserver.observe(el));
-        
-        // ═══════════════════════════════════════════════════════════════
-        // MOBILE MENU TOGGLE
-        // ═══════════════════════════════════════════════════════════════
-        function toggleMobileMenu() {
-            // Simple alert for now - implement full mobile menu later
-            const message = currentLanguage === 'sv' ? 'Mobil meny kommer snart!' : 'Mobile menu coming soon!';
-            alert(message);
-        }
     </script>
 </body>
 </html>
