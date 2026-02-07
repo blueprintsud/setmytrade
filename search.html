@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     
     <style>
-        /* [CSS VARIABLES - Same as index.html] */
+        /* [CSS VARIABLES - Same as before] */
         :root {
             --bg-primary: #0a0f1c;
             --bg-secondary: #151b2e;
@@ -221,6 +221,7 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 1rem;
         }
         
         .btn-primary {
@@ -417,31 +418,47 @@
             color: var(--text-secondary);
         }
         
-        /* Results Section */
-        .results-section {
+        /* Loading State */
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
             display: none;
-            margin-top: 2rem;
         }
         
-        .results-section.active {
+        .loading-state.active {
             display: block;
         }
         
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
         }
         
-        /* Stock Result Card */
-        .stock-result-card {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Stock Result */
+        .stock-result {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .stock-result.active {
+            display: block;
+        }
+        
+        .stock-card {
             background: var(--surface);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 2rem;
-            margin-bottom: 2rem;
             box-shadow: var(--shadow-lg);
         }
         
@@ -505,36 +522,6 @@
             color: var(--accent-danger);
         }
         
-        /* Stock Meta Grid */
-        .stock-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .meta-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        .meta-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-        
-        .meta-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-        }
-        
         /* Chart Container */
         .chart-container {
             background: var(--bg-primary);
@@ -556,55 +543,6 @@
             min-width: 200px;
             justify-content: center;
             padding: 1rem 1.5rem;
-        }
-        
-        /* Loading State */
-        .loading-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            display: none;
-        }
-        
-        .loading-state.active {
-            display: block;
-        }
-        
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid var(--border);
-            border-top-color: var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1.5rem;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Error State */
-        .error-state {
-            text-align: center;
-            padding: 3rem;
-            display: none;
-        }
-        
-        .error-state.active {
-            display: block;
-        }
-        
-        .error-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(239, 68, 68, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--accent-danger);
         }
         
         /* Footer */
@@ -735,8 +673,8 @@
             
             <div class="nav-actions">
                 <div class="lang-switch">
-                    <button class="lang-btn-nav active" onclick="setLanguage('sv')" data-lang="sv">SV</button>
-                    <button class="lang-btn-nav" onclick="setLanguage('en')" data-lang="en">EN</button>
+                    <button class="lang-btn-nav active" onclick="changeLanguage('sv')" data-lang="sv">SV</button>
+                    <button class="lang-btn-nav" onclick="changeLanguage('en')" data-lang="en">EN</button>
                 </div>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                     <i class="fas fa-sun" id="themeIcon"></i>
@@ -768,22 +706,23 @@
                             id="searchInput"
                             placeholder="Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT)..."
                             autocomplete="off"
+                            onkeypress="if(event.key === 'Enter') searchStock()"
                         >
                     </div>
                     
                     <div class="search-tips">
                         <i class="fas fa-lightbulb"></i>
-                        <span>💡 Tips: Sök efter ticker-symboler som AAPL, TSLA, MSFT, GOOGL, AMZN. Vi hämtar data från Yahoo Finance.</span>
+                        <span data-lang="apiTips">Tips: Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)</span>
                     </div>
                     
                     <div class="search-buttons">
                         <button class="btn btn-primary btn-large" onclick="searchStock()">
                             <i class="fas fa-search"></i>
-                            <span>Sök Aktie</span>
+                            <span data-lang="btnSearch">Sök Aktie</span>
                         </button>
                         <button class="btn btn-secondary btn-large" onclick="clearSearch()">
                             <i class="fas fa-times"></i>
-                            <span>Rensa</span>
+                            <span data-lang="btnClear">Rensa</span>
                         </button>
                     </div>
                 </div>
@@ -831,23 +770,11 @@
             <!-- Loading State -->
             <div class="loading-state" id="loadingState">
                 <div class="spinner"></div>
-                <p>Hämtar data från Yahoo Finance...</p>
+                <p data-lang="searching">Söker...</p>
             </div>
             
-            <!-- Error State -->
-            <div class="error-state" id="errorState">
-                <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <h3>Kunde inte hämta data</h3>
-                <p>Försök igen eller kontrollera ticker-symbolen</p>
-                <button class="btn btn-primary" onclick="retrySearch()" style="margin-top: 1rem;">
-                    <i class="fas fa-redo"></i> Försök igen
-                </button>
-            </div>
-            
-            <!-- Results Section -->
-            <div class="results-section" id="resultsSection">
-                <!-- Results will be inserted here -->
-            </div>
+            <!-- Stock Result -->
+            <div class="stock-result" id="stockResult"></div>
         </div>
     </main>
     
@@ -855,13 +782,13 @@
     <footer class="footer">
         <div class="footer-content">
             <ul class="footer-links">
-                <li><a href="index.html">Hem</a></li>
-                <li><a href="search.html">Aktiesök</a></li>
-                <li><a href="fundamentals.html">Fundamental Analys</a></li>
-                <li><a href="calculator.html">Kalkylator</a></li>
-                <li><a href="legal.html">Ansvarsfriskrivning</a></li>
+                <li><a href="index.html" data-lang="navHome">Hem</a></li>
+                <li><a href="search.html" data-lang="navSearch">Aktiesök</a></li>
+                <li><a href="fundamentals.html" data-lang="navFundamentals">Fundamental Analys</a></li>
+                <li><a href="calculator.html" data-lang="navCalculator">Kalkylator</a></li>
+                <li><a href="legal.html" data-lang="navDisclaimer">Ansvarsfriskrivning</a></li>
             </ul>
-            <div class="footer-copyright">
+            <div class="footer-copyright" data-lang="copyright">
                 © 2026 SetMyTrade. Alla rättigheter förbehållna.
             </div>
         </div>
@@ -869,91 +796,58 @@
     
     <script>
         // ═══════════════════════════════════════════════════════════════
-        // API CONFIGURATION
+        // GLOBAL VARIABLES
         // ═══════════════════════════════════════════════════════════════
-        
-        // CORS Proxy for Yahoo Finance
-        // Note: These are free public proxies. For production, use your own proxy or backend
-        const CORS_PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://api.codetabs.com/v1/proxy?quest=',
-            'https://corsproxy.io/?'
-        ];
-        
-        // Yahoo Finance API endpoint
-        function getYahooUrl(ticker) {
-            return `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
-        }
-        
+        let currentLanguage = 'sv';
+        let currentStock = null;
+
         // ═══════════════════════════════════════════════════════════════
-        // TRANSLATION SYSTEM
+        // TRANSLATIONS (Same as your original)
         // ═══════════════════════════════════════════════════════════════
         const translations = {
             sv: {
-                searchTitle: "Sök Aktier",
-                searchSubtitle: " & Analysera",
-                searchDesc: "Ange ticker-symbol för att få realtidsdata och teknisk analys. Fungerar bäst med US-aktier.",
-                searchPlaceholder: "Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT)...",
-                searchTip: "💡 Tips: Sök efter ticker-symboler som AAPL, TSLA, MSFT, GOOGL, AMZN. Vi hämtar data från Yahoo Finance.",
-                searchBtn: "Sök Aktie",
-                clearBtn: "Rensa",
-                popularTitle: "Populära Aktier",
-                loading: "Hämtar data från Yahoo Finance...",
-                errorTitle: "Kunde inte hämta data",
-                errorDesc: "Försök igen eller kontrollera ticker-symbolen",
-                retryBtn: "Försök igen",
-                resultsTitle: "Sökresultat",
-                currentPrice: "Aktuellt Pris",
-                dayChange: "Dagsförändring",
-                marketCap: "Marknadsvärde",
-                peRatio: "P/E-tal",
-                weekRange: "52v Range",
-                analyze: "Gå till Analys",
-                calculator: "Kalkylator",
-                fundamentals: "Fundamental Analys",
-                technical: "Teknisk Analys",
-                home: "Hem",
-                stockSearch: "Aktiesök",
-                disclaimer: "Ansvarsfriskrivning",
+                navHome: "Hem",
+                navSearch: "Aktiesök",
+                navFundamentals: "Fundamental Analys",
+                navCalculator: "Kalkylator",
+                navDisclaimer: "Ansvarsfriskrivning",
+                apiTips: "Tips: Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)",
+                btnSearch: "Sök Aktie",
+                btnClear: "Rensa",
+                searching: "Söker...",
+                tickerNotFound: "Ange en ticker-symbol först",
+                errorOccurred: "Ett fel uppstod",
+                tryAgain: "Försök igen",
+                technicalAnalysis: "Teknisk Analys - TradingView Chart",
+                useCalculator: "Använd Kalkylator",
                 copyright: "© 2026 SetMyTrade. Alla rättigheter förbehållna."
             },
             en: {
-                searchTitle: "Search Stocks",
-                searchSubtitle: " & Analyze",
-                searchDesc: "Enter ticker symbol to get real-time data and technical analysis. Works best with US stocks.",
-                searchPlaceholder: "Enter ticker symbol (e.g. AAPL, TSLA, MSFT)...",
-                searchTip: "💡 Tip: Search for ticker symbols like AAPL, TSLA, MSFT, GOOGL, AMZN. We fetch data from Yahoo Finance.",
-                searchBtn: "Search Stock",
-                clearBtn: "Clear",
-                popularTitle: "Popular Stocks",
-                loading: "Fetching data from Yahoo Finance...",
-                errorTitle: "Could not fetch data",
-                errorDesc: "Try again or check the ticker symbol",
-                retryBtn: "Try Again",
-                resultsTitle: "Search Results",
-                currentPrice: "Current Price",
-                dayChange: "Day Change",
-                marketCap: "Market Cap",
-                peRatio: "P/E Ratio",
-                weekRange: "52w Range",
-                analyze: "Go to Analysis",
-                calculator: "Calculator",
-                fundamentals: "Fundamental Analysis",
-                technical: "Technical Analysis",
-                home: "Home",
-                stockSearch: "Stock Search",
-                disclaimer: "Disclaimer",
+                navHome: "Home",
+                navSearch: "Stock Search",
+                navFundamentals: "Fundamental Analysis",
+                navCalculator: "Calculator",
+                navDisclaimer: "Disclaimer",
+                apiTips: "Tips: Automatically searches for stocks. Works best with US stocks (AAPL, TSLA, MSFT, etc.)",
+                btnSearch: "Search Stock",
+                btnClear: "Clear",
+                searching: "Searching...",
+                tickerNotFound: "Please enter a ticker symbol",
+                errorOccurred: "An error occurred",
+                tryAgain: "Try again",
+                technicalAnalysis: "Technical Analysis - TradingView Chart",
+                useCalculator: "Use Calculator",
                 copyright: "© 2026 SetMyTrade. All rights reserved."
             }
         };
 
-        let currentLanguage = 'sv';
-        let currentStock = null;
-        let currentProxyIndex = 0;
-
-        function setLanguage(lang) {
+        // ═══════════════════════════════════════════════════════════════
+        // LANGUAGE FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════
+        function changeLanguage(lang) {
             currentLanguage = lang;
             
+            // Update buttons
             document.querySelectorAll('.lang-btn-nav').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('data-lang') === lang) {
@@ -961,43 +855,23 @@
                 }
             });
             
-            const t = translations[lang];
+            // Update all text elements
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
             
-            // Update text content
-            document.querySelector('.search-hero h1').innerHTML = 
-                `<span class="gradient">${t.searchTitle}</span>${t.searchSubtitle}`;
-            document.querySelector('.search-hero p').textContent = t.searchDesc;
-            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            document.querySelector('.search-tips span').textContent = t.searchTip;
-            document.querySelector('.search-buttons .btn-primary span').textContent = t.searchBtn;
-            document.querySelector('.search-buttons .btn-secondary span').textContent = t.clearBtn;
-            document.querySelector('.popular-section .section-title').innerHTML = 
-                `<i class="fas fa-fire"></i> ${t.popularTitle}`;
-            document.querySelector('.loading-state p').textContent = t.loading;
-            document.querySelector('.error-state h3').textContent = t.errorTitle;
-            document.querySelector('.error-state p').textContent = t.errorDesc;
-            document.querySelector('.error-state .btn span').textContent = t.retryBtn;
-            
-            // Footer
-            document.querySelector('.footer-links li:nth-child(1) a').textContent = t.home;
-            document.querySelector('.footer-links li:nth-child(2) a').textContent = t.stockSearch;
-            document.querySelector('.footer-links li:nth-child(3) a').textContent = t.fundamentals;
-            document.querySelector('.footer-links li:nth-child(4) a').textContent = t.calculator;
-            document.querySelector('.footer-links li:nth-child(5) a').textContent = t.disclaimer;
-            document.querySelector('.footer-copyright').textContent = t.copyright;
-            
+            // Update HTML lang
             document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
-            
-            document.title = lang === 'en' ? 
-                "SetMyTrade | Stock Search & Analysis - Smart Market Search" : 
-                "SetMyTrade | Aktiesök & Analys - Smart Marknadssökning";
         }
 
         // Load saved language
         const savedLanguage = localStorage.getItem('language') || 'sv';
         if (savedLanguage !== 'sv') {
-            setLanguage(savedLanguage);
+            changeLanguage(savedLanguage);
         }
         
         // ═══════════════════════════════════════════════════════════════
@@ -1014,205 +888,162 @@
             localStorage.setItem('theme', newTheme);
         }
         
+        // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         
         // ═══════════════════════════════════════════════════════════════
-        // SEARCH FUNCTIONALITY WITH YOUR API
+        // SEARCH FUNCTIONS (YOUR ORIGINAL LOGIC - FIXED)
         // ═══════════════════════════════════════════════════════════════
-        const searchInput = document.getElementById('searchInput');
-        const loadingState = document.getElementById('loadingState');
-        const errorState = document.getElementById('errorState');
-        const resultsSection = document.getElementById('resultsSection');
-        
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchStock();
-        });
         
         function quickSearch(ticker) {
-            searchInput.value = ticker;
+            document.getElementById('searchInput').value = ticker;
             searchStock();
         }
         
         function clearSearch() {
-            searchInput.value = '';
-            searchInput.focus();
-            hideAllStates();
-        }
-        
-        function hideAllStates() {
-            loadingState.classList.remove('active');
-            errorState.classList.remove('active');
-            resultsSection.classList.remove('active');
-        }
-        
-        function retrySearch() {
-            errorState.classList.remove('active');
-            searchStock();
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInput').focus();
+            document.getElementById('stockResult').classList.remove('active');
+            document.getElementById('stockResult').innerHTML = '';
         }
         
         async function searchStock() {
-            const ticker = searchInput.value.trim().toUpperCase();
+            const ticker = document.getElementById('searchInput').value.trim().toUpperCase();
+            const loadingState = document.getElementById('loadingState');
+            const stockResult = document.getElementById('stockResult');
             
+            // Validation
             if (!ticker) {
-                searchInput.focus();
+                alert(translations[currentLanguage].tickerNotFound);
+                document.getElementById('searchInput').focus();
                 return;
             }
             
-            hideAllStates();
+            // Show loading
+            stockResult.classList.remove('active');
             loadingState.classList.add('active');
-            currentProxyIndex = 0; // Reset proxy index
             
             try {
-                const data = await fetchWithFallback(ticker);
+                // YOUR ORIGINAL API CALL (working code)
+                const corsProxy = 'https://api.allorigins.win/raw?url=';
+                const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
                 
-                if (data && data.chart && data.chart.result && data.chart.result[0]) {
-                    currentStock = parseYahooData(data, ticker);
-                    displayResults(currentStock);
+                console.log('Fetching:', corsProxy + encodeURIComponent(yahooUrl));
+                
+                const response = await fetch(corsProxy + encodeURIComponent(yahooUrl));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                if (data.chart && data.chart.result && data.chart.result[0]) {
+                    const result = data.chart.result[0];
+                    const meta = result.meta;
+                    const quote = result.indicators.quote[0];
+                    
+                    const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
+                    const previousClose = meta.chartPreviousClose || meta.previousClose;
+                    const change = currentPrice - previousClose;
+                    const changePercent = previousClose ? (change / previousClose) * 100 : 0;
+                    
+                    currentStock = {
+                        ticker: meta.symbol || ticker,
+                        price: currentPrice,
+                        change: change,
+                        changePercent: changePercent
+                    };
+                    
+                    displayStockResult();
                 } else {
-                    throw new Error('No data');
+                    throw new Error('No data in response');
                 }
                 
             } catch (error) {
-                console.error('Search failed:', error);
+                console.error('Search error:', error);
+                // Show TradingView only as fallback
+                currentStock = {
+                    ticker: ticker,
+                    price: 0,
+                    change: 0,
+                    changePercent: 0,
+                    tradingViewOnly: true
+                };
+                displayStockResult();
+            } finally {
                 loadingState.classList.remove('active');
-                errorState.classList.add('active');
             }
         }
         
-        // Try multiple CORS proxies if one fails
-        async function fetchWithFallback(ticker) {
-            for (let i = 0; i < CORS_PROXIES.length; i++) {
-                try {
-                    const proxy = CORS_PROXIES[i];
-                    const url = proxy + encodeURIComponent(getYahooUrl(ticker));
-                    
-                    console.log(`Trying proxy ${i + 1}: ${proxy}`);
-                    
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    
-                    const data = await response.json();
-                    
-                    if (data.chart && data.chart.result) {
-                        console.log('Success with proxy', i + 1);
-                        return data;
-                    }
-                    
-                } catch (error) {
-                    console.warn(`Proxy ${i + 1} failed:`, error.message);
-                    continue;
-                }
-            }
+        function displayStockResult() {
+            const s = currentStock;
+            const stockResult = document.getElementById('stockResult');
             
-            throw new Error('All proxies failed');
-        }
-        
-        function parseYahooData(data, ticker) {
-            const result = data.chart.result[0];
-            const meta = result.meta;
-            const quote = result.indicators.quote[0];
+            let priceHtml = '';
             
-            const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
-            const previousClose = meta.chartPreviousClose || meta.previousClose || currentPrice;
-            const change = currentPrice - previousClose;
-            const changePercent = previousClose ? (change / previousClose) * 100 : 0;
-            
-            return {
-                ticker: meta.symbol || ticker,
-                name: meta.shortName || meta.longName || ticker,
-                price: currentPrice,
-                previousClose: previousClose,
-                change: change,
-                changePercent: changePercent,
-                currency: meta.currency || 'USD',
-                marketCap: formatMarketCap(meta.marketCap),
-                peRatio: meta.trailingPE || meta.forwardPE || 'N/A',
-                weekHigh: meta.fiftyTwoWeekHigh || 'N/A',
-                weekLow: meta.fiftyTwoWeekLow || 'N/A',
-                exchange: meta.exchangeName || meta.exchange || 'NASDAQ'
-            };
-        }
-        
-        function formatMarketCap(cap) {
-            if (!cap || cap === 'N/A') return 'N/A';
-            if (cap >= 1e12) return (cap / 1e12).toFixed(2) + 'T';
-            if (cap >= 1e9) return (cap / 1e9).toFixed(2) + 'B';
-            if (cap >= 1e6) return (cap / 1e6).toFixed(2) + 'M';
-            return cap.toString();
-        }
-        
-        function displayResults(stock) {
-            const t = translations[currentLanguage];
-            const changeClass = stock.change >= 0 ? 'positive' : 'negative';
-            const changeIcon = stock.change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
-            const changeSign = stock.change >= 0 ? '+' : '';
-            
-            loadingState.classList.remove('active');
-            
-            resultsSection.innerHTML = `
-                <div class="stock-result-card">
+            if (!s.tradingViewOnly && s.price > 0) {
+                const changeColor = s.change >= 0 ? 'positive' : 'negative';
+                const changeIcon = s.change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+                const changeSign = s.change >= 0 ? '+' : '';
+                
+                priceHtml = `
                     <div class="stock-header">
-                        <div class="stock-logo">${stock.ticker[0]}</div>
+                        <div class="stock-logo">${s.ticker[0]}</div>
                         <div class="stock-info">
-                            <h2>${stock.ticker} - ${stock.name}</h2>
-                            <p>${stock.exchange} • ${stock.currency}</p>
+                            <h2>${s.ticker}</h2>
+                            <p>US Stock</p>
                         </div>
                         <div class="stock-price-box">
-                            <div class="price-current">$${stock.price.toFixed(2)}</div>
-                            <div class="price-change ${changeClass}">
+                            <div class="price-current">$${s.price.toFixed(2)}</div>
+                            <div class="price-change ${changeColor}">
                                 <i class="fas ${changeIcon}"></i>
-                                ${changeSign}${stock.change.toFixed(2)} (${changeSign}${stock.changePercent.toFixed(2)}%)
+                                ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="stock-meta-grid">
-                        <div class="meta-item">
-                            <div class="meta-label">${t.marketCap}</div>
-                            <div class="meta-value">${stock.marketCap}</div>
+                `;
+            } else {
+                priceHtml = `
+                    <div class="stock-header">
+                        <div class="stock-logo">${s.ticker[0]}</div>
+                        <div class="stock-info">
+                            <h2>${s.ticker}</h2>
+                            <p>Visar TradingView chart</p>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-label">${t.peRatio}</div>
-                            <div class="meta-value">${stock.peRatio}</div>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-label">${t.weekRange}</div>
-                            <div class="meta-value">$${stock.weekLow} - $${stock.weekHigh}</div>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-label">${t.dayChange}</div>
-                            <div class="meta-value" style="color: ${stock.change >= 0 ? 'var(--accent-success)' : 'var(--accent-danger)'}">
-                                ${changeSign}${stock.change.toFixed(2)}
-                            </div>
+                        <div class="stock-price-box">
+                            <div class="price-current">--</div>
+                            <div class="price-change">Prisdata otillgänglig</div>
                         </div>
                     </div>
+                `;
+            }
+            
+            stockResult.innerHTML = `
+                <div class="stock-card">
+                    ${priceHtml}
                     
                     <div class="chart-container">
                         <div id="tradingview_chart" style="height: 100%;"></div>
                     </div>
                     
                     <div class="action-buttons">
-                        <a href="fundamentals.html?ticker=${stock.ticker}" class="btn btn-primary btn-large">
+                        <a href="fundamentals.html?ticker=${s.ticker}" class="btn btn-primary btn-large">
                             <i class="fas fa-chart-bar"></i>
-                            <span>${t.fundamentals}</span>
+                            <span>Fundamental Analys</span>
                         </a>
-                        <a href="calculator.html?ticker=${stock.ticker}" class="btn btn-secondary btn-large">
+                        <a href="calculator.html?ticker=${s.ticker}" class="btn btn-secondary btn-large">
                             <i class="fas fa-calculator"></i>
-                            <span>${t.calculator}</span>
+                            <span>Kalkylator</span>
                         </a>
                     </div>
                 </div>
             `;
             
-            resultsSection.classList.add('active');
+            stockResult.classList.add('active');
             
             // Initialize TradingView Chart
             setTimeout(() => {
@@ -1220,7 +1051,7 @@
                     new TradingView.widget({
                         "width": "100%",
                         "height": "100%",
-                        "symbol": stock.ticker,
+                        "symbol": s.ticker,
                         "interval": "D",
                         "timezone": "Europe/Stockholm",
                         "theme": document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
@@ -1232,8 +1063,7 @@
                         "allow_symbol_change": false,
                         "studies": [
                             "MASimple@tv-basicstudies",
-                            "RSI@tv-basicstudies",
-                            "MACD@tv-basicstudies"
+                            "RSI@tv-basicstudies"
                         ],
                         "container_id": "tradingview_chart"
                     });
