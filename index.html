@@ -1222,6 +1222,16 @@
                 display: flex;
             }
         }
+        
+        .hidden-mobile {
+            display: inline-flex;
+        }
+        
+        @media (max-width: 768px) {
+            .hidden-mobile {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1241,16 +1251,16 @@
             </a>
             
             <ul class="nav-links">
-                <li><a href="fundamentals.html">Analys</a></li>
-                <li><a href="calculator.html">Kalkylator</a></li>
-                <li><a href="strategies.html">Strategier</a></li>
-                <li><a href="guides.html">Guider</a></li>
+                <li><a href="fundamentals.html" data-i18n="navAnalysis">Analys</a></li>
+                <li><a href="calculator.html" data-i18n="navCalculator">Kalkylator</a></li>
+                <li><a href="strategies.html" data-i18n="navStrategies">Strategier</a></li>
+                <li><a href="guides.html" data-i18n="navGuides">Guider</a></li>
             </ul>
             
             <div class="nav-actions">
                 <div class="lang-switch">
-                    <button class="lang-btn-nav active" onclick="setLang('sv')">SV</button>
-                    <button class="lang-btn-nav" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn-nav active" onclick="setLanguage('sv')" data-lang="sv">SV</button>
+                    <button class="lang-btn-nav" onclick="setLanguage('en')" data-lang="en">EN</button>
                 </div>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                     <i class="fas fa-sun" id="themeIcon"></i>
@@ -1258,7 +1268,7 @@
                 <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="fundamentals.html" class="btn btn-primary hidden-mobile">Börja Analysera</a>
+                <a href="fundamentals.html" class="btn btn-primary hidden-mobile" data-i18n="navCta">Börja Analysera</a>
             </div>
         </div>
     </nav>
@@ -1269,23 +1279,23 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-bolt"></i>
-                    <span>100% Gratis • Ingen Registrering</span>
+                    <span data-i18n="heroBadge">100% Gratis • Ingen Registrering</span>
                 </div>
                 
                 <h1 class="hero-title">
-                    Professionell <span class="gradient">Aktieanalys</span> för Alla
+                    <span data-i18n="heroTitle1">Professionell</span> <span class="gradient" data-i18n="heroTitle2">Aktieanalys</span> <span data-i18n="heroTitle3">för Alla</span>
                 </h1>
                 
-                <p class="hero-subtitle">
+                <p class="hero-subtitle" data-i18n="heroSubtitle">
                     Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number och PEG Ratio. Realtidsdata, intuitivt gränssnitt, helt gratis.
                 </p>
                 
                 <div class="hero-actions">
                     <a href="fundamentals.html" class="btn btn-primary btn-large">
-                        <span>Starta Analys</span>
+                        <span data-i18n="heroCtaPrimary">Starta Analys</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="how-it-works.html" class="btn btn-secondary btn-large">Se Hur Det Fungerar</a>
+                    <a href="how-it-works.html" class="btn btn-secondary btn-large" data-i18n="heroCtaSecondary">Se Hur Det Fungerar</a>
                 </div>
                 
                 <div class="trust-indicators">
@@ -1294,8 +1304,8 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <div class="trust-text">
-                            <strong>Säker & Transparent</strong>
-                            <span>Ingen data lagras</span>
+                            <strong data-i18n="trust1Title">Säker & Transparent</strong>
+                            <span data-i18n="trust1Desc">Ingen data lagras</span>
                         </div>
                     </div>
                     <div class="trust-item">
@@ -1303,8 +1313,8 @@
                             <i class="fas fa-bolt"></i>
                         </div>
                         <div class="trust-text">
-                            <strong>Realtidsdata</strong>
-                            <span>Multi-source API</span>
+                            <strong data-i18n="trust2Title">Realtidsdata</strong>
+                            <span data-i18n="trust2Desc">Multi-source API</span>
                         </div>
                     </div>
                 </div>
@@ -1314,7 +1324,7 @@
                 <div class="dashboard-preview">
                     <div class="preview-header">
                         <span class="preview-title">AAPL - Apple Inc.</span>
-                        <span class="preview-badge">KÖP</span>
+                        <span class="preview-badge" data-i18n="previewBadge">KÖP</span>
                     </div>
                     <div class="chart-placeholder">
                         <div class="chart-line"></div>
@@ -1322,15 +1332,15 @@
                     <div class="stats-row">
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">82/100</div>
-                            <div class="stat-label-mini">Score</div>
+                            <div class="stat-label-mini" data-i18n="statScore">Score</div>
                         </div>
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">+15%</div>
-                            <div class="stat-label-mini">Upside</div>
+                            <div class="stat-label-mini" data-i18n="statUpside">Upside</div>
                         </div>
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">A</div>
-                            <div class="stat-label-mini">Rating</div>
+                            <div class="stat-label-mini" data-i18n="statRating">Rating</div>
                         </div>
                     </div>
                 </div>
@@ -1358,19 +1368,19 @@
         <div class="stats-grid">
             <div class="stat-item reveal">
                 <div class="stat-number">5</div>
-                <div class="stat-label">Värderingsmodeller</div>
+                <div class="stat-label" data-i18n="stat1">Värderingsmodeller</div>
             </div>
             <div class="stat-item reveal">
                 <div class="stat-number">100%</div>
-                <div class="stat-label">Gratis</div>
+                <div class="stat-label" data-i18n="stat2">Gratis</div>
             </div>
             <div class="stat-item reveal">
                 <div class="stat-number">0</div>
-                <div class="stat-label">Registrering Krävs</div>
+                <div class="stat-label" data-i18n="stat3">Registrering Krävs</div>
             </div>
             <div class="stat-item reveal">
                 <div class="stat-number">∞</div>
-                <div class="stat-label">Obegränsade Analyser</div>
+                <div class="stat-label" data-i18n="stat4">Obegränsade Analyser</div>
             </div>
         </div>
     </section>
@@ -1378,9 +1388,9 @@
     <!-- Features Section -->
     <section class="section">
         <div class="section-header reveal">
-            <span class="section-label">Funktioner</span>
-            <h2 class="section-title">Kraftfulla Analysverktyg</h2>
-            <p class="section-subtitle">
+            <span class="section-label" data-i18n="featuresLabel">Funktioner</span>
+            <h2 class="section-title" data-i18n="featuresTitle">Kraftfulla Analysverktyg</h2>
+            <p class="section-subtitle" data-i18n="featuresSubtitle">
                 Allt du behöver för professionell aktieanalys, samlat på en plattform
             </p>
         </div>
@@ -1390,8 +1400,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-microscope"></i>
                 </div>
-                <h3 class="feature-title">Fundamental Analys</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature1Title">Fundamental Analys</h3>
+                <p class="feature-desc" data-i18n="feature1Desc">
                     Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.
                 </p>
             </div>
@@ -1400,8 +1410,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-calculator"></i>
                 </div>
-                <h3 class="feature-title">DCF Kalkylator</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature2Title">DCF Kalkylator</h3>
+                <p class="feature-desc" data-i18n="feature2Desc">
                     Discounted Cash Flow analys med anpassningsbar investeringshorisont (1-20 år) och realtidsberäkningar.
                 </p>
             </div>
@@ -1410,8 +1420,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-layer-group"></i>
                 </div>
-                <h3 class="feature-title">5 Värderingsmodeller</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature3Title">5 Värderingsmodeller</h3>
+                <p class="feature-desc" data-i18n="feature3Desc">
                     Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett analys.
                 </p>
             </div>
@@ -1420,8 +1430,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-sync"></i>
                 </div>
-                <h3 class="feature-title">Automatisk Datahämtning</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature4Title">Automatisk Datahämtning</h3>
+                <p class="feature-desc" data-i18n="feature4Desc">
                     Multi-source fallback system hämtar data från Yahoo Finance, Finviz och andra källor automatiskt.
                 </p>
             </div>
@@ -1430,8 +1440,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-mobile-alt"></i>
                 </div>
-                <h3 class="feature-title">Responsiv Design</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature5Title">Responsiv Design</h3>
+                <p class="feature-desc" data-i18n="feature5Desc">
                     Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.
                 </p>
             </div>
@@ -1440,8 +1450,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-globe"></i>
                 </div>
-                <h3 class="feature-title">Flerspråkig</h3>
-                <p class="feature-desc">
+                <h3 class="feature-title" data-i18n="feature6Title">Flerspråkig</h3>
+                <p class="feature-desc" data-i18n="feature6Desc">
                     Fullständigt stöd för svenska och engelska med enkel växling mellan språk.
                 </p>
             </div>
@@ -1451,81 +1461,81 @@
     <!-- Models Section -->
     <section class="section models-section">
         <div class="section-header reveal">
-            <span class="section-label">Modeller</span>
-            <h2 class="section-title">Våra Värderingsmodeller</h2>
-            <p class="section-subtitle">
+            <span class="section-label" data-i18n="modelsLabel">Modeller</span>
+            <h2 class="section-title" data-i18n="modelsTitle">Våra Värderingsmodeller</h2>
+            <p class="section-subtitle" data-i18n="modelsSubtitle">
                 Välj den modell som passar din investeringsstrategi bäst
             </p>
         </div>
         
         <div class="models-grid">
             <div class="model-card reveal">
-                <span class="model-badge recommended">Rekommenderad</span>
+                <span class="model-badge recommended" data-i18n="badgeRecommended">Rekommenderad</span>
                 <div class="model-icon" style="color: var(--accent-primary);">
                     <i class="fas fa-star"></i>
                 </div>
-                <h3 class="model-title">Kvantitativ Scoring</h3>
-                <p class="model-desc">Poängbaserad värdering (0-100) som analyserar lönsamhet, värdering, tillväxt och finansiell hälsa.</p>
+                <h3 class="model-title" data-i18n="model1Title">Kvantitativ Scoring</h3>
+                <p class="model-desc" data-i18n="model1Desc">Poängbaserad värdering (0-100) som analyserar lönsamhet, värdering, tillväxt och finansiell hälsa.</p>
                 <ul class="model-features">
-                    <li>Lönsamhet (ROE) - 30p</li>
-                    <li>Värdering (P/E) - 25p</li>
-                    <li>Tillväxt - 20p</li>
+                    <li data-i18n="model1F1">Lönsamhet (ROE) - 30p</li>
+                    <li data-i18n="model1F2">Värdering (P/E) - 25p</li>
+                    <li data-i18n="model1F3">Tillväxt - 20p</li>
                 </ul>
             </div>
             
             <div class="model-card reveal">
-                <span class="model-badge">Avancerad</span>
+                <span class="model-badge" data-i18n="badgeAdvanced">Avancerad</span>
                 <div class="model-icon" style="color: var(--accent-secondary);">
                     <i class="fas fa-chart-area"></i>
                 </div>
-                <h3 class="model-title">DCF Analys</h3>
-                <p class="model-desc">Discounted Cash Flow värdering med framtida kassaflöden och terminal värde.</p>
+                <h3 class="model-title" data-i18n="model2Title">DCF Analys</h3>
+                <p class="model-desc" data-i18n="model2Desc">Discounted Cash Flow värdering med framtida kassaflöden och terminal värde.</p>
                 <ul class="model-features">
-                    <li>10% diskonteringsränta</li>
-                    <li>1-20 år horisont</li>
-                    <li>Projektioner & grafer</li>
+                    <li data-i18n="model2F1">10% diskonteringsränta</li>
+                    <li data-i18n="model2F2">1-20 år horisont</li>
+                    <li data-i18n="model2F3">Projektioner & grafer</li>
                 </ul>
             </div>
             
             <div class="model-card reveal">
-                <span class="model-badge">Utdelning</span>
+                <span class="model-badge" data-i18n="badgeDividend">Utdelning</span>
                 <div class="model-icon" style="color: var(--accent-tertiary);">
                     <i class="fas fa-hand-holding-usd"></i>
                 </div>
-                <h3 class="model-title">Utdelningsmodell</h3>
-                <p class="model-desc">Gordon Growth Model för utdelningsaktier med tillväxt och avkastningskrav.</p>
+                <h3 class="model-title" data-i18n="model3Title">Utdelningsmodell</h3>
+                <p class="model-desc" data-i18n="model3Desc">Gordon Growth Model för utdelningsaktier med tillväxt och avkastningskrav.</p>
                 <ul class="model-features">
-                    <li>5% utdelningstillväxt</li>
-                    <li>10% avkastningskrav</li>
-                    <li>Yield on Cost</li>
+                    <li data-i18n="model3F1">5% utdelningstillväxt</li>
+                    <li data-i18n="model3F2">10% avkastningskrav</li>
+                    <li data-i18n="model3F3">Yield on Cost</li>
                 </ul>
             </div>
             
             <div class="model-card reveal">
-                <span class="model-badge">Tillväxt</span>
+                <span class="model-badge" data-i18n="badgeGrowth">Tillväxt</span>
                 <div class="model-icon" style="color: #ec4899;">
                     <i class="fas fa-rocket"></i>
                 </div>
-                <h3 class="model-title">PEG Ratio</h3>
-                <p class="model-desc">Tillväxtjusterad värdering där P/E delas med tillväxttakt. Perfekt för tillväxtaktier.</p>
+                <h3 class="model-title" data-i18n="model4Title">PEG Ratio</h3>
+                <p class="model-desc" data-i18n="model4Desc">Tillväxtjusterad värdering där P/E delas med tillväxttakt. Perfekt för tillväxtaktier.</p>
                 <ul class="model-features">
-                    <li>Under 1.0 = Undervärderad</li>
-                    <li>1.0-2.0 = Rimlig</li>
-                    <li>Över 2.0 = Övervärderad</li>
+                    <li data-i18n="model4F1">Under 1.0 = Undervärderad</li>
+                    <li data-i18n="model4F2">1.0-2.0 = Rimlig</li>
+                    <li data-i18n="model4F3">Över 2.0 = Övervärderad</li>
                 </ul>
             </div>
             
             <div class="model-card reveal">
-                <span class="model-badge">Value</span>
+                <span class="model-badge" data-i18n="badgeValue">Value</span>
                 <div class="model-icon" style="color: #8b5cf6;">
                     <i class="fas fa-gem"></i>
                 </div>
-                <h3 class="model-title">Graham Number</h3>
-                <p class="model-desc">Ben Graham's klassiska formel för konservativ värdering med säkerhetsmarginal.</p>
+                <h3 class="model-title" data-i18n="model5Title">Graham Number</h3>
+                <p class="model-desc" data-i18n="model5Desc">Ben Graham's klassiska formel för konservativ värdering med säkerhetsmarginal.</p>
                 <ul class="model-features">
-                    <li>√(22.5 × EPS × Bokvärde)</li>
-                    <li>Säkerhetsmarginal</li>
-                    <li>Value investing</li>
+                    <li data-i18n="model5F1">√(22.5 × EPS × Bokvärde)</li>
+                    <li data-i18n="model5F2">Säkerhetsmarginal</li>
+                    <li data-i18n="model5F3">Value investing</li>
                 </ul>
             </div>
         </div>
@@ -1534,9 +1544,9 @@
     <!-- How It Works -->
     <section class="section">
         <div class="section-header reveal">
-            <span class="section-label">Process</span>
-            <h2 class="section-title">Så Här Fungerar Det</h2>
-            <p class="section-subtitle">
+            <span class="section-label" data-i18n="howLabel">Process</span>
+            <h2 class="section-title" data-i18n="howTitle">Så Här Fungerar Det</h2>
+            <p class="section-subtitle" data-i18n="howSubtitle">
                 Få professionell analys på under 60 sekunder
             </p>
         </div>
@@ -1545,32 +1555,32 @@
             <div class="step-item reveal">
                 <div class="step-number">1</div>
                 <div class="step-content">
-                    <h3>Sök Aktie</h3>
-                    <p>Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT). Vi hämtar automatiskt data från Yahoo Finance och Finviz.</p>
+                    <h3 data-i18n="step1Title">Sök Aktie</h3>
+                    <p data-i18n="step1Desc">Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT). Vi hämtar automatiskt data från Yahoo Finance och Finviz.</p>
                 </div>
             </div>
             
             <div class="step-item reveal">
                 <div class="step-number">2</div>
                 <div class="step-content">
-                    <h3>Välj Modell</h3>
-                    <p>Välj mellan 5 professionella värderingsmodeller baserat på din strategi och preferens.</p>
+                    <h3 data-i18n="step2Title">Välj Modell</h3>
+                    <p data-i18n="step2Desc">Välj mellan 5 professionella värderingsmodeller baserat på din strategi och preferens.</p>
                 </div>
             </div>
             
             <div class="step-item reveal">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <h3>Anpassa Parametrar</h3>
-                    <p>Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.</p>
+                    <h3 data-i18n="step3Title">Anpassa Parametrar</h3>
+                    <p data-i18n="step3Desc">Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.</p>
                 </div>
             </div>
             
             <div class="step-item reveal">
                 <div class="step-number">4</div>
                 <div class="step-content">
-                    <h3>Få Rekommendation</h3>
-                    <p>Se tydlig KÖP/HÅLL/SÄLJ-rekommendation med detaljerad förklaring, interaktiva grafer och nyckeltal.</p>
+                    <h3 data-i18n="step4Title">Få Rekommendation</h3>
+                    <p data-i18n="step4Desc">Se tydlig KÖP/HÅLL/SÄLJ-rekommendation med detaljerad förklaring, interaktiva grafer och nyckeltal.</p>
                 </div>
             </div>
         </div>
@@ -1580,18 +1590,18 @@
     <section class="section cta-section">
         <div class="cta-box reveal">
             <div class="cta-content">
-                <h2 class="cta-title">Redo att Börja Analysera?</h2>
-                <p class="cta-text">
+                <h2 class="cta-title" data-i18n="ctaTitle">Redo att Börja Analysera?</h2>
+                <p class="cta-text" data-i18n="ctaText">
                     Använd professionella analysverktyg helt gratis. Ingen registrering krävs.
                 </p>
                 <div class="cta-buttons">
                     <a href="fundamentals.html" class="btn btn-primary btn-large">
-                        <span>Starta Din Första Analys</span>
+                        <span data-i18n="ctaPrimary">Starta Din Första Analys</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="ai-chat.html" class="btn btn-secondary btn-large">
                         <i class="fas fa-robot"></i>
-                        <span>Fråga AI</span>
+                        <span data-i18n="ctaSecondary">Fråga AI</span>
                     </a>
                 </div>
             </div>
@@ -1608,44 +1618,44 @@
                     </div>
                     <span class="logo-text">SetMyTrade</span>
                 </a>
-                <p>
+                <p data-i18n="footerDesc">
                     Professionell aktieanalys för smarta investerare. Gratis, transparent och tillgänglig för alla.
                 </p>
             </div>
             
             <div class="footer-links">
-                <h4>Verktyg</h4>
+                <h4 data-i18n="footerTools">Verktyg</h4>
                 <ul>
-                    <li><a href="fundamentals.html">Fundamental Analys</a></li>
-                    <li><a href="calculator.html">Kalkylator</a></li>
-                    <li><a href="search.html">Aktiesök</a></li>
+                    <li><a href="fundamentals.html" data-i18n="footerAnalysis">Fundamental Analys</a></li>
+                    <li><a href="calculator.html" data-i18n="footerCalculator">Kalkylator</a></li>
+                    <li><a href="search.html" data-i18n="footerSearch">Aktiesök</a></li>
                     <li><a href="ai-chat.html">AI Chat</a></li>
                 </ul>
             </div>
             
             <div class="footer-links">
-                <h4>Lär Dig</h4>
+                <h4 data-i18n="footerLearn">Lär Dig</h4>
                 <ul>
-                    <li><a href="strategies.html">Strategier</a></li>
-                    <li><a href="guides.html">Guider</a></li>
+                    <li><a href="strategies.html" data-i18n="footerStrategies">Strategier</a></li>
+                    <li><a href="guides.html" data-i18n="footerGuides">Guider</a></li>
                     <li><a href="blog.html">Blogg</a></li>
-                    <li><a href="how-it-works.html">Hur Det Fungerar</a></li>
+                    <li><a href="how-it-works.html" data-i18n="footerHow">Hur Det Fungerar</a></li>
                 </ul>
             </div>
             
             <div class="footer-links">
-                <h4>Juridik</h4>
+                <h4 data-i18n="footerLegal">Juridik</h4>
                 <ul>
-                    <li><a href="legal.html">Ansvarsfriskrivning</a></li>
-                    <li><a href="privacy.html">Integritetspolicy</a></li>
-                    <li><a href="terms.html">Användarvillkor</a></li>
-                    <li><a href="about.html">Om Oss</a></li>
+                    <li><a href="legal.html" data-i18n="footerDisclaimer">Ansvarsfriskrivning</a></li>
+                    <li><a href="privacy.html" data-i18n="footerPrivacy">Integritetspolicy</a></li>
+                    <li><a href="terms.html" data-i18n="footerTerms">Användarvillkor</a></li>
+                    <li><a href="about.html" data-i18n="footerAbout">Om Oss</a></li>
                 </ul>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <div>
+            <div data-i18n="footerCopyright">
                 © 2026 SetMyTrade. Alla rättigheter förbehållna.
             </div>
             <div class="social-links">
@@ -1657,6 +1667,299 @@
     </footer>
     
     <script>
+        // ═══════════════════════════════════════════════════════════════
+        // TRANSLATION SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        const translations = {
+            sv: {
+                // Navigation
+                navAnalysis: "Analys",
+                navCalculator: "Kalkylator",
+                navStrategies: "Strategier",
+                navGuides: "Guider",
+                navCta: "Börja Analysera",
+                
+                // Hero
+                heroBadge: "100% Gratis • Ingen Registrering",
+                heroTitle1: "Professionell",
+                heroTitle2: "Aktieanalys",
+                heroTitle3: "för Alla",
+                heroSubtitle: "Analysera aktier med 5 professionella värderingsmodeller inklusive DCF, Graham Number och PEG Ratio. Realtidsdata, intuitivt gränssnitt, helt gratis.",
+                heroCtaPrimary: "Starta Analys",
+                heroCtaSecondary: "Se Hur Det Fungerar",
+                
+                // Trust Indicators
+                trust1Title: "Säker & Transparent",
+                trust1Desc: "Ingen data lagras",
+                trust2Title: "Realtidsdata",
+                trust2Desc: "Multi-source API",
+                
+                // Preview Badge
+                previewBadge: "KÖP",
+                statScore: "Score",
+                statUpside: "Upside",
+                statRating: "Rating",
+                
+                // Stats
+                stat1: "Värderingsmodeller",
+                stat2: "Gratis",
+                stat3: "Registrering Krävs",
+                stat4: "Obegränsade Analyser",
+                
+                // Features Section
+                featuresLabel: "Funktioner",
+                featuresTitle: "Kraftfulla Analysverktyg",
+                featuresSubtitle: "Allt du behöver för professionell aktieanalys, samlat på en plattform",
+                feature1Title: "Fundamental Analys",
+                feature1Desc: "Djupgående analys av finansiella nyckeltal: P/E, ROE, EPS-tillväxt, skuldsättning och vinstmarginaler.",
+                feature2Title: "DCF Kalkylator",
+                feature2Desc: "Discounted Cash Flow analys med anpassningsbar investeringshorisont (1-20 år) och realtidsberäkningar.",
+                feature3Title: "5 Värderingsmodeller",
+                feature3Desc: "Kvantitativ Scoring, DCF, Dividend Discount Model, PEG Ratio och Graham Number för komplett analys.",
+                feature4Title: "Automatisk Datahämtning",
+                feature4Desc: "Multi-source fallback system hämtar data från Yahoo Finance, Finviz och andra källor automatiskt.",
+                feature5Title: "Responsiv Design",
+                feature5Desc: "Fungerar perfekt på desktop, tablet och mobil. Analysera aktier när som helst, var som helst.",
+                feature6Title: "Flerspråkig",
+                feature6Desc: "Fullständigt stöd för svenska och engelska med enkel växling mellan språk.",
+                
+                // Models Section
+                modelsLabel: "Modeller",
+                modelsTitle: "Våra Värderingsmodeller",
+                modelsSubtitle: "Välj den modell som passar din investeringsstrategi bäst",
+                badgeRecommended: "Rekommenderad",
+                badgeAdvanced: "Avancerad",
+                badgeDividend: "Utdelning",
+                badgeGrowth: "Tillväxt",
+                badgeValue: "Value",
+                model1Title: "Kvantitativ Scoring",
+                model1Desc: "Poängbaserad värdering (0-100) som analyserar lönsamhet, värdering, tillväxt och finansiell hälsa.",
+                model1F1: "Lönsamhet (ROE) - 30p",
+                model1F2: "Värdering (P/E) - 25p",
+                model1F3: "Tillväxt - 20p",
+                model2Title: "DCF Analys",
+                model2Desc: "Discounted Cash Flow värdering med framtida kassaflöden och terminal värde.",
+                model2F1: "10% diskonteringsränta",
+                model2F2: "1-20 år horisont",
+                model2F3: "Projektioner & grafer",
+                model3Title: "Utdelningsmodell",
+                model3Desc: "Gordon Growth Model för utdelningsaktier med tillväxt och avkastningskrav.",
+                model3F1: "5% utdelningstillväxt",
+                model3F2: "10% avkastningskrav",
+                model3F3: "Yield on Cost",
+                model4Title: "PEG Ratio",
+                model4Desc: "Tillväxtjusterad värdering där P/E delas med tillväxttakt. Perfekt för tillväxtaktier.",
+                model4F1: "Under 1.0 = Undervärderad",
+                model4F2: "1.0-2.0 = Rimlig",
+                model4F3: "Över 2.0 = Övervärderad",
+                model5Title: "Graham Number",
+                model5Desc: "Ben Graham's klassiska formel för konservativ värdering med säkerhetsmarginal.",
+                model5F1: "√(22.5 × EPS × Bokvärde)",
+                model5F2: "Säkerhetsmarginal",
+                model5F3: "Value investing",
+                
+                // How It Works
+                howLabel: "Process",
+                howTitle: "Så Här Fungerar Det",
+                howSubtitle: "Få professionell analys på under 60 sekunder",
+                step1Title: "Sök Aktie",
+                step1Desc: "Ange ticker-symbol (t.ex. AAPL, TSLA, MSFT). Vi hämtar automatiskt data från Yahoo Finance och Finviz.",
+                step2Title: "Välj Modell",
+                step2Desc: "Välj mellan 5 professionella värderingsmodeller baserat på din strategi och preferens.",
+                step3Title: "Anpassa Parametrar",
+                step3Desc: "Justera investeringshorisont (1-20 år) och andra parametrar för att matcha din strategi.",
+                step4Title: "Få Rekommendation",
+                step4Desc: "Se tydlig KÖP/HÅLL/SÄLJ-rekommendation med detaljerad förklaring, interaktiva grafer och nyckeltal.",
+                
+                // CTA Section
+                ctaTitle: "Redo att Börja Analysera?",
+                ctaText: "Använd professionella analysverktyg helt gratis. Ingen registrering krävs.",
+                ctaPrimary: "Starta Din Första Analys",
+                ctaSecondary: "Fråga AI",
+                
+                // Footer
+                footerDesc: "Professionell aktieanalys för smarta investerare. Gratis, transparent och tillgänglig för alla.",
+                footerTools: "Verktyg",
+                footerAnalysis: "Fundamental Analys",
+                footerCalculator: "Kalkylator",
+                footerSearch: "Aktiesök",
+                footerLearn: "Lär Dig",
+                footerStrategies: "Strategier",
+                footerGuides: "Guider",
+                footerHow: "Hur Det Fungerar",
+                footerLegal: "Juridik",
+                footerDisclaimer: "Ansvarsfriskrivning",
+                footerPrivacy: "Integritetspolicy",
+                footerTerms: "Användarvillkor",
+                footerAbout: "Om Oss",
+                footerCopyright: "© 2026 SetMyTrade. Alla rättigheter förbehållna."
+            },
+            en: {
+                // Navigation
+                navAnalysis: "Analysis",
+                navCalculator: "Calculator",
+                navStrategies: "Strategies",
+                navGuides: "Guides",
+                navCta: "Start Analyzing",
+                
+                // Hero
+                heroBadge: "100% Free • No Registration",
+                heroTitle1: "Professional",
+                heroTitle2: "Stock Analysis",
+                heroTitle3: "for Everyone",
+                heroSubtitle: "Analyze stocks with 5 professional valuation models including DCF, Graham Number, and PEG Ratio. Real-time data, intuitive interface, completely free.",
+                heroCtaPrimary: "Start Analysis",
+                heroCtaSecondary: "See How It Works",
+                
+                // Trust Indicators
+                trust1Title: "Secure & Transparent",
+                trust1Desc: "No data stored",
+                trust2Title: "Real-time Data",
+                trust2Desc: "Multi-source API",
+                
+                // Preview Badge
+                previewBadge: "BUY",
+                statScore: "Score",
+                statUpside: "Upside",
+                statRating: "Rating",
+                
+                // Stats
+                stat1: "Valuation Models",
+                stat2: "Free",
+                stat3: "Registration Required",
+                stat4: "Unlimited Analysis",
+                
+                // Features Section
+                featuresLabel: "Features",
+                featuresTitle: "Powerful Analysis Tools",
+                featuresSubtitle: "Everything you need for professional stock analysis, all in one platform",
+                feature1Title: "Fundamental Analysis",
+                feature1Desc: "In-depth analysis of financial metrics: P/E, ROE, EPS growth, debt ratios, and profit margins.",
+                feature2Title: "DCF Calculator",
+                feature2Desc: "Discounted Cash Flow analysis with customizable investment horizon (1-20 years) and real-time calculations.",
+                feature3Title: "5 Valuation Models",
+                feature3Desc: "Quantitative Scoring, DCF, Dividend Discount Model, PEG Ratio, and Graham Number for complete analysis.",
+                feature4Title: "Automatic Data Fetching",
+                feature4Desc: "Multi-source fallback system automatically fetches data from Yahoo Finance, Finviz, and other sources.",
+                feature5Title: "Responsive Design",
+                feature5Desc: "Works perfectly on desktop, tablet, and mobile. Analyze stocks anytime, anywhere.",
+                feature6Title: "Multilingual",
+                feature6Desc: "Full support for Swedish and English with easy switching between languages.",
+                
+                // Models Section
+                modelsLabel: "Models",
+                modelsTitle: "Our Valuation Models",
+                modelsSubtitle: "Choose the model that best fits your investment strategy",
+                badgeRecommended: "Recommended",
+                badgeAdvanced: "Advanced",
+                badgeDividend: "Dividend",
+                badgeGrowth: "Growth",
+                badgeValue: "Value",
+                model1Title: "Quantitative Scoring",
+                model1Desc: "Score-based valuation (0-100) analyzing profitability, valuation, growth, and financial health.",
+                model1F1: "Profitability (ROE) - 30p",
+                model1F2: "Valuation (P/E) - 25p",
+                model1F3: "Growth - 20p",
+                model2Title: "DCF Analysis",
+                model2Desc: "Discounted Cash Flow valuation with future cash flows and terminal value.",
+                model2F1: "10% discount rate",
+                model2F2: "1-20 year horizon",
+                model2F3: "Projections & charts",
+                model3Title: "Dividend Model",
+                model3Desc: "Gordon Growth Model for dividend stocks with growth and required return.",
+                model3F1: "5% dividend growth",
+                model3F2: "10% required return",
+                model3F3: "Yield on Cost",
+                model4Title: "PEG Ratio",
+                model4Desc: "Growth-adjusted valuation where P/E is divided by growth rate. Perfect for growth stocks.",
+                model4F1: "Under 1.0 = Undervalued",
+                model4F2: "1.0-2.0 = Fair",
+                model4F3: "Over 2.0 = Overvalued",
+                model5Title: "Graham Number",
+                model5Desc: "Ben Graham's classic formula for conservative valuation with margin of safety.",
+                model5F1: "√(22.5 × EPS × Book Value)",
+                model5F2: "Margin of safety",
+                model5F3: "Value investing",
+                
+                // How It Works
+                howLabel: "Process",
+                howTitle: "How It Works",
+                howSubtitle: "Get professional analysis in under 60 seconds",
+                step1Title: "Search Stock",
+                step1Desc: "Enter ticker symbol (e.g., AAPL, TSLA, MSFT). We automatically fetch data from Yahoo Finance and Finviz.",
+                step2Title: "Choose Model",
+                step2Desc: "Choose between 5 professional valuation models based on your strategy and preference.",
+                step3Title: "Customize Parameters",
+                step3Desc: "Adjust investment horizon (1-20 years) and other parameters to match your strategy.",
+                step4Title: "Get Recommendation",
+                step4Desc: "See clear BUY/HOLD/SELL recommendation with detailed explanation, interactive charts, and key metrics.",
+                
+                // CTA Section
+                ctaTitle: "Ready to Start Analyzing?",
+                ctaText: "Use professional analysis tools completely free. No registration required.",
+                ctaPrimary: "Start Your First Analysis",
+                ctaSecondary: "Ask AI",
+                
+                // Footer
+                footerDesc: "Professional stock analysis for smart investors. Free, transparent, and accessible to everyone.",
+                footerTools: "Tools",
+                footerAnalysis: "Fundamental Analysis",
+                footerCalculator: "Calculator",
+                footerSearch: "Stock Search",
+                footerLearn: "Learn",
+                footerStrategies: "Strategies",
+                footerGuides: "Guides",
+                footerHow: "How It Works",
+                footerLegal: "Legal",
+                footerDisclaimer: "Disclaimer",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Use",
+                footerAbout: "About Us",
+                footerCopyright: "© 2026 SetMyTrade. All rights reserved."
+            }
+        };
+
+        let currentLanguage = 'sv';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button state
+            document.querySelectorAll('.lang-btn-nav').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Store preference
+            localStorage.setItem('language', lang);
+            
+            // Update page title
+            if (lang === 'en') {
+                document.title = "SetMyTrade | Professional Stock Analysis & Trading Tools - 100% Free";
+            } else {
+                document.title = "SetMyTrade | Professionell Aktieanalys & Trading Verktyg - 100% Gratis";
+            }
+        }
+
+        // Load saved language preference
+        const savedLanguage = localStorage.getItem('language') || 'sv';
+        if (savedLanguage !== 'sv') {
+            setLanguage(savedLanguage);
+        }
+        
         // ═══════════════════════════════════════════════════════════════
         // THEME TOGGLE
         // ═══════════════════════════════════════════════════════════════
@@ -1710,40 +2013,12 @@
         revealElements.forEach(el => revealObserver.observe(el));
         
         // ═══════════════════════════════════════════════════════════════
-        // LANGUAGE SWITCHING
-        // ═══════════════════════════════════════════════════════════════
-        function setLang(lang) {
-            // Update active button
-            document.querySelectorAll('.lang-btn-nav').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Store preference
-            localStorage.setItem('language', lang);
-            
-            // In a real implementation, you would reload content here
-            // For now, we'll just show an alert
-            if (lang === 'en') {
-                alert('English version coming soon! / Engelsk version kommer snart!');
-            }
-        }
-        
-        // Load saved language
-        const savedLang = localStorage.getItem('language') || 'sv';
-        document.querySelectorAll('.lang-btn-nav').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.textContent.toLowerCase() === savedLang) {
-                btn.classList.add('active');
-            }
-        });
-        
-        // ═══════════════════════════════════════════════════════════════
         // MOBILE MENU TOGGLE
         // ═══════════════════════════════════════════════════════════════
         function toggleMobileMenu() {
             // Simple alert for now - implement full mobile menu later
-            alert('Mobile menu coming soon! / Mobil meny kommer snart!');
+            const message = currentLanguage === 'sv' ? 'Mobil meny kommer snart!' : 'Mobile menu coming soon!';
+            alert(message);
         }
     </script>
 </body>
