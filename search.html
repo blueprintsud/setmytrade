@@ -1,850 +1,656 @@
 <!DOCTYPE html>
-<html lang="sv" data-theme="dark">
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
     <title>Sök Aktier - SetMyTrade | Smart Market Search</title>
-    <meta name="description" content="Sök efter aktier globalt med smart dataaggregering och realtidsdata.">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Sök efter aktier globalt med smart dataaggregering" name="description">
     
+    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- TradingView Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
     <style>
         :root {
-            --bg-primary: #0a0f1c;
-            --bg-secondary: #151b2e;
-            --surface: rgba(21, 27, 46, 0.7);
-            --accent-primary: #00d4aa;
-            --accent-secondary: #3b82f6;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-            --radius-md: 12px;
-            --radius-lg: 20px;
+            --primary: #00D084;
+            --dark: #0D2735;
         }
-        
-        [data-theme="light"] {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --surface: rgba(255, 255, 255, 0.9);
-            --accent-primary: #059669;
-            --accent-secondary: #2563eb;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --border: rgba(0, 0, 0, 0.1);
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
+
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
+            color: #E0E0E0;
+            background: #0D1F2D;
+            min-height: 100vh;
         }
-        
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .ambient-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
-            animation: ambientMove 20s ease-in-out infinite;
-        }
-        
-        @keyframes ambientMove {
-            0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(2%, 2%); }
-            66% { transform: translate(-1%, 1%); }
-        }
-        
-        /* NAVIGATION */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 1rem 0;
-            backdrop-filter: blur(20px);
-            background: rgba(10, 15, 28, 0.8);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s;
-        }
-        
-        .navbar.scrolled {
-            padding: 0.75rem 0;
-            background: rgba(10, 15, 28, 0.95);
-        }
-        
-        [data-theme="light"] .navbar {
-            background: rgba(248, 250, 252, 0.8);
-        }
-        
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            font-size: 1.5rem;
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
             font-weight: 700;
-            color: var(--text-primary);
+            color: #FFFFFF;
         }
-        
-        .logo-icon {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+
+        .text-primary {
+            color: var(--primary) !important;
         }
-        
-        .logo-text {
-            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px; left: 0;
-            width: 0; height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent-primary);
-        }
-        
-        .nav-links a:hover::after, .nav-links a.active::after {
-            width: 100%;
-        }
-        
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .lang-switch {
-            display: flex;
-            gap: 0.25rem;
-            padding: 0.25rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 50px;
-        }
-        
-        .lang-btn-nav {
-            padding: 0.5rem 1rem;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 50px;
-            transition: all 0.3s;
-        }
-        
-        .lang-btn-nav.active {
-            background: var(--accent-primary);
-            color: white;
-        }
-        
-        .theme-toggle {
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        
-        .theme-toggle:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            transform: rotate(180deg);
-        }
-        
-        .mobile-menu-toggle {
-            display: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            z-index: 999;
-            padding: 2rem;
-            flex-direction: column;
-            gap: 1rem;
-            overflow-y: auto;
-        }
-        
-        .mobile-nav.active {
-            display: flex;
-        }
-        
-        .mobile-nav a {
-            padding: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .mobile-nav a i {
-            color: var(--accent-primary);
-            width: 24px;
-        }
-        
-        /* MAIN CONTENT */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .page-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .page-subtitle {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-        }
-        
-        /* SEARCH SECTION */
-        .search-card {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 2rem;
-        }
-        
-        .search-input-wrapper {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .search-input-wrapper input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        
-        .search-input-wrapper input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
+
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
         }
-        
+
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 212, 170, 0.4);
+            background-color: #00B871;
+            border-color: #00B871;
         }
-        
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+
+        /* Topbar */
+        .topbar {
+            background: rgba(26, 47, 61, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .search-tip {
-            font-size: 0.875rem;
-            color: var(--text-muted);
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 47, 61, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-        
-        /* LOADING */
-        .loading {
+
+        .navbar .navbar-brand h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .navbar .nav-link {
+            color: #E0E0E0 !important;
+            font-weight: 500;
+            transition: .3s;
+            padding: 25px 15px;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Language Selector */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.25);
+        }
+
+        .lang-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 208, 132, 0.3);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.5);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(13, 39, 53, 0.95), rgba(13, 39, 53, 0.95));
+            padding: 60px 0 40px 0;
+        }
+
+        /* Stock Search Card */
+        .stock-search-card {
+            background: rgba(26, 47, 61, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 208, 132, 0.3);
+            color: #E0E0E0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 208, 132, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: #FFFFFF;
+        }
+
+        /* Stock Result */
+        .stock-result {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.05), rgba(26, 47, 61, 0.3));
+            border-radius: 15px;
+            border: 2px solid rgba(0, 208, 132, 0.2);
+            display: none;
+        }
+
+        .stock-ticker {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stock-price {
+            font-size: 36px;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+
+        .stock-change {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .stock-change.positive {
+            color: #00FF88;
+        }
+
+        .stock-change.negative {
+            color: #FF6B6B;
+        }
+
+        /* Loading */
+        .loading-spinner {
             text-align: center;
-            padding: 2rem;
+            padding: 40px 20px;
         }
-        
+
         .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--accent-primary);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 208, 132, 0.2);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* RESULTS */
-        .results-card {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .stock-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .stock-title h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stock-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-        }
-        
-        .price-change {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .price-change.positive {
-            color: #10b981;
-        }
-        
-        .price-change.negative {
-            color: #ef4444;
-        }
-        
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .data-item {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        
-        .data-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-        
-        .data-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        /* FOOTER */
+
+        /* Footer */
         .footer {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            padding: 4rem 2rem 2rem;
-            margin-top: 4rem;
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0 20px 0;
+            margin-top: 60px;
         }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-        
-        .footer-links a {
-            color: var(--accent-primary);
+
+        .footer .btn-link {
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
+            display: block;
+            padding: 5px 0;
         }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
+
+        .footer .btn-link:hover {
+            color: var(--primary);
         }
-        
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 1024px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-toggle {
-                display: flex;
-            }
+
+        .copyright {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
         }
-        
+
+        .back-to-top {
+            position: fixed;
+            display: none;
+            right: 30px;
+            bottom: 30px;
+            z-index: 99;
+        }
+
         @media (max-width: 768px) {
-            .main-container {
-                padding: 6rem 1rem 2rem;
-            }
-            
-            .search-input-wrapper {
-                flex-direction: column;
-            }
-            
-            .stock-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            
-            .data-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
+            .stock-ticker { font-size: 22px; }
+            .stock-price { font-size: 28px; }
+            .stock-change { font-size: 16px; }
         }
     </style>
 </head>
+
 <body>
-    <div class="ambient-bg"></div>
-    
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
-                <span class="logo-text">SetMyTrade</span>
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="index.html" data-i18n="navHome">Home</a></li>
-                <li><a href="search.html" class="active" data-i18n="navSearch">Analysis</a></li>
-                <li><a href="calculator.html" data-i18n="navCalc">Calculator</a></li>
-                <li><a href="calendar.html" data-i18n="navCalendar">Sector Calendar</a></li>
-                <li><a href="finviz.html" data-i18n="navFinviz">Finviz Filter</a></li>
-                <li><a href="strategies.html" data-i18n="navStrat">Strategies</a></li>
-                <li><a href="guides.html" data-i18n="navGuides">Guides</a></li>
-                <li><a href="ai-chat.html" data-i18n="navAI">🤖 AI Chat</a></li>
-            </ul>
-            
-            <div class="nav-actions">
-                <div class="lang-switch">
-                    <button class="lang-btn-nav active" onclick="setLanguage('sv')" data-lang="sv">SV</button>
-                    <button class="lang-btn-nav" onclick="setLanguage('en')" data-lang="en">EN</button>
-                </div>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    <i class="fas fa-sun" id="themeIcon"></i>
-                </button>
-                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
-                    <i class="fas fa-bars" id="menuIcon"></i>
-                </button>
+    <!-- Topbar -->
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
+        <div class="row gx-0 align-items-center" style="padding: 10px 0;">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="small me-4" style="color: #B0B0B0;">
+                    <i class="fas fa-search text-primary me-2"></i>
+                    <span data-lang="professionalSearch">Professionell Aktiesökning</span>
+                </span>
+                <span class="small" style="color: #B0B0B0;">
+                    <i class="fas fa-brain text-primary me-2"></i>
+                    <span data-lang="smartEngine">Smart Data Engine</span>
+                </span>
             </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center gap-2">
+                    <button class="lang-btn active" onclick="changeLanguage('sv')">🇸🇪</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="text-primary"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link" data-lang="navHome">Hem</a>
+                <a href="search.html" class="nav-item nav-link active" data-lang="navSearch">Sök Aktier</a>
+                <a href="calculator.html" class="nav-item nav-link" data-lang="navCalculator">Kalkylator</a>
+                <a href="calendar.html" class="nav-item nav-link" data-lang="navCalendar">Sektor Kalender</a>
+                <a href="fundamentals.html" class="nav-item nav-link" data-lang="navFundamentals">Fundamental Analys</a>
+                <a href="finviz.html" class="nav-item nav-link" data-lang="navFinviz">Finviz Filter</a>
+                <a href="strategies.html" class="nav-item nav-link" data-lang="navStrategies">Strategier</a>
+                <a href="guides.html" class="nav-item nav-link" data-lang="navGuides">Guider</a>
+            </div>
+            <a href="calculator.html" class="btn btn-primary rounded-pill py-2 px-4 ms-3" data-lang="btnGetStarted">Kom Igång</a>
         </div>
     </nav>
-    
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav" id="mobileNav">
-        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="navHome">Home</span></a>
-        <a href="search.html"><i class="fas fa-search"></i> <span data-i18n="navSearch">Analysis</span></a>
-        <a href="calculator.html"><i class="fas fa-calculator"></i> <span data-i18n="navCalc">Calculator</span></a>
-        <a href="calendar.html"><i class="fas fa-calendar"></i> <span data-i18n="navCalendar">Sector Calendar</span></a>
-        <a href="finviz.html"><i class="fas fa-filter"></i> <span data-i18n="navFinviz">Finviz Filter</span></a>
-        <a href="strategies.html"><i class="fas fa-chess"></i> <span data-i18n="navStrat">Strategies</span></a>
-        <a href="guides.html"><i class="fas fa-book"></i> <span data-i18n="navGuides">Guides</span></a>
-        <a href="ai-chat.html"><i class="fas fa-robot"></i> <span data-i18n="navAI">AI Chat</span></a>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="display-5 text-white mb-3" data-lang="searchTitle">Smart Aktiesökning</h1>
+            <p class="text-white-50" data-lang="searchDesc">Sök efter aktier globalt med intelligent dataaggregering</p>
+        </div>
     </div>
-    
-    <!-- Main Content -->
-    <main class="main-container">
-        <div class="page-header">
-            <h1 class="page-title" data-i18n="pageTitle">🔍 Smart Aktiesökning</h1>
-            <p class="page-subtitle" data-i18n="pageSubtitle">Sök efter aktier globalt med intelligent dataaggregering</p>
-        </div>
-        
-        <!-- Search Card -->
-        <div class="search-card">
-            <div class="search-input-wrapper">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    data-i18n-placeholder="searchPlaceholder"
-                    placeholder="Ange ticker (t.ex. AAPL, TSLA, MSFT)..."
-                >
-                <button class="btn btn-primary" onclick="searchStock()" id="searchBtn">
-                    <i class="fas fa-search"></i>
-                    <span data-i18n="btnSearch">Sök Aktie</span>
-                </button>
-            </div>
-            <div class="search-tip" data-i18n="searchTip">
-                💡 Tips: Stödjer både US-aktier (AAPL) och svenska aktier (VOLV-B.ST)
-            </div>
-        </div>
-        
-        <!-- Loading -->
-        <div id="loading" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p data-i18n="loading">Söker aktiedata...</p>
-        </div>
-        
-        <!-- Results -->
-        <div id="results" style="display: none;">
-            <div class="results-card">
-                <div class="stock-header">
-                    <div class="stock-title">
-                        <h2 id="stockName">-</h2>
-                        <p id="stockSymbol" style="color: var(--text-muted);">-</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="stock-price" id="stockPrice">-</div>
-                        <div class="price-change" id="priceChange">-</div>
+
+    <!-- Stock Search Section -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stock-search-card p-4">
+                        <div class="text-center mb-4">
+                            <h5 class="text-primary text-uppercase" data-lang="searchStocks">Sök Aktier</h5>
+                            <h3 class="mb-3" data-lang="searchHeading">Ange Ticker Symbol</h3>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-lg-8 col-md-7">
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="form-control search-input" 
+                                    placeholder="Ange ticker (t.ex. AAPL, TSLA, MSFT...)"
+                                    data-lang-placeholder="searchPlaceholder"
+                                    style="text-transform: uppercase;"
+                                    onkeypress="if(event.key === 'Enter') searchStock()"
+                                >
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <button class="btn btn-primary w-100 py-3" onclick="searchStock()">
+                                    <i class="fas fa-search me-2"></i><span data-lang="btnSearch">Sök Aktie</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3 mb-0" style="background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.3); color: #E0E0E0;">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong data-lang="tipsTitle">Tips:</strong> <span data-lang="apiTips">Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)</span>
+                        </div>
+
+                        <!-- Stock Result -->
+                        <div id="stockResult" class="stock-result"></div>
                     </div>
                 </div>
-                
-                <div class="data-grid" id="dataGrid">
-                    <!-- Data items will be inserted here -->
-                </div>
             </div>
         </div>
-    </main>
-    
+    </div>
+
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-text" data-i18n="footerText">
-                Professionell aktiesökning med smart dataaggregering
-            </p>
-            <div class="footer-links">
-                <a href="legal.html" data-i18n="footerLegal">Juridisk Information</a>
-                <a href="privacy.html" data-i18n="footerPrivacy">Integritetspolicy</a>
-                <span data-i18n="footerCopy">© 2026 SetMyTrade</span>
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-chart-line me-3"></i>SetMyTrade</h4>
+                    <p class="text-white-50" data-lang="footerDesc">Professionell aktiesökning med smart dataaggregering</p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="quickLinks">Snabblänkar</h4>
+                    <a href="index.html" class="btn btn-link" data-lang="navHome">Hem</a>
+                    <a href="search.html" class="btn btn-link" data-lang="navSearch">Sök Aktier</a>
+                    <a href="calculator.html" class="btn btn-link" data-lang="navCalculator">Kalkylator</a>
+                    <a href="calendar.html" class="btn btn-link" data-lang="navCalendar">Sektor Kalender</a>
+                    <a href="finviz.html" class="btn btn-link" data-lang="navFinviz">Finviz Filter</a>
+                    <a href="strategies.html" class="btn btn-link" data-lang="navStrategies">Strategier</a>
+                    <a href="guides.html" class="btn btn-link" data-lang="navGuides">Guider</a>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h4 class="text-white mb-4" data-lang="information">Information</h4>
+                    <p class="text-white-50"><i class="fas fa-shield-alt text-primary me-2"></i><span data-lang="freeTool">100% Gratis</span></p>
+                    <p class="text-white-50"><i class="fas fa-globe text-primary me-2"></i><span data-lang="globalMarkets">Globala Marknader</span></p>
+                    <p class="text-white-50"><i class="fas fa-chart-line text-primary me-2"></i><span data-lang="realtimeData">Realtidsdata</span></p>
+                </div>
             </div>
         </div>
-    </footer>
-    
+    </div>
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-body" data-lang="copyright">SetMyTrade 2026. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-body" data-lang="poweredBy">Powered by Smart Data Engine</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Translations
+        let currentLanguage = 'sv';
+        let currentStock = null;
+
         const translations = {
             sv: {
+                professionalSearch: "Professionell Aktiesökning",
+                smartEngine: "Smart Data Engine",
                 navHome: "Hem",
-                navSearch: "Sök",
-                navCalc: "Kalkylator",
-                navCalendar: "Kalender",
-                navFinviz: "Finviz",
-                navStrat: "Strategier",
+                navSearch: "Sök Aktier",
+                navCalculator: "Kalkylator",
+                navCalendar: "Sektor Kalender",
+                navFundamentals: "Fundamental Analys",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategier",
                 navGuides: "Guider",
-                navAI: "🤖 AI Chat",
-                pageTitle: "🔍 Smart Aktiesökning",
-                pageSubtitle: "Sök efter aktier globalt med intelligent dataaggregering",
-                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT)...",
+                btnGetStarted: "Kom Igång",
+                searchTitle: "Smart Aktiesökning",
+                searchDesc: "Sök efter aktier globalt med intelligent dataaggregering",
+                searchStocks: "Sök Aktier",
+                searchHeading: "Ange Ticker Symbol",
+                searchPlaceholder: "Ange ticker (t.ex. AAPL, TSLA, MSFT...)",
                 btnSearch: "Sök Aktie",
-                searchTip: "💡 Tips: Stödjer både US-aktier (AAPL) och svenska aktier (VOLV-B.ST)",
-                loading: "Söker aktiedata...",
-                footerText: "Professionell aktiesökning med smart dataaggregering",
-                footerLegal: "Juridisk Information",
-                footerPrivacy: "Integritetspolicy",
-                footerCopy: "© 2026 SetMyTrade"
+                tipsTitle: "Tips:",
+                apiTips: "Söker automatiskt efter aktier. Fungerar bäst med US-aktier (AAPL, TSLA, MSFT, etc.)",
+                footerDesc: "Professionell aktiesökning med smart dataaggregering",
+                quickLinks: "Snabblänkar",
+                information: "Information",
+                freeTool: "100% Gratis",
+                globalMarkets: "Globala Marknader",
+                realtimeData: "Realtidsdata",
+                poweredBy: "Powered by Smart Data Engine",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                searching: "Söker...",
+                tickerNotFound: "Ticker hittades inte",
+                noData: "Ingen data tillgänglig",
+                errorOccurred: "Ett fel uppstod",
+                tryAgain: "Försök igen",
+                technicalAnalysis: "Teknisk Analys - TradingView Chart",
+                useCalculator: "Använd Kalkylator"
             },
             en: {
+                professionalSearch: "Professional Stock Search",
+                smartEngine: "Smart Data Engine",
                 navHome: "Home",
-                navSearch: "Search",
-                navCalc: "Calculator",
-                navCalendar: "Calendar",
-                navFinviz: "Finviz",
-                navStrat: "Strategies",
+                navSearch: "Search Stocks",
+                navCalculator: "Calculator",
+                navCalendar: "Sector Calendar",
+                navFundamentals: "Fundamental Analysis",
+                navFinviz: "Finviz Filter",
+                navStrategies: "Strategies",
                 navGuides: "Guides",
-                navAI: "🤖 AI Chat",
-                pageTitle: "🔍 Smart Stock Search",
-                pageSubtitle: "Search for stocks globally with intelligent data aggregation",
-                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT)...",
+                btnGetStarted: "Get Started",
+                searchTitle: "Smart Stock Search",
+                searchDesc: "Search for stocks globally with intelligent data aggregation",
+                searchStocks: "Search Stocks",
+                searchHeading: "Enter Ticker Symbol",
+                searchPlaceholder: "Enter ticker (e.g. AAPL, TSLA, MSFT...)",
                 btnSearch: "Search Stock",
-                searchTip: "💡 Tip: Supports both US stocks (AAPL) and Swedish stocks (VOLV-B.ST)",
-                loading: "Searching stock data...",
-                footerText: "Professional stock search with smart data aggregation",
-                footerLegal: "Legal Information",
-                footerPrivacy: "Privacy Policy",
-                footerCopy: "© 2026 SetMyTrade"
+                tipsTitle: "Tips:",
+                apiTips: "Automatically searches for stocks. Works best with US stocks (AAPL, TSLA, MSFT, etc.)",
+                footerDesc: "Professional stock search with smart data aggregation",
+                quickLinks: "Quick Links",
+                information: "Information",
+                freeTool: "100% Free",
+                globalMarkets: "Global Markets",
+                realtimeData: "Real-time Data",
+                poweredBy: "Powered by Smart Data Engine",
+                copyright: "SetMyTrade 2026. All rights reserved.",
+                searching: "Searching...",
+                tickerNotFound: "Ticker not found",
+                noData: "No data available",
+                errorOccurred: "An error occurred",
+                tryAgain: "Try again",
+                technicalAnalysis: "Technical Analysis - TradingView Chart",
+                useCalculator: "Use Calculator"
             }
         };
 
-        let currentLanguage = 'sv';
-        let mobileMenuOpen = false;
-
-        function setLanguage(lang) {
+        function changeLanguage(lang) {
             currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
             
-            document.querySelectorAll('.lang-btn-nav').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+            // Apply translations
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
             });
             
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) el.textContent = translations[lang][key];
-            });
-            
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[lang][key]) el.placeholder = translations[lang][key];
-            });
-            
-            document.documentElement.lang = lang;
-            localStorage.setItem('language', lang);
-        }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            const current = html.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', next);
-            icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.setItem('theme', next);
-        }
-
-        function toggleMobileMenu() {
-            const mobileNav = document.getElementById('mobileNav');
-            const menuIcon = document.getElementById('menuIcon');
-            mobileMenuOpen = !mobileMenuOpen;
-            
-            if (mobileMenuOpen) {
-                mobileNav.classList.add('active');
-                menuIcon.className = 'fas fa-times';
-            } else {
-                mobileNav.classList.remove('active');
-                menuIcon.className = 'fas fa-bars';
+            // Update placeholder
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput && searchInput.hasAttribute('data-lang-placeholder')) {
+                const placeholderKey = searchInput.getAttribute('data-lang-placeholder');
+                if (translations[lang][placeholderKey]) {
+                    searchInput.placeholder = translations[lang][placeholderKey];
+                }
             }
         }
 
-        document.addEventListener('click', (e) => {
-            const mobileNav = document.getElementById('mobileNav');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            
-            if (mobileMenuOpen && !mobileNav.contains(e.target) && !toggle.contains(e.target)) {
-                toggleMobileMenu();
-            }
-        });
-
-        // Search functionality (DEMO)
         async function searchStock() {
-            const input = document.getElementById('searchInput');
-            const ticker = input.value.trim().toUpperCase();
+            const ticker = document.getElementById('searchInput').value.trim().toUpperCase();
             
-            if (!ticker) return;
+            if (!ticker) {
+                alert(translations[currentLanguage].tickerNotFound);
+                return;
+            }
             
-            const loading = document.getElementById('loading');
-            const results = document.getElementById('results');
-            const searchBtn = document.getElementById('searchBtn');
+            const resultDiv = document.getElementById('stockResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p class="text-white fw-bold">${translations[currentLanguage].searching}</p>
+                </div>
+            `;
             
-            loading.style.display = 'block';
-            results.style.display = 'none';
-            searchBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                displayResults(ticker);
-                loading.style.display = 'none';
-                results.style.display = 'block';
-                searchBtn.disabled = false;
-            }, 1500);
-        }
-        
-        function displayResults(ticker) {
-            // Demo data
-            const demoData = {
-                'AAPL': {
-                    name: 'Apple Inc.',
-                    price: 175.50,
-                    change: '+2.5%',
-                    positive: true,
-                    data: {
-                        'Market Cap': '$2.8T',
-                        'P/E Ratio': '28.5',
-                        'EPS': '6.15',
-                        'Dividend Yield': '0.5%',
-                        'Volume': '52.5M',
-                        '52W High': '$199.62',
-                        '52W Low': '$164.08',
-                        'Beta': '1.24'
-                    }
-                },
-                'TSLA': {
-                    name: 'Tesla Inc.',
-                    price: 245.30,
-                    change: '-1.2%',
-                    positive: false,
-                    data: {
-                        'Market Cap': '$778B',
-                        'P/E Ratio': '65.2',
-                        'EPS': '3.76',
-                        'Dividend Yield': 'N/A',
-                        'Volume': '125.8M',
-                        '52W High': '$299.29',
-                        '52W Low': '$138.80',
-                        'Beta': '2.11'
-                    }
+            try {
+                // Try multiple methods to get stock data
+                
+                // METHOD 1: Yahoo Finance with CORS proxy
+                const corsProxy = 'https://api.allorigins.win/raw?url=';
+                const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+                
+                let response = await fetch(corsProxy + encodeURIComponent(yahooUrl));
+                let data = await response.json();
+                
+                console.log('Yahoo API Response:', data);
+                
+                if (data.chart && data.chart.result && data.chart.result[0]) {
+                    const result = data.chart.result[0];
+                    const meta = result.meta;
+                    const quote = result.indicators.quote[0];
+                    
+                    const currentPrice = meta.regularMarketPrice || quote.close[quote.close.length - 1];
+                    const previousClose = meta.chartPreviousClose || meta.previousClose;
+                    const change = currentPrice - previousClose;
+                    const changePercent = (change / previousClose) * 100;
+                    
+                    currentStock = {
+                        ticker: meta.symbol || ticker,
+                        price: currentPrice,
+                        change: change,
+                        changePercent: changePercent
+                    };
+                    
+                    displayStockResult();
+                } else {
+                    // METHOD 2: Fallback - show mock data with TradingView
+                    console.log('Using TradingView only mode');
+                    currentStock = {
+                        ticker: ticker,
+                        price: 0,
+                        change: 0,
+                        changePercent: 0,
+                        tradingViewOnly: true
+                    };
+                    displayStockResult();
                 }
-            };
-            
-            const stock = demoData[ticker] || {
-                name: ticker + ' (Demo Data)',
-                price: 100.00,
-                change: '+0.0%',
-                positive: true,
-                data: {
-                    'Market Cap': 'N/A',
-                    'P/E Ratio': 'N/A',
-                    'EPS': 'N/A',
-                    'Volume': 'N/A'
-                }
-            };
-            
-            document.getElementById('stockName').textContent = stock.name;
-            document.getElementById('stockSymbol').textContent = ticker;
-            document.getElementById('stockPrice').textContent = '$' + stock.price.toFixed(2);
-            
-            const changeEl = document.getElementById('priceChange');
-            changeEl.textContent = stock.change;
-            changeEl.className = 'price-change ' + (stock.positive ? 'positive' : 'negative');
-            
-            const dataGrid = document.getElementById('dataGrid');
-            dataGrid.innerHTML = '';
-            
-            Object.entries(stock.data).forEach(([label, value]) => {
-                const item = document.createElement('div');
-                item.className = 'data-item';
-                item.innerHTML = `
-                    <div class="data-label">${label}</div>
-                    <div class="data-value">${value}</div>
-                `;
-                dataGrid.appendChild(item);
-            });
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                
+                // FALLBACK: Show TradingView chart anyway
+                currentStock = {
+                    ticker: ticker,
+                    price: 0,
+                    change: 0,
+                    changePercent: 0,
+                    tradingViewOnly: true
+                };
+                displayStockResult();
+            }
         }
-        
-        // Enter key to search
-        document.getElementById('searchInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchStock();
-        });
 
-        // Init
-        const savedLang = localStorage.getItem('language') || 'sv';
-        if (savedLang !== 'sv') setLanguage(savedLang);
+        function displayStockResult() {
+            const s = currentStock;
+            
+            let priceHtml = '';
+            
+            if (s.tradingViewOnly) {
+                // Show only TradingView chart if price data not available
+                priceHtml = `
+                    <div class="text-center mb-4">
+                        <div class="stock-ticker">${s.ticker}</div>
+                        <p class="text-muted">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Visar TradingView chart med live data
+                        </p>
+                    </div>
+                `;
+            } else {
+                const changeColor = s.change >= 0 ? 'positive' : 'negative';
+                const changeSign = s.change >= 0 ? '+' : '';
+                
+                priceHtml = `
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-4 text-center text-md-start">
+                            <div class="stock-ticker">${s.ticker}</div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="stock-price">$${s.price.toFixed(2)}</div>
+                        </div>
+                        <div class="col-md-4 text-center text-md-end">
+                            <div class="stock-change ${changeColor}">
+                                ${changeSign}${s.change.toFixed(2)} (${changeSign}${s.changePercent.toFixed(2)}%)
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const html = `
+                ${priceHtml}
+                
+                <!-- TradingView Chart -->
+                <div class="mb-4">
+                    <h6 class="text-white mb-3">
+                        <i class="fas fa-chart-area text-primary me-2"></i>
+                        <span data-lang="technicalAnalysis">${translations[currentLanguage].technicalAnalysis}</span>
+                    </h6>
+                    <div id="tradingview_chart" style="height: 500px; border-radius: 10px; overflow: hidden;"></div>
+                </div>
+                
+                <a href="calculator.html" class="btn btn-primary w-100 mt-3">
+                    <i class="fas fa-calculator me-2"></i>
+                    <span data-lang="useCalculator">${translations[currentLanguage].useCalculator}</span>
+                </a>
+            `;
+            
+            document.getElementById('stockResult').innerHTML = html;
+            
+            // Initialize TradingView Chart
+            if (typeof TradingView !== 'undefined') {
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": 500,
+                    "symbol": s.ticker,
+                    "interval": "D",
+                    "timezone": "Europe/Stockholm",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": currentLanguage === 'sv' ? 'sv_SE' : 'en',
+                    "toolbar_bg": "#0D1F2D",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": false,
+                    "allow_symbol_change": true,
+                    "studies": [
+                        "MASimple@tv-basicstudies",
+                        "RSI@tv-basicstudies"
+                    ],
+                    "container_id": "tradingview_chart"
+                });
+            }
+        }
+
+        // Scroll to top functionality
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('.back-to-top').fadeIn('slow');
+            } else {
+                $('.back-to-top').fadeOut('slow');
+            }
+        });
         
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
+        $('.back-to-top').click(function () {
+            $('html, body').animate({scrollTop: 0}, 1500);
+            return false;
         });
     </script>
 </body>
