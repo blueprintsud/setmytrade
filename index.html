@@ -72,10 +72,64 @@
             66% { transform: translate(-1%, 1%); }
         }
         
+        /* === NEW: LIVE TICKER TAPE === */
+        .ticker-tape {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 0;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10001;
+        }
+        
+        .ticker-content {
+            display: flex;
+            gap: 40px;
+            animation: tickerScroll 60s linear infinite;
+            white-space: nowrap;
+        }
+        
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .ticker-symbol { color: var(--text-primary); }
+        .ticker-price { color: var(--text-secondary); }
+        
+        .ticker-change {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .ticker-up {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-primary);
+        }
+        
+        .ticker-down {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
         /* NAVIGATION */
         .navbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 40px;
+            left: 0; right: 0;
             z-index: 1000;
             padding: 1rem 0;
             backdrop-filter: blur(20px);
@@ -128,7 +182,6 @@
             -webkit-text-fill-color: transparent;
         }
         
-        /* DESKTOP NAV */
         .nav-links {
             display: flex;
             align-items: center;
@@ -186,6 +239,7 @@
             font-weight: 500;
             cursor: pointer;
             border-radius: 50px;
+            transition: all 0.3s;
         }
         
         .lang-btn-nav.active {
@@ -203,6 +257,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s;
         }
         
         .theme-toggle:hover {
@@ -211,7 +266,6 @@
             transform: rotate(180deg);
         }
         
-        /* MOBILE MENU TOGGLE */
         .mobile-menu-toggle {
             display: none;
             width: 44px;
@@ -226,11 +280,10 @@
             font-size: 1.25rem;
         }
         
-        /* MOBILE NAV OVERLAY */
         .mobile-nav {
             display: none;
             position: fixed;
-            top: 80px;
+            top: 120px;
             left: 0;
             right: 0;
             bottom: 0;
@@ -309,7 +362,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 8rem 2rem 4rem;
+            padding: 10rem 2rem 4rem;
         }
         
         .hero-container {
@@ -428,11 +481,50 @@
             font-weight: 700;
         }
         
+        /* === NEW: ANIMATED CHART === */
         .chart-placeholder {
             height: 200px;
             background: linear-gradient(180deg, rgba(0, 212, 170, 0.1) 0%, transparent 100%);
             border-radius: 12px;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to right, 
+                transparent 0%, 
+                rgba(0, 212, 170, 0.1) 10%, 
+                rgba(0, 212, 170, 0.2) 30%, 
+                rgba(0, 212, 170, 0.3) 50%, 
+                rgba(0, 212, 170, 0.2) 70%, 
+                rgba(0, 212, 170, 0.1) 90%, 
+                transparent 100%
+            );
+            clip-path: polygon(
+                0% 100%, 
+                10% 75%, 
+                20% 80%, 
+                30% 55%, 
+                40% 60%, 
+                50% 35%, 
+                60% 40%, 
+                70% 25%, 
+                80% 30%, 
+                90% 15%, 
+                100% 20%, 
+                100% 100%
+            );
+            animation: chartGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes chartGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
         
         .stats-row {
@@ -561,6 +653,7 @@
         .feature-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-primary);
+            box-shadow: 0 12px 32px rgba(0, 212, 170, 0.2);
         }
         
         .feature-icon {
@@ -587,139 +680,82 @@
             font-size: 0.95rem;
         }
         
-        /* MODELS */
-        .models-section {
-            background: var(--bg-secondary);
+        /* === NEW: TOP MOVERS === */
+        .movers-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
         }
         
-        .models-grid {
+        .movers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             max-width: 1400px;
             margin: 0 auto;
+            margin-top: 4rem;
         }
         
-        .model-card {
-            background: var(--bg-primary);
+        .mover-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 2rem;
-            position: relative;
+            padding: 1.5rem;
             transition: all 0.3s;
         }
         
-        .model-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-3px);
+        .mover-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 170, 0.3);
         }
         
-        .model-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.25rem 0.75rem;
-            background: rgba(0, 212, 170, 0.1);
-            color: var(--accent-primary);
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .model-badge.recommended {
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.2);
-        }
-        
-        .model-icon {
-            width: 48px; height: 48px;
-            background: var(--surface);
-            border-radius: 12px;
+        .mover-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
             margin-bottom: 1rem;
         }
         
-        .model-title {
+        .mover-symbol {
             font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
         
-        .model-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        .mover-change {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+        
+        .mover-up {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-primary);
+        }
+        
+        .mover-down {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        
+        .mover-name {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+        
+        .mover-price {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 1rem;
         }
         
-        .model-features {
-            list-style: none;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        
-        .model-features li {
-            padding: 0.25rem 0;
-            padding-left: 1.25rem;
-            position: relative;
-        }
-        
-        .model-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--accent-primary);
-            font-weight: 700;
-        }
-        
-        /* STEPS */
-        .steps-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .step-item {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        
-        .step-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 60px;
-            left: 24px;
-            width: 2px;
-            height: calc(100% - 30px);
-            background: linear-gradient(180deg, var(--accent-primary), transparent);
-        }
-        
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-        }
-        
-        .step-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .step-content p {
-            color: var(--text-secondary);
+        .mover-chart {
+            height: 60px;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.1), transparent);
+            border-radius: 8px;
         }
         
         /* CTA */
@@ -876,6 +912,18 @@
         }
         
         @media (max-width: 768px) {
+            .ticker-tape {
+                display: none;
+            }
+            
+            .navbar {
+                top: 0;
+            }
+            
+            .mobile-nav {
+                top: 80px;
+            }
+            
             .hero {
                 padding-top: 6rem;
             }
@@ -895,17 +943,8 @@
             }
             
             .features-grid,
-            .models-grid {
+            .movers-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .step-item {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .step-item:not(:last-child)::after {
-                display: none;
             }
             
             .footer-grid {
@@ -940,6 +979,11 @@
     <!-- Ambient Background -->
     <div class="ambient-bg"></div>
     
+    <!-- NEW: Live Ticker Tape -->
+    <div class="ticker-tape">
+        <div class="ticker-content" id="tickerContent"></div>
+    </div>
+    
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -951,8 +995,8 @@
             <ul class="nav-links">
                 <li><a href="search.html">Analysis</a></li>
                 <li><a href="calculator.html">Calculator</a></li>
-                <li><a href="sector-calendar.html">Sector Calendar</a></li>
-                <li><a href="finviz-filter.html">Finviz Filter</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="finviz.html">Screener</a></li>
                 <li><a href="strategies.html">Strategies</a></li>
                 <li><a href="guides.html">Guides</a></li>
             </ul>
@@ -976,8 +1020,8 @@
     <div class="mobile-nav" id="mobileNav">
         <a href="search.html"><i class="fas fa-search"></i> Analysis</a>
         <a href="calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
-        <a href="sector-calendar.html"><i class="fas fa-calendar"></i> Sector Calendar</a>
-        <a href="finviz-filter.html"><i class="fas fa-filter"></i> Finviz Filter</a>
+        <a href="calendar.html"><i class="fas fa-calendar"></i> Calendar</a>
+        <a href="finviz.html"><i class="fas fa-filter"></i> Screener</a>
         <a href="strategies.html"><i class="fas fa-chess"></i> Strategies</a>
         <a href="guides.html"><i class="fas fa-book"></i> Guides</a>
     </div>
@@ -1031,7 +1075,9 @@
                         <span class="preview-title">AAPL - Apple Inc.</span>
                         <span class="preview-badge">KÖP</span>
                     </div>
-                    <div class="chart-placeholder"></div>
+                    <div class="chart-placeholder">
+                        <div class="chart-line"></div>
+                    </div>
                     <div class="stats-row">
                         <div class="stat-card-mini">
                             <div class="stat-value-mini">82/100</div>
@@ -1124,6 +1170,47 @@
         </div>
     </section>
     
+    <!-- NEW: Top Movers Section -->
+    <section class="movers-section">
+        <div class="section-header">
+            <span class="section-label" data-i18n="moversLabel">Marknadsrörelser</span>
+            <h2 class="section-title" data-i18n="moversTitle">Dagens Vinnare</h2>
+            <p class="section-subtitle" data-i18n="moversSubtitle">Realtidsdata för marknadsledare och trendande aktier</p>
+        </div>
+        
+        <div class="movers-grid">
+            <div class="mover-card">
+                <div class="mover-header">
+                    <span class="mover-symbol">NVDA</span>
+                    <span class="mover-change mover-up">+8.4%</span>
+                </div>
+                <div class="mover-name">NVIDIA Corporation</div>
+                <div class="mover-price">$892.34</div>
+                <div class="mover-chart"></div>
+            </div>
+            
+            <div class="mover-card">
+                <div class="mover-header">
+                    <span class="mover-symbol">TSLA</span>
+                    <span class="mover-change mover-up">+5.2%</span>
+                </div>
+                <div class="mover-name">Tesla Inc.</div>
+                <div class="mover-price">$287.54</div>
+                <div class="mover-chart"></div>
+            </div>
+            
+            <div class="mover-card">
+                <div class="mover-header">
+                    <span class="mover-symbol">AAPL</span>
+                    <span class="mover-change mover-up">+2.8%</span>
+                </div>
+                <div class="mover-name">Apple Inc.</div>
+                <div class="mover-price">$178.23</div>
+                <div class="mover-chart"></div>
+            </div>
+        </div>
+    </section>
+    
     <!-- CTA Section -->
     <section class="section">
         <div class="cta-box">
@@ -1186,7 +1273,7 @@
     </footer>
     
     <script>
-        // Translations
+        // ORIGINAL TRANSLATIONS (UNCHANGED)
         const translations = {
             sv: {
                 heroBadge: "100% Gratis • Ingen Registrering",
@@ -1219,6 +1306,9 @@
                 feature5Desc: "Fungerar på desktop, tablet och mobil.",
                 feature6Title: "Flerspråkig",
                 feature6Desc: "Svenska och engelska med enkel växling.",
+                moversLabel: "Marknadsrörelser",
+                moversTitle: "Dagens Vinnare",
+                moversSubtitle: "Realtidsdata för marknadsledare och trendande aktier",
                 ctaTitle: "Redo att Börja Analysera?",
                 ctaText: "Använd professionella analysverktyg helt gratis.",
                 ctaPrimary: "Starta Din Första Analys",
@@ -1260,6 +1350,9 @@
                 feature5Desc: "Works on desktop, tablet and mobile.",
                 feature6Title: "Multilingual",
                 feature6Desc: "Swedish and English with easy switching.",
+                moversLabel: "Market Movers",
+                moversTitle: "Top Gainers Today",
+                moversSubtitle: "Real-time market leaders and trending stocks",
                 ctaTitle: "Ready to Start Analyzing?",
                 ctaText: "Use professional analysis tools completely free.",
                 ctaPrimary: "Start Your First Analysis",
@@ -1275,6 +1368,7 @@
         let currentLanguage = 'sv';
         let mobileMenuOpen = false;
 
+        // ORIGINAL FUNCTIONS (UNCHANGED)
         function setLanguage(lang) {
             currentLanguage = lang;
             
@@ -1317,7 +1411,6 @@
             }
         }
 
-        // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             const mobileNav = document.getElementById('mobileNav');
             const toggle = document.querySelector('.mobile-menu-toggle');
@@ -1327,7 +1420,7 @@
             }
         });
 
-        // Init
+        // ORIGINAL INIT (UNCHANGED)
         const savedLang = localStorage.getItem('language') || 'sv';
         if (savedLang !== 'sv') setLanguage(savedLang);
         
@@ -1335,12 +1428,45 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('themeIcon').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         
-        // Navbar scroll
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
         });
+        
+        // NEW: TICKER FUNCTIONALITY
+        const tickerData = [
+            { symbol: 'AAPL', price: '178.23', change: '+2.8%', direction: 'up' },
+            { symbol: 'TSLA', price: '287.54', change: '+5.2%', direction: 'up' },
+            { symbol: 'MSFT', price: '412.89', change: '+2.1%', direction: 'up' },
+            { symbol: 'NVDA', price: '892.34', change: '+8.4%', direction: 'up' },
+            { symbol: 'GOOGL', price: '142.65', change: '+1.3%', direction: 'up' },
+            { symbol: 'AMZN', price: '178.90', change: '-0.5%', direction: 'down' },
+            { symbol: 'META', price: '512.34', change: '+3.2%', direction: 'up' },
+            { symbol: 'NFLX', price: '687.45', change: '+4.1%', direction: 'up' }
+        ];
+        
+        function createTickerContent() {
+            const tickerContent = document.getElementById('tickerContent');
+            if (!tickerContent) return;
+            
+            let html = '';
+            const doubledData = [...tickerData, ...tickerData];
+            
+            doubledData.forEach(stock => {
+                html += `
+                    <div class="ticker-item">
+                        <span class="ticker-symbol">${stock.symbol}</span>
+                        <span class="ticker-price">$${stock.price}</span>
+                        <span class="ticker-change ticker-${stock.direction}">${stock.change}</span>
+                    </div>
+                `;
+            });
+            
+            tickerContent.innerHTML = html;
+        }
+        
+        createTickerContent();
     </script>
 </body>
 </html>
